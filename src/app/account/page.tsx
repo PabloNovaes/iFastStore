@@ -160,9 +160,16 @@ export default function Account() {
                                         Nessun ordine ancora
                                     </TabsContent>
                                 )
-                                return orders.map((order) => {
-                                    const { id, status: orderStatus, products } = order
-                                    if (orderStatus.toLowerCase() === status) {
+                                const filtered = orders.filter(x => x.status === status)
+                                return filtered.length === 0
+
+                                    ?
+                                    (<TabsContent key={status} value={status} className="max-h-[334px] overflow-auto gap-2 text-center p-1 h-fit text border rounded-lg">
+                                        Nessun ordine ancora
+                                    </TabsContent>)
+                                    :
+                                    filtered.map((order) => {
+                                        const { products, id, status } = order
                                         return (
                                             <TabsContent key={id} value={status} className="max-h-[334px] overflow-auto grid gap-2 h-fit">
                                                 {products.map(() => (
@@ -170,14 +177,7 @@ export default function Account() {
                                                 ))}
                                             </TabsContent>
                                         )
-                                    } else {
-                                        return (
-                                            <TabsContent key={status} value={status} className="max-h-[334px] overflow-auto gap-2 text-center p-1 h-fit text border rounded-lg">
-                                                Nessun ordine ancora
-                                            </TabsContent>
-                                        )
-                                    }
-                                })
+                                    })
                             })}
                         </Tabs>
                         <div className="rounded-xl min-[500px]:w-72 border gap-2 flex flex-col overflow-hidden h-fit p-3 text-sm">
