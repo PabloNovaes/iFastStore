@@ -1,17 +1,18 @@
 import { stripe } from "@/lib/stripe/config";
-import { NextApiRequest } from "next";
-import { NextResponse } from "next/server";
-import { buffer } from "stream/consumers";
+import { headers } from "next/headers";
+import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { db } from "../../../../../prisma/client";
 
-export async function POST(req: NextApiRequest) {
+
+export async function POST(req: NextRequest) {
     try {
         if (req.method !== 'POST') return NextResponse.json({ message: 'this method is not accepted' })
 
-        const payload = await buffer(req)
-        const signature = req.headers['stripe-signature'] as string
-        const event = stripe.webhooks.constructEvent(payload.toString(), signature, process.env.STRIPE_WEBHOOK_SECRET as string)
+        const payload = await req.text()
+        const sig = headers().get('Stripe-Signature') as string;
+        
+        const event = stripe.webhooks.constructEvent(payload, sig, process.env.STRIPE_WEBHOOK_SECRET as string)
 
 
         if (event.type === "checkout.session.completed") {
