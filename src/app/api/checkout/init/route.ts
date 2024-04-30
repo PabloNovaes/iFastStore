@@ -12,8 +12,8 @@ export async function POST(req: NextRequest) {
         const initOrder = await stripe.checkout.sessions.create({
             mode: 'payment',
             payment_method_types: [payment_method],
-            success_url: "http://192.168.0.174:3000/account",
-            cancel_url: "http://192.168.0.174:3000/account",
+            success_url: process.env.STRIPE_SUCCESS_URL,
+            cancel_url: process.env.STRIPE_CANCEL_URL,
             metadata: {
                 orderId: id
             },
