@@ -128,6 +128,13 @@ export default function ShoppingCart() {
         push(`/order?data=${encodeURIComponent(products)}`);
     }
 
+    if (!isSignedIn) return (
+        <div className="flex items-center opacity-80 justify-center gap-4 flex-col" style={{ minHeight: 'calc(100svh - 80px)' }}>
+            <SmileySad size={60} />
+            <p className="font-medium text-2xl text-center">Oops...sembra che tu non sia autenticato</p>
+        </div>
+    )
+
     return (
         <main className="p-5 flex gap-6 max-w-5xl m-auto justify-center" style={{ height: 'calc(100dvh - 50px)' }}>
             <div className="max-w-4xl w-full grid" style={{ gridTemplateRows: 'min-content 1fr min-content' }}>

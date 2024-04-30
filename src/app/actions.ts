@@ -1,7 +1,7 @@
 'use server'
 
 export async function addCart(data: any) {
-    await fetch('http://localhost:3000/api/cart/add', {
+    await fetch('https://fast-store-test.vercel.app/api/cart/add', {
         method: 'POST',
         body: JSON.stringify(data)
     })
