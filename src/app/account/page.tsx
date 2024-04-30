@@ -160,7 +160,7 @@ export default function Account() {
                                         Nessun ordine ancora
                                     </TabsContent>
                                 )
-                                const filtered = orders.filter(x => x.status === status)
+                                const filtered = orders.filter(x => x.status.toLowerCase() === status)
                                 return filtered.length === 0
 
                                     ?
