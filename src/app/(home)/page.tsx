@@ -33,7 +33,7 @@ export default function Home() {
     getProducts()
   }, [])
 
-  const onSelectFilter = (filter: string) => { setFilter(filter) }  
+  const onSelectFilter = (filter: string) => { setFilter(filter) }
 
   return (
     <>
@@ -44,7 +44,8 @@ export default function Home() {
           {isLoading && Array.from({ length: 4 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
 
           {!isLoading && filter !== 'all'
-            ? products.filter(x => x.metadata.category.toLowerCase() === filter)
+            ? products
+              .filter(x => x.metadata.category.toLowerCase() === filter)
               .map((product) => <ProductCard key={product.id} product={product} />)
 
             : products.map((product) => <ProductCard key={product.id} product={product} />)
