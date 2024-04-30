@@ -1,8 +1,24 @@
+import { Header } from "@/components/Header";
+import { ClerkProvider } from '@clerk/nextjs';
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+
+import { Toaster } from "@/components/ui/toaster";
+import LocalFont from "next/font/local";
+import React from 'react';
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const telegraf = LocalFont({
+  src: [
+    {
+      path: "../fonts/PPTelegraf-UltraLight.otf",
+    },
+    {
+      path: "../fonts/PPTelegraf-Regular.otf",
+    },
+   
+  ], variable: "--font-telegraf"
+})
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,9 +30,19 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" className={telegraf.className}>
+
+        <body>
+          <Header />
+          {children}
+          <Toaster />
+
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
