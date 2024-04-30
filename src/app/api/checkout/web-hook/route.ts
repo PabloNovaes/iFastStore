@@ -5,12 +5,6 @@ import { buffer } from "stream/consumers";
 import Stripe from "stripe";
 import { db } from "../../../../../prisma/client";
 
-export const config = {
-    api: {
-        bodyParser: false,
-    },
-}
-
 export async function POST(req: NextApiRequest) {
     try {
         if (req.method !== 'POST') return NextResponse.json({ message: 'this method is not accepted' })
