@@ -1,5 +1,5 @@
 import { OrdersProps } from "@/app/account/page";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,6 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
     const { push } = useRouter()
 
     return (
-        <Accordion type="single" defaultValue={id} collapsible className="border h-fit px-2 rounded-xl w-full bg-white">
             <AccordionItem value={id} className="border-b-0 p-0">
                 <AccordionTrigger className="px-1">
                     <div className="flex flex-col gap-2 items-start pr-5">
@@ -95,7 +94,6 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
                     }
                 </AccordionContent>
             </AccordionItem>
-        </Accordion>
 
     )
 }

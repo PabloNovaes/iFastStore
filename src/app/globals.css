@@ -15,7 +15,6 @@
   src: url("../fonts/PPTelegraf-UltraLight.otf") format("opentype");
 }
 
-
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -82,12 +81,20 @@
 
 @layer base {
   * {
-    @apply border-border ;
+    @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
   }
   #scroll-area div + div {
     @apply mt-2;
+  }
+
+  .accordion-custom-item[data-state="inactive"] {
+    margin-top: 0 !important;
+  }
+
+  .tab-trigger[data-state="active"] span{
+    @apply opacity-0
   }
 }

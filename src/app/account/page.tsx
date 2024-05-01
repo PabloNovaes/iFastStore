@@ -3,6 +3,7 @@
 import { CreateAdressSchema, CreteAdressForm } from "@/components/CreateAdressForm";
 import { OrderProductCard } from "@/components/OrderProducts";
 import { UpdateAdressForm } from "@/components/UpdateAdressForm";
+import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -32,8 +33,7 @@ export interface OrdersProps extends Order {
 const tabs: TabsProps[] = [
     {
         name: <p className="sm:text-xs text-[11px] font-normal">attesa<br />pagamento</p>,
-        icon: <Cardholder size={18} />
-        ,
+        icon: <Cardholder size={18} />,
         status: "awaiting_payment"
     },
     {
@@ -57,10 +57,11 @@ const tabs: TabsProps[] = [
 ]
 
 export default function Account() {
-    const { user, isLoaded } = useUser();
     const [isLoading, setIsLoading] = useState(false);
     const [adress, setAdress] = useState<AdressProps[]>([])
     const [orders, setOrders] = useState<OrdersProps[]>([])
+
+    const { user, isLoaded } = useUser();
 
     useEffect(() => {
         const fecthAccountData = async () => {
@@ -144,43 +145,43 @@ export default function Account() {
 
                     <Separator className="w-full" />
                     <h2 className="font-semibold text-lg">Ordine</h2>
-                    <div className="flex gap-6 max-[500px]:flex-col h-full">
-                        <Tabs defaultValue="awaiting_payment" className="flex-[2] min-w-[380px] h-fit">
+                    <div className="flex gap-6 h-full flex-wrap">
+                        <Tabs defaultValue="awaiting_payment" className="flex-[2] md:min-w-[416px] h-fit">
                             <TabsList className="grid w-full grid-cols-4 h-fit rounded-xl">
-                                {tabs.map(({ icon, name, status }) => (
-                                    <TabsTrigger className="flex-col rounded-lg" key={status} value={status}>
-                                        {icon}
-                                        {name}
-                                    </TabsTrigger>
-                                ))}
+                                {tabs.map(({ icon, name, status }) => {
+                                    const filtered = orders.filter(order => order.status.toLowerCase() === status);
+
+                                    return (
+                                        <TabsTrigger className="tab-trigger flex-col rounded-lg relative" key={status} value={status}>
+                                            {filtered.length !== 0 && <span key={Math.random()} className="size-5 transition-opacity absolute top-1 right-2 grid place-content-center text-xs md:text-sm rounded-full bg-primary  text-primary-foreground">{filtered.length}</span>}
+                                            {icon}
+                                            {name}
+                                        </TabsTrigger>
+                                    )
+                                })}
                             </TabsList>
                             {tabs.map(({ status }) => {
-                                if (orders.length === 0) return (
-                                    <TabsContent key={status} value={status} className="max-h-[334px] overflow-auto gap-2 text-center p-1 h-fit text border rounded-lg">
-                                        Nessun ordine ancora
+                                const filtered = orders.filter(order => order.status.toLowerCase() === status);
+                                if (filtered.length === 0) {
+                                    return (
+                                        <TabsContent key={status} value={status} className="max-h-[334px] overflow-auto gap-2 text-center p-1 h-fit text border rounded-lg">
+                                            Nessun ordine ancora
+                                        </TabsContent>
+                                    );
+                                }
+                                return (
+                                    <TabsContent key={status} value={status} className="max-h-[334px] overflow-auto grid gap-2 h-fit data-[state=inactive]:mt-0">
+                                        {filtered.map((order) => (
+                                            <Accordion type="single" defaultValue={filtered[0].id} key={order.id} collapsible className="border h-fit px-2 rounded-xl w-full bg-white">
+                                                <OrderProductCard {...order} />
+                                            </Accordion>
+                                        ))}
                                     </TabsContent>
-                                )
-                                const filtered = orders.filter(x => x.status === status)
-                                return filtered.length === 0
-
-                                    ?
-                                    (<TabsContent key={status} value={status} className="max-h-[334px] overflow-auto gap-2 text-center p-1 h-fit text border rounded-lg">
-                                        Nessun ordine ancora
-                                    </TabsContent>)
-                                    :
-                                    filtered.map((order) => {
-                                        const { products, id, status } = order
-                                        return (
-                                            <TabsContent key={id} value={status} className="max-h-[334px] overflow-auto grid gap-2 h-fit">
-                                                {products.map(() => (
-                                                    <OrderProductCard {...order} key={status} />
-                                                ))}
-                                            </TabsContent>
-                                        )
-                                    })
+                                );
                             })}
+
                         </Tabs>
-                        <div className="rounded-xl min-[500px]:w-72 border gap-2 flex flex-col overflow-hidden h-fit p-3 text-sm">
+                        <div className="rounded-xl md:max-w-72 border gap-2 w-full flex flex-col overflow-hidden h-fit p-3 text-sm">
                             {adress.length <= 0 &&
                                 <header className="flex items-center justify-between w-full">
                                     {isLoading
