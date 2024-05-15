@@ -27,7 +27,21 @@ export const metadata: Metadata = {
     template: "Fast Store | %s"
   },
   description: "Trasforma la tua esperienza digitale su Fast Store. Acquista iPhone, Notebook, AirPods e accessori originali. Scopri qualità e innovazione in ogni click!",
-  keywords: ["iPhone", "AirPods", "comprare l'iphone", "Notebook"]
+  keywords: ["iPhone", "AirPods", "comprare l'iphone", "Notebook"],
+  openGraph: {
+    type: 'website',
+    locale: 'it_IT',
+    url: 'https://fast-store-test.vercel.app/',
+    siteName: "Fast Store",
+    title: {
+      default: "Fast Store",
+      template: "Fast Store | %s"
+    },
+    images: [
+      '/assets/banner.png'
+    ]
+
+  }
 }
 
 export default function RootLayout({

@@ -153,9 +153,11 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                             <ShoppingCartIcon size={18} />
                         </button>
                         {<SignedOut>
-                            <SignInButton mode='modal' className="hidden min-[500px]:flex">
-                                <Button className='py-1 rounded-l text-primary' variant={'outline'}>Sign in</Button>
-                            </SignInButton>
+                            <div className="hidden min-[500px]:flex">
+                                <SignInButton mode='modal'>
+                                    <Button className='py-1 rounded-l text-primary' variant={'outline'}>Sign in</Button>
+                                </SignInButton>
+                            </div>
                         </SignedOut>
                         }
                         <button onClick={() => setIsMenuOpen(true)} className=" rounded-lg p-2 hover:bg-accent transition-all duration-300 min-[500px]:hidden">
@@ -191,7 +193,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         </SignedOut>
                     </nav>
                 </motion.div>
-            </header>
-        </div>
+            </header >
+        </div >
     )
 }
