@@ -157,7 +157,7 @@ export function Orders() {
                                                         <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
                                                         <Truck size={16} className="min-[455px]:hidden" />
                                                     </Badge>}
-                                                    {status === "ORDER_RECEIVED" && <Badge className="text-xs" variant="green">
+                                                    {status === "ORDER_DELIVERED" && <Badge className="text-xs" variant="green">
                                                         <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
                                                         <CheckCircle size={16} className="min-[455px]:hidden" />
                                                     </Badge>}
