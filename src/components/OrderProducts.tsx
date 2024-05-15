@@ -1,8 +1,13 @@
 import { OrdersProps } from "@/app/(store)/account/content";
+import { confirmDelivery } from "@/app/actions";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { CircleNotch } from "@phosphor-icons/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { toast } from "sonner";
 import { CopyCode } from "./CopyCode";
 import { Button } from "./ui/button";
 
@@ -20,10 +25,13 @@ const paymentMethods = {
     boleto: 'Boleto',
 } as any
 
-export function OrderProductCard({ id, payment_method, products, status, shipping_code, created_at, shipping_tax }: OrdersProps) {
+interface Props extends OrdersProps {
+    onConfirmDelivery: (orderid: string) => void
+}
+
+export function OrderProductCard({ id, payment_method, products, status, shipping_code, created_at, shipping_tax, onConfirmDelivery }: Props) {
+    const [isLoading, setIsLoading] = useState(false)
     const { push } = useRouter()
-    console.log(shipping_tax);
-    
 
     return (
         <AccordionItem value={id} className="border-b-0 p-0">
@@ -92,7 +100,45 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
                             const data = await response.json()
 
                             push(data.url)
-                        })}>Pagar agora</Button>
+                        })}>Paga ora</Button>
+                    </footer>
+                }
+                {
+                    status === "ORDER_DISPATCHED" &&
+                    <footer className="pb-2">
+                        <Dialog>
+                            <DialogTrigger className="w-full">
+                                <Button className="w-full">Confermare la consegna</Button>
+                            </DialogTrigger>
+                            <DialogContent>
+                                <DialogHeader>Ne sei assolutamente sicuro?</DialogHeader>
+                                <DialogDescription>
+                                    Questa azione non può essere annullata.
+                                    Assicurati di aver ricevuto correttamente il tuo ordine
+                                    prima di confermare la ricezione.
+                                </DialogDescription>
+                                <DialogFooter>
+                                    <DialogClose>
+                                        <Button variant="outline">Anulla</Button>
+                                    </DialogClose>
+                                    <Button type="submit" onClick={async () => {
+                                        try {
+                                            setIsLoading(true)
+                                            await confirmDelivery(id)
+                                            
+                                            onConfirmDelivery(id)
+                                            return toast.success("Consegna confermata")
+                                        } catch (err) {
+                                            toast.error("Si è verificato un errore imprevisto")
+                                            throw err
+                                        }
+                                    }}>
+                                        {isLoading ? <CircleNotch size={22} className=" animate-spin" /> : "Confermare"}
+
+                                    </Button>
+                                </DialogFooter>
+                            </DialogContent>
+                        </Dialog>
                     </footer>
                 }
             </AccordionContent>

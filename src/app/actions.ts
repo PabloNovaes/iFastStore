@@ -2,6 +2,7 @@
 
 import { stripe } from "@/services/stripe/config";
 import Stripe from "stripe";
+import { db } from "../../prisma/client";
 
 export interface CreateSkuProps {
     id: string,
@@ -75,6 +76,21 @@ export async function createNewSku({ price, stock, identifier, id, colors }: Cre
         })
 
         return newSku
+    } catch (err) {
+        throw err
+    }
+}
+
+export async function confirmDelivery(orderId: string) {
+    try {
+        return await db.order.update({
+            where: {
+                id: orderId
+            },
+            data: {
+                status: "ORDER_DELIVERED"
+            }
+        })
     } catch (err) {
         throw err
     }

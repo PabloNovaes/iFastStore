@@ -54,7 +54,7 @@ const tabs: TabsProps[] = [
         name: <p className="sm:text-xs text-[11px] font-normal">richiesta <br /> ricevuta</p>,
         icon: <ListChecks size={18} />
         ,
-        status: "order_received"
+        status: "order_delivered"
     },
 ]
 
@@ -122,13 +122,18 @@ export function Account() {
         }
     }
 
+
+    const handleConfirmDelivery = (orderId: string) => {
+        return setOrders((state) => [...state.filter(order => order.id !== orderId)])
+    }
+
     if (!isLoaded) return
 
 
     return (
         <main className="p-5 flex flex-col gap-6 max-w-5xl m-auto " style={{ minHeight: 'calc(100dvh - 50px)' }}>
             {!user &&
-                <div className="flex items-center opacity-80 justify-center gap-4 flex-col" style={{ minHeight: 'calc(100svh - 80px)' }}>
+                <div className="flex flex-1 items-center opacity-80 justify-center gap-4 flex-col">
                     <SmileySad size={60} />
                     <p className="font-medium text-2xl text-center">Oops...sembra che tu non sia autenticato</p>
                 </div>
@@ -175,7 +180,7 @@ export function Account() {
                                     <TabsContent key={status} value={status} className="max-h-[334px] overflow-auto grid gap-2 h-fit data-[state=inactive]:mt-0">
                                         {filtered.map((order) => (
                                             <Accordion type="single" defaultValue={filtered[0].id} key={order.id} collapsible className="border h-fit px-2 rounded-xl w-full bg-white">
-                                                <OrderProductCard {...order} />
+                                                <OrderProductCard onConfirmDelivery={handleConfirmDelivery} {...order} />
                                             </Accordion>
                                         ))}
                                     </TabsContent>

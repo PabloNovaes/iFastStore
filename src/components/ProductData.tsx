@@ -43,7 +43,8 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
             shipping_tax: Number(metadata["shipping_tax"]),
             name: name,
             image: images[0].url,
-            priceId
+            priceId,
+            price: prices.find(price => price.id === priceId)
         }
     }
 

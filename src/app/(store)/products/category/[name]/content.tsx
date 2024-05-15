@@ -6,8 +6,13 @@ import { ProductCardSkeleton } from "@/components/ProductCard-Skeleton"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
-
 import Stripe from "stripe"
+
+const categories = {
+    iphones: "iPhones",
+    airpods: "AirPods",
+    notebooks: "Notebooks"
+} as { [key: string]: string }
 
 export function Products() {
     const [products, setProducts] = useState<Stripe.Product[]>([])
@@ -39,9 +44,9 @@ export function Products() {
     }, [name])
 
     return (
-        <main className="px-5 flex flex-col gap-6 max-w-5xl m-auto pt-5" style={{minHeight: "calc(100dvh - 143px)"}}>
+        <main className="px-5 flex flex-col gap-6 max-w-5xl m-auto pt-5" style={{ minHeight: "calc(100dvh - 143px)" }}>
             <div className="w-full py-5 flex justify-between items-center">
-                <h1 className="text-xl font-semibold">{name}</h1>
+                <h1 className="text-xl font-semibold">{categories[name as string]}</h1>
             </div>
 
             <div className="grid gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4">

@@ -1,6 +1,6 @@
 'use client'
 
-import { ChartLine, House, Package, ShoppingCart, Users } from "@phosphor-icons/react"
+import { House, Package, ShoppingCart } from "@phosphor-icons/react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "../ui/tooltip"
 
 import Link from "next/link"
@@ -12,8 +12,8 @@ const sidebarLinks: { path: string, icon: ReactNode, title: string }[] = [
     { title: "Dashboard", path: "/dashboard", icon: <House className="h-5 w-5" /> },
     { title: "Pedidos", path: "/dashboard/orders", icon: <ShoppingCart className="h-5 w-5" /> },
     { title: "Produtos", path: "/dashboard/products", icon: <Package className="h-5 w-5" /> },
-    { title: "Usuários", path: "/dashboard/customers", icon: <Users className="h-5 w-5" /> },
-    { title: "Analytics", path: "/dashboard/anaytics", icon: <ChartLine className="h-5 w-5" /> }
+    // { title: "Usuários", path: "/dashboard/customers", icon: <Users className="h-5 w-5" /> },
+    // { title: "Analytics", path: "/dashboard/anaytics", icon: <ChartLine className="h-5 w-5" /> }
 ]
 
 export function DesktopActiveLink() {

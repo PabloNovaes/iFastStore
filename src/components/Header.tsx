@@ -81,8 +81,10 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
 
     useEffect(() => {
         if (typeof window !== undefined) {
-            const condition = window.innerWidth < 500
-            setIsMobile(condition)
+            window.onresize = (event) => {
+                const condition = window.innerWidth < 500
+                setIsMobile(condition)
+            }
         }
 
     }, [])
@@ -124,7 +126,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
         <div className="w-full z-20">
             <header className="flex text-primary bg-white border-b relative h-[50px]" ref={scope}>
                 <div className="flex items-center w-full max-w-5xl m-auto justify-between h-[50px]">
-                    <h1 className={`max-[1050px]:ml-4 ${isMobile == false && 'w-[124px]'} flex`}>
+                    <h1 className="max-[1050px]:ml-4 w-full flex">
                         {
                             pathname !== '/'
                                 ? <button onClick={back} className="grid place-content-center rounded-lg p-2 h-fit w-fit rouned-md hover:bg-accent transition-all duration-300">
@@ -139,7 +141,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         <Link href={'/account'}>Account</Link>
                         {isAdmin && <Link href={'/dashboard'}>Dashboard</Link>}
                     </nav>
-                    <div className="flex items-center gap-2 p-3 px-5">
+                    <div className="flex items-center gap-2 p-3 px-5 w-full justify-end">
                         <motion.form className="w-0" onSubmit={handleSubmit}>
                             <input onBlur={() => setSearchIsOpen(false)} type="text" ref={inputRef}
                                 placeholder="Search.." className="bg-transparent w-full focus:outline-none font-light" />
@@ -150,10 +152,10 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         <button onClick={() => push('/cart')} className="rounded-lg p-2 hover:bg-accent transition-all duration-300">
                             <ShoppingCartIcon size={18} />
                         </button>
-                        {!isMobile && <SignedOut>
-                            <Button className='py-1 rounded-l text-primary' variant={'outline'}>
-                                <SignInButton mode='modal' />
-                            </Button>
+                        {<SignedOut>
+                            <SignInButton mode='modal' className="hidden min-[500px]:flex">
+                                <Button className='py-1 rounded-l text-primary' variant={'outline'}>Sign in</Button>
+                            </SignInButton>
                         </SignedOut>
                         }
                         <button onClick={() => setIsMenuOpen(true)} className=" rounded-lg p-2 hover:bg-accent transition-all duration-300 min-[500px]:hidden">
@@ -164,7 +166,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                 </div>
 
                 <motion.div className="w-full bg-white absolute top-full z-10 left-0 h-0 opacity-0">
-                    <nav style={{ height: "calc(100% - 50px)" }} className={`flex-col flex justify-center items-center h-nav gap-5 font-light text-4xl relative text-primary ${!isMenuOpen && 'overflow-hidden'}`}>
+                    <nav style={{ height: "calc(100% - 50px)" }} className="flex-col flex justify-center items-center h-nav gap-5 font-light text-4xl relative text-primary min-[500px]:overflow-hidden">
                         <motion.button id="x" className="absolute right-7 -top-8" onClick={() => setIsMenuOpen(false)}>
                             <X size={18} />
                         </motion.button>
@@ -182,14 +184,14 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         </motion.span>}
                         <SignedOut>
                             <motion.span onClick={() => setIsMenuOpen(false)}>
-                                <Button className='py-1 rounded-l w-full' >
-                                    <SignInButton mode='modal' />
-                                </Button>
+                                <SignInButton mode='modal'>
+                                    <Button className='py-1 rounded-l w-full'>Sign in</Button>
+                                </SignInButton>
                             </motion.span>
                         </SignedOut>
                     </nav>
                 </motion.div>
-            </header >
-        </div >
+            </header>
+        </div>
     )
 }
