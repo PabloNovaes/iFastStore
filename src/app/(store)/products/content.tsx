@@ -66,7 +66,7 @@ export function Search() {
     }
 
     return (
-        <main className="px-5 flex flex-col gap-4 max-w-5xl m-auto pt-5">
+        <main className="px-5 flex flex-col gap-4 max-w-5xl m-auto pt-5" style={{ minHeight: "calc(100dvh - 143px)" }}>
             <div className="w-full py-5 flex flex-col">
                 <h1 className="text-xl font-semibold">
                     {

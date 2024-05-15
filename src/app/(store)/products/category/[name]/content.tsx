@@ -39,7 +39,7 @@ export function Products() {
     }, [name])
 
     return (
-        <main className="px-5 flex flex-col gap-6 max-w-5xl m-auto pt-5">
+        <main className="px-5 flex flex-col gap-6 max-w-5xl m-auto pt-5" style={{minHeight: "calc(100dvh - 143px)"}}>
             <div className="w-full py-5 flex justify-between items-center">
                 <h1 className="text-xl font-semibold">{name}</h1>
             </div>
