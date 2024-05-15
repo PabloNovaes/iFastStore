@@ -20,7 +20,7 @@ function useInputAnimation(searchIsOpen: boolean, isMenuOpen: boolean, isMobile:
     useEffect(() => {
 
         isMobile && animate(
-            "div.menu",
+            "div",
             isMenuOpen
                 ? { height: "calc(100vh - 58px)", opacity: 1 }
                 : { height: 0 }
@@ -33,7 +33,7 @@ function useInputAnimation(searchIsOpen: boolean, isMenuOpen: boolean, isMobile:
         );
 
         isMobile && animate(
-            "span",
+            "span.animate-span",
             isMenuOpen
                 ? { opacity: 1, filter: "blur(0px)", y: 0 }
                 : { opacity: 0, filter: "blur(20px)", y: 100 },
@@ -126,7 +126,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
         <div className="w-full z-20">
             <header className="flex text-primary bg-white border-b relative h-[50px]" ref={scope}>
                 <div className="flex items-center w-full max-w-5xl m-auto justify-between h-[50px]">
-                    <h1 className="max-[1050px]:ml-4 w-full flex">
+                    <h1 className="max-[1050px]:ml-4 min-[500px]:w-full flex">
                         {
                             pathname !== '/'
                                 ? <button onClick={back} className="grid place-content-center rounded-lg p-2 h-fit w-fit rouned-md hover:bg-accent transition-all duration-300">
@@ -153,14 +153,14 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                             <ShoppingCartIcon size={18} />
                         </button>
                             <SignedOut>
-                            <div className="hidden min-[500px]:flex overflow-hidden">
+                            <span className="hidden min-[500px]:flex overflow-hidden">
                                 <SignInButton mode='modal'>
                                     <Button className='py-1 rounded-l text-primary' variant={'outline'}>Sign in</Button>
                                 </SignInButton>
-                            </div>
+                            </span>
                         </SignedOut>
                         <button onClick={() => setIsMenuOpen(true)} className=" rounded-lg p-2 hover:bg-accent transition-all duration-300 min-[500px]:hidden">
-                            <Image src="/assets/icons/menu.svg" alt="menu icon" height={18} width={18} />
+                            <Image src="/assets/icons/menu.svg" alt="menu icon" height={18} width={18} style={{maxWidth: "none"}} />
                         </button>
 
                     </div>
@@ -171,20 +171,20 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         <motion.button id="x" className="absolute right-7 -top-8" onClick={() => setIsMenuOpen(false)}>
                             <X size={18} />
                         </motion.button>
-                        <motion.span onClick={() => setIsMenuOpen(false)}>
+                        <motion.span className="animate-span" onClick={() => setIsMenuOpen(false)}>
                             <Link href={'/'}>Casa</Link>
                         </motion.span>
-                        <motion.span onClick={() => setIsMenuOpen(false)}>
+                        <motion.span className="animate-span" onClick={() => setIsMenuOpen(false)}>
                             <Link href={'/account'}>Account</Link>
                         </motion.span>
-                        <motion.span onClick={() => setIsMenuOpen(false)}>
+                        <motion.span className="animate-span" onClick={() => setIsMenuOpen(false)}>
                             <Link href={'/products'}>Prodotti</Link>
                         </motion.span>
-                        {isAdmin && <motion.span onClick={() => setIsMenuOpen(false)}>
+                        {isAdmin && <motion.span className="animate-span" onClick={() => setIsMenuOpen(false)}>
                             <Link href={'/dashboard'}>Dashboard</Link>
                         </motion.span>}
                         <SignedOut>
-                            <motion.span onClick={() => setIsMenuOpen(false)}>
+                            <motion.span className="animate-span" onClick={() => setIsMenuOpen(false)}>
                                 <SignInButton mode='modal'>
                                     <Button className='py-1 rounded-l w-full'>Sign in</Button>
                                 </SignInButton>

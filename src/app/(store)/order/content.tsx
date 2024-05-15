@@ -213,7 +213,7 @@ export function Order() {
                         </RadioGroup>
 
                         <Button disabled={!selected || adress.length === 0 ? true : false} className="w-full p-5 mt-4 transition-all duration-500">
-                            {pending ? <CircleNotch size={22} className={`${finished && 'hidden'} animate-spin`} /> : <p className={`${finished && 'hidden'} `}>Esprimere un desiderio</p>}
+                            {pending ? <CircleNotch size={22} className={`${finished && 'hidden'} animate-spin`} /> : <p className={`${finished && 'hidden'} `}>{"Confermare l'ordine"}</p>}
                             {finished && <CheckCircle size={22} />}
                         </Button>
                     </form>
