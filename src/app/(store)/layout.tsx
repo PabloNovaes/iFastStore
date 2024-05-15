@@ -37,10 +37,7 @@ export const metadata: Metadata = {
       default: "Fast Store",
       template: "Fast Store | %s"
     },
-    images: [
-      '/assets/banner.png'
-    ]
-
+    images: 'https://firebasestorage.googleapis.com/v0/b/upload-hub-fdabc.appspot.com/o/files%2Fbanner%20(1).png?alt=media&token=c29630ce-a5df-4a15-91df-772a5dd1f2f9'
   }
 }
 
