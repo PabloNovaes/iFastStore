@@ -3,7 +3,7 @@
 import { Minus, Plus } from "@phosphor-icons/react"
 import Image from "next/image"
 import { useRef, useState } from "react"
-import { CartProduct } from "../app/cart/page"
+import { CartProduct } from "../app/(store)/cart/content"
 import { Button } from "./ui/button"
 import { Checkbox } from "./ui/checkbox"
 
@@ -17,7 +17,7 @@ interface Props extends CartProduct {
 export function ShoppingCartCard(product: Props) {
     const [quantity, setQuantity] = useState(1)
     const [disabled, setDisabled] = useState(true)
-    const { image, name, color, price, priceId, productId, id, userId, selectProduct, modifyQuantity, unselectProduct, selectRemoveProduct } = product
+    const { image, name, color, price, priceId, productId, id, userId, selectProduct, modifyQuantity, unselectProduct, selectRemoveProduct, shipping_tax } = product
     const { nickname } = price
     const checkRef = useRef(null)
 
@@ -32,7 +32,7 @@ export function ShoppingCartCard(product: Props) {
             if (quantity === 1) {
                 const checkbox = checkRef.current ? checkRef.current as HTMLButtonElement : checkRef.current as null
                 if (checkbox) checkbox.click()
-                return selectRemoveProduct({ productId, name, image, color, price, priceId, userId, quantity, id })
+                return selectRemoveProduct({ productId, name, image, color, price, priceId, userId, quantity, id, shipping_tax })
             }
             setQuantity((state) => {
                 modifyQuantity(productId, state - 1)
@@ -54,7 +54,7 @@ export function ShoppingCartCard(product: Props) {
                     return unselectProduct(productId)
                 }
                 setDisabled(false)
-                selectProduct({ productId, name, image, color, price, priceId, userId, quantity, id })
+                selectProduct({ productId, name, image, color, price, priceId, userId, quantity, id, shipping_tax })
             }} />
             <div className="bg-accent rounded-[20px] aspect-square size-32 relative">
                 <Image src={image}

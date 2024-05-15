@@ -7,7 +7,9 @@ const nextConfig = {
     },
     images: {
         remotePatterns: [
-            { hostname: 'files.stripe.com' }
+            { hostname: 'files.stripe.com' },
+            { hostname: 'firebasestorage.googleapis.com' },
+            { hostname: 'img.clerk.com' }
         ]
     }
 };

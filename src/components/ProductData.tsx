@@ -1,62 +1,83 @@
 'use client'
 
-import { addCart } from "@/app/actions"
+import { Product } from "@/app/(admin)/dashboard/products/content"
 import { useAuth } from "@clerk/nextjs"
 import { useRef, useState } from "react"
+import { toast } from "sonner"
 import Stripe from "stripe"
-import { CartProduct } from "../app/cart/page"
-import { ColorProps } from "./ProductCard"
+import { CartProduct } from "../app/(store)/cart/content"
 import { ProductColorSelector } from "./ProductColorSelector"
 import { ProductModelSelector } from "./ProductModelSelector"
 
-interface ProductDataProps {
-    product: Stripe.Product;
-    prices: Stripe.Price[];
+interface Props extends Omit<Product, "sales"> {
+    onSetFilterImagesToColor: (color: string) => void
 }
 
-export function ProductData(props: ProductDataProps) {
-    const { product, prices: productPrices } = props as ProductDataProps
-    const { default_price, metadata } = product
+export function ProductData({ default_price, prices, name, id, images, onSetFilterImagesToColor, metadata }: Props) {
     const { userId } = useAuth()
+    const [model, setModel] = useState<string | null>(null)
 
-    const colors: ColorProps[] = JSON.parse(metadata.colors)
+    const SKU = JSON.parse(model !== null ? prices.filter(price => price.id === model)[0].metadata['SKU'] : prices[0].metadata['SKU'])
+    const colors = SKU.available_colors as { name: string, code: string, available: boolean }[]
 
-    const [activeColor, setActiveColor] = useState<string>(colors[0].name)
+    const [activeColor, setActiveColor] = useState<string>(colors.find(color => color.available === true)?.name || "")
     const price = default_price as Stripe.Price
 
 
-    const prices = productPrices.filter(x => x.active === true)
     const formRef = useRef(null)
 
-    function add(): CartProduct | null {
+    function handleProductData(): CartProduct | null | any {
         if (formRef.current === null) return null
-        
+
         const form = formRef.current as HTMLFormElement
         const { color, price_id } = Object.fromEntries(new FormData(form).entries()) as { color: string, price_id: string }
+
+        if (!color) return toast.error("Seleziona un colore")
 
         const priceId = price_id ? price_id : price.id
 
         return {
             color,
-            productId: product.id,
+            productId: id,
             userId,
-            name: product.name,
-            image: product.images[0],
-            priceId,
-            price: prices.filter(price => price.id === priceId)[0]
+            shipping_tax: Number(metadata["shipping_tax"]),
+            name: name,
+            image: images[0].url,
+            priceId
         }
     }
 
 
-    const handleSetActiveColor = (name: string) => setActiveColor(name)
+    const inStock = (prices.reduce((acc, count) => {
+        const sku = JSON.parse(count.metadata["SKU"]) as { stock: number }
+        return acc + Number(sku.stock)
+    }, 0)) > 0
+
+    const handleSetActiveColor = (name: string) => {
+        setActiveColor(name)
+        onSetFilterImagesToColor(name)
+    }
+
+    const handleSetModel = (id: string) => setModel(id)
 
     return (
         <form ref={formRef} className="flex flex-col gap-8" action={async () => {
-            const data = add() as CartProduct
-            await addCart(data)
+            try {
+                const data = handleProductData()
+
+                if (data === null) return
+
+                await fetch('/api/cart/add', {
+                    method: 'POST',
+                    body: JSON.stringify(data)
+                })
+                toast.success("Prodotto aggiunto al carrello")
+            } catch (err) {
+                return err
+            }
         }} >
             <header className="flex justify-between items-center">
-                <h1 className="text-4xl font-medium">{product.name}</h1>
+                <h1 className="text-4xl font-medium">{name}</h1>
             </header>
 
             <div className="grid gap-2">
@@ -64,8 +85,17 @@ export function ProductData(props: ProductDataProps) {
                     <span className="font-semibold mr-1">Colore:</span>{activeColor}
                 </p>
             </div>
-            <ProductColorSelector handleSetActiveColor={handleSetActiveColor} colors={colors} />
-            <ProductModelSelector prices={prices} defaultPrice={Number(price.unit_amount)} getProductData={add} />
+            <ProductColorSelector
+                modelCount={prices.length}
+                handleSetActiveColor={handleSetActiveColor}
+                inStock={inStock}
+                colors={colors}
+                hasModelSelected={model} />
+            <ProductModelSelector
+                prices={prices}
+                defaultPrice={Number(price.unit_amount)}
+                getProductData={handleProductData}
+                onSetModel={handleSetModel} />
         </form>
 
     )

@@ -34,7 +34,7 @@ export function CardsSection() {
     return (
         <section ref={scope} className="grid gap-5 grid-cols-2 justify-items-center max-[900px]:grid-cols-1">
             <motion.li initial={{ opacity: 0, x: -20 }} style={{gridRow: '1/3'}} className="bg-accent shadow-md rounded-[30px] relative grid p-8 min-h-[250px] w-full min-[900px]:row overflow-hidden">
-                <img alt="card-iphone" src='/assets/products/iphoneCard.png' className="h-full absolute right-0 min-[900px]:-right-10 self-center" />
+                <img alt="card-iphone" src='/assets/products/iphoneCard.png' className="h-full drop-shadow-xl absolute right-0 min-[900px]:-right-10 self-center pt-3" />
                 <header className="text-3xl">
                     <h1>iPhones</h1>
                     <p className="text-sm mt-12 opacity-70">Tecnologia all avanguardia <br /> in un design elegante. <br /> Scopri i nostri iPhone.</p>
@@ -49,7 +49,7 @@ export function CardsSection() {
             </motion.li>
 
             <motion.li initial={{ opacity: 0, x: -40 }} className="bg-accent shadow-md rounded-[30px] relative grid p-8 h-[250px]  w-full overflow-hidden">
-                <img src='/assets/products/airpodsCard.png' className="h-[90%] self-center absolute -right-16 filter" />
+                <img src='/assets/products/airpodsCard.png' className="h-[90%] self-center absolute -right-12 filter" />
                 <header className="text-3xl">
                     <h1>Airpods</h1>
                     <p className="text-sm mt-6 opacity-70">Musica ovunque tu vada, <br /> senza limiti. Scopri <br /> i nostri AirPod.</p>

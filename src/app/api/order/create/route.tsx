@@ -1,10 +1,10 @@
-import { CartProduct } from "@/app/cart/page";
+import { CartProduct } from "@/app/(store)/cart/content";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../../../../prisma/client";
 
 export async function POST(req: NextRequest) {
     try {
-        const { products, userId, adressId, payment_method } = await req.json()
+        const { products, userId, adressId, payment_method, total, shipping_tax } = await req.json()
 
         const order = await db.order.create({
             data: {
@@ -12,6 +12,8 @@ export async function POST(req: NextRequest) {
                 userId,
                 adressesId: adressId,
                 payment_method,
+                shipping_tax,
+                total
             }
         })
 

@@ -1,27 +1,18 @@
+import { ShoppingCart } from "@prisma/client";
 import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
-import Stripe from "stripe";
 import { db } from "../../../../../prisma/client";
 
-interface AddToCartProps {
-    productId: string
-    priceId: string
-    image: string
-    name: string
-    color: string
-    userId: string
-    price: Stripe.Price
-}
 export async function POST(req: NextRequest) {
     try {
-        const { price, ...rest } = await req.json() as AddToCartProps
+        const product = await req.json() as ShoppingCart
 
         const isAlredyExists = await db.shoppingCart.findMany({
-            where: { productId: rest.productId, userId: rest.userId }
+            where: { productId: product.productId, userId: product.userId }
         })
 
         if (isAlredyExists.length === 0) {
-            await db.shoppingCart.create({ data: rest })
+            await db.shoppingCart.create({ data: product })
 
             revalidateTag("cart-request")
             return Response.json({ revalidated: true })

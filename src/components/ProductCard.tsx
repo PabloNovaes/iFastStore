@@ -47,10 +47,10 @@ export function ProductCard({ product }: { product: Stripe.Product }) {
         <motion.div ref={ref} variants={variants} initial={'hidden'} animate={useProductCardAnimation}>
             <Link href={`/products/${id}`} className="w-full overflow-hidden" prefetch={true}>
                 <div className="bg-accent rounded-[30px] min-h-[160px] relative">
-                    <Image src={images[0]}
+                    <Image src={images.length === 0 ? '/assets/icons/placeholder.png' : images[0]}
                         priority quality={100}
                         layout="fill"
-                        alt="product image" className="py-2 m-auto" style={{ maxWidth: 150, objectFit: 'contain' }} />
+                        alt="product image" className="m-auto" style={{ maxWidth: 150, objectFit: 'contain' }} />
                 </div>
                 <div className="grid pl-3">
                     <header className="font-semibold py-2">

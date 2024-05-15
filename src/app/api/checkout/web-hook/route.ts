@@ -1,9 +1,14 @@
-import { stripe } from "@/lib/stripe/config";
+import { stripe } from "@/services/stripe/config";
 import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { db } from "../../../../../prisma/client";
 
+
+interface SKUProps {
+    stock: number
+    available_colors: { name: string, code: string, available: boolean }[]
+}
 
 export async function POST(req: NextRequest) {
     try {
@@ -11,7 +16,7 @@ export async function POST(req: NextRequest) {
 
         const payload = await req.text()
         const sig = headers().get('Stripe-Signature') as string;
-        
+
         const event = stripe.webhooks.constructEvent(payload, sig, process.env.STRIPE_WEBHOOK_SECRET as string)
 
 
@@ -24,6 +29,21 @@ export async function POST(req: NextRequest) {
             const metadata = session.metadata as Stripe.Metadata
 
             const orderId = metadata["orderId"]
+            const products = JSON.parse(metadata["products"]) as { priceId: string, quantity: number }[]
+
+            for await (const { priceId, quantity } of products) {
+                const price = await stripe.prices.retrieve(priceId)
+                const metadata = JSON.parse(price.metadata["SKU"]) as SKUProps
+                
+                await stripe.prices.update(priceId, {
+                    metadata: {
+                        SKU: JSON.stringify({
+                            stock: (metadata.stock - quantity),
+                            available_colors: metadata.available_colors
+                        })
+                    }
+                })
+            }
 
             await db.order.update({
                 where: { id: orderId },

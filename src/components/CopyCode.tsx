@@ -20,7 +20,8 @@ export function CopyCode({ code }: { code: string }) {
         <CopyToClipboard text={code} onCopy={handleCopy}>
             <Button
                 key={key}
-                className="rounded-lg p-2 h-fit"
+                size={"icon"}
+                className="h-6 w-6 "
                 variant={"outline"}
             >
                 <AnimatePresence>
@@ -30,7 +31,7 @@ export function CopyCode({ code }: { code: string }) {
                         exit={{ opacity: 0, scale: 0, filter: "blur(5px)" }}
                         transition={{ duration: 0.4 }}
                     >
-                        {copied ? <Check size={14} /> : <Copy size={14} />}
+                        {copied ? <Check size={12} /> : <Copy size={12} />}
                     </motion.span>
                 </AnimatePresence>
             </Button>

@@ -74,8 +74,7 @@ function useInputAnimation(searchIsOpen: boolean, isMenuOpen: boolean, isMobile:
     return scope;
 }
 
-export function Header() {
-
+export function Header({ isAdmin }: { isAdmin: boolean }) {
     const [searchIsOpen, setSearchIsOpen] = useState(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isMobile, setIsMobile] = useState<boolean>()
@@ -138,6 +137,7 @@ export function Header() {
                         <Link href={'/'}>Casa</Link>
                         <Link href={'/products'}>Prodotti</Link>
                         <Link href={'/account'}>Account</Link>
+                        {isAdmin && <Link href={'/dashboard'}>Dashboard</Link>}
                     </nav>
                     <div className="flex items-center gap-2 p-3 px-5">
                         <motion.form className="w-0" onSubmit={handleSubmit}>
@@ -164,7 +164,7 @@ export function Header() {
                 </div>
 
                 <motion.div className="w-full bg-white absolute top-full z-10 left-0 h-0 opacity-0">
-                    <nav style={{height: "calc(100% - 50px)"}} className={`flex-col flex justify-center items-center h-nav gap-5 font-light text-4xl relative text-primary ${!isMenuOpen && 'overflow-hidden'}`}>
+                    <nav style={{ height: "calc(100% - 50px)" }} className={`flex-col flex justify-center items-center h-nav gap-5 font-light text-4xl relative text-primary ${!isMenuOpen && 'overflow-hidden'}`}>
                         <motion.button id="x" className="absolute right-7 -top-8" onClick={() => setIsMenuOpen(false)}>
                             <X size={18} />
                         </motion.button>
@@ -177,6 +177,9 @@ export function Header() {
                         <motion.span onClick={() => setIsMenuOpen(false)}>
                             <Link href={'/products'}>Prodotti</Link>
                         </motion.span>
+                        {isAdmin && <motion.span onClick={() => setIsMenuOpen(false)}>
+                            <Link href={'/dashboard'}>Dashboard</Link>
+                        </motion.span>}
                         <SignedOut>
                             <motion.span onClick={() => setIsMenuOpen(false)}>
                                 <Button className='py-1 rounded-l w-full' >

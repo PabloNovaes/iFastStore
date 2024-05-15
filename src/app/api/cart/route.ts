@@ -1,4 +1,4 @@
-import { stripe } from "@/lib/stripe/config";
+import { stripe } from "@/services/stripe/config";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../../../prisma/client";
 

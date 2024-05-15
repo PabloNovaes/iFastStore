@@ -14,13 +14,14 @@ datasource db {
 }
 
 model ShoppingCart {
-  id        String @id @default(uuid())
-  productId String
-  priceId   String
-  image     String
-  name      String
-  color     String
-  userId    String
+  id           String @id @default(uuid())
+  productId    String
+  priceId      String
+  shipping_tax Int
+  image        String
+  name         String
+  color        String
+  userId       String
 
   @@map("shopping_cart")
 }
@@ -56,10 +57,12 @@ model Products_per_order {
 
 model Order {
   id             String               @id @default(uuid())
-  shippin_code   String?
+  shipping_code  String?
+  shipping_tax   Int
   userId         String
   adressesId     String
   created_at     DateTime             @default(now())
+  total          Int
   payment_method String
   status         String
   adressId       Adresses             @relation(fields: [adressesId], references: [id])
