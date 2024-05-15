@@ -14,7 +14,7 @@ import { CircleNotch } from "@phosphor-icons/react";
 import { ReactNode, useRef, useState } from "react";
 import { Button } from "../ui/button";
 
-import { Product } from "@/app/(admin)/dashboard/products/page";
+import { Product } from "@/app/(admin)/dashboard/products/content";
 import {
     MultiSelector,
     MultiSelectorContent,

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-import { SKUProps } from "@/app/(admin)/dashboard/products/edit/[id]/page";
+import { SKUProps } from "@/app/(admin)/dashboard/products/edit/[id]/content";
 import { CircleNotch } from "@phosphor-icons/react";
 import { Checkbox } from "@radix-ui/react-checkbox";
 import { ReactNode, useState } from "react";
