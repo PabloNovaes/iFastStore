@@ -17,49 +17,23 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table"
-import { Cardholder, CheckCircle, ListChecks, Package, Truck } from "@phosphor-icons/react"
+import { Cardholder, CheckCircle, Package, Truck } from "@phosphor-icons/react"
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group"
-import { ReactNode, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { OrdersProps } from "../content"
 
 const orderStatus: { [key: string]: string } = {
     AWAITING_PAYMENT: "Pagamento pendente",
     AWAITING_SEND: "Envio pendente",
     ORDER_DISPATCHED: "Enviado",
-    ORDER_RECEIVED: "Entregue"
+    ORDER_DELIVERED: "Entregue"
 } as any
 
-interface TabsProps {
-    name: ReactNode;
-    icon: ReactNode;
-    status: string;
-
-}
-
-const tabs: TabsProps[] = [
-    {
-        name: <p className="sm:text-xs text-[11px] font-normal">attesa<br />pagamento</p>,
-        icon: <Cardholder size={18} />,
-        status: "awaiting_payment"
-    },
-    {
-        name: <p className="sm:text-xs text-[11px] font-normal">preparazione <br />{"dell'ordine"} </p>,
-        icon: <Package size={18} />
-        ,
-        status: "awaiting_send"
-    },
-    {
-        name: <p className="sm:text-xs text-[11px] font-normal">order < br /> spedito</p>,
-        icon: <Truck size={18} />
-        ,
-        status: "order_dispatched"
-    },
-    {
-        name: <p className="sm:text-xs text-[11px] font-normal">richiesta <br /> ricevuta</p>,
-        icon: <ListChecks size={18} />
-        ,
-        status: "order_delivered"
-    },
+const tabs: { status: string }[] = [
+    { status: "awaiting_payment" },
+    { status: "awaiting_send" },
+    { status: "order_dispatched" },
+    { status: "order_delivered" },
 ]
 
 
@@ -123,52 +97,54 @@ export function Orders() {
                             ))}
                         </RadioGroup>
                         {filteredOrders.length !== 0 ?
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Customer</TableHead>
-                                        <TableHead className="sm:table-cell">Status</TableHead>
-                                        <TableHead className="hidden md:table-cell">Date</TableHead>
-                                        <TableHead className="text-right">Amount</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {filteredOrders.length !== 0 && filteredOrders.map((order) => {
-                                        const { created_at, id, adress, status, total } = order
-                                        return (
-                                            <TableRow key={id} className="relative" onClick={() => setSelectedOrder(order)}>
-                                                <TableCell>
-                                                    {window.innerWidth <= 640 && <MobileOrderOverview onSaveShippingCode={saveShippingCode} {...selectedOrder} />}
-                                                    <div className="font-medium">{adress.name}</div>
-                                                    <div className="hidden text-sm text-muted-foreground md:inline">
-                                                        {adress.email}
-                                                    </div>
-                                                </TableCell>
-                                                <TableCell className="sm:table-cell">
-                                                    {status === "AWAITING_PAYMENT" && <Badge className="text-xs" variant="blue">
-                                                        <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
-                                                        <Cardholder size={16} className="min-[455px]:hidden" />
-                                                    </Badge>}
-                                                    {status === "AWAITING_SEND" && <Badge className="text-xs" variant="destructive">
-                                                        <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
-                                                        <Package size={16} className="min-[455px]:hidden" />
-                                                    </Badge>}
-                                                    {status === "ORDER_DISPATCHED" && <Badge className="text-xs" variant="warning">
-                                                        <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
-                                                        <Truck size={16} className="min-[455px]:hidden" />
-                                                    </Badge>}
-                                                    {status === "ORDER_DELIVERED" && <Badge className="text-xs" variant="green">
-                                                        <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
-                                                        <CheckCircle size={16} className="min-[455px]:hidden" />
-                                                    </Badge>}
-                                                </TableCell>
-                                                <TableCell className="hidden md:table-cell">{new Date(created_at).toLocaleString("pt-BR")}</TableCell>
-                                                <TableCell className="text-right">{(total / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" })}</TableCell>
-                                            </TableRow>)
-                                    })}
-                                </TableBody>
-                            </Table>
-                            : <div className="text-center">Nenhum resultado</div>}
+                            <div className="overflow-auto max-h-[50vh]">
+                                <Table>
+                                    <TableHeader>
+                                        <TableRow>
+                                            <TableHead>Customer</TableHead>
+                                            <TableHead className="sm:table-cell">Status</TableHead>
+                                            <TableHead className="hidden md:table-cell">Date</TableHead>
+                                            <TableHead className="text-right">Amount</TableHead>
+                                        </TableRow>
+                                    </TableHeader>
+                                    <TableBody>
+                                        {filteredOrders.length !== 0 && filteredOrders.map((order) => {
+                                            const { created_at, id, adress, status, total } = order
+                                            return (
+                                                <TableRow key={id} className="relative" onClick={() => setSelectedOrder(order)}>
+                                                    <TableCell>
+                                                        {window.innerWidth <= 640 && <MobileOrderOverview onSaveShippingCode={saveShippingCode} {...selectedOrder} />}
+                                                        <div className="font-medium">{adress.name}</div>
+                                                        <div className="hidden text-sm text-muted-foreground md:inline">
+                                                            {adress.email}
+                                                        </div>
+                                                    </TableCell>
+                                                    <TableCell className="sm:table-cell">
+                                                        {status === "AWAITING_PAYMENT" && <Badge className="text-xs" variant="blue">
+                                                            <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
+                                                            <Cardholder size={16} className="min-[455px]:hidden" />
+                                                        </Badge>}
+                                                        {status === "AWAITING_SEND" && <Badge className="text-xs" variant="destructive">
+                                                            <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
+                                                            <Package size={16} className="min-[455px]:hidden" />
+                                                        </Badge>}
+                                                        {status === "ORDER_DISPATCHED" && <Badge className="text-xs" variant="warning">
+                                                            <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
+                                                            <Truck size={16} className="min-[455px]:hidden" />
+                                                        </Badge>}
+                                                        {status === "ORDER_DELIVERED" && <Badge className="text-xs" variant="green">
+                                                            <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
+                                                            <CheckCircle size={16} className="min-[455px]:hidden" />
+                                                        </Badge>}
+                                                    </TableCell>
+                                                    <TableCell className="hidden md:table-cell">{new Date(created_at).toLocaleString("pt-BR")}</TableCell>
+                                                    <TableCell className="text-right">{(total / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" })}</TableCell>
+                                                </TableRow>)
+                                        })}
+                                    </TableBody>
+                                </Table>
+                            </div>
+                            : <div className="text-center mt-[10px]">Nenhum resultado</div>}
                     </CardContent>
                 </Card>
 

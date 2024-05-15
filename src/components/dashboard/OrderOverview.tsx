@@ -3,15 +3,8 @@
 import { OrdersProps } from "@/app/(admin)/dashboard/content";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
-import { CircleNotch, CreditCard, DotsThreeVertical } from "@phosphor-icons/react";
+import { CircleNotch, CreditCard, PaypalLogo } from "@phosphor-icons/react";
 import { ReactNode, useRef, useState } from "react";
 import { CopyCode } from "../CopyCode";
 import {
@@ -38,7 +31,7 @@ interface Props extends OrdersProps {
     setOpen?: () => void;
 }
 
-export function OrderOverview({ id, created_at, products, total, adress, shipping_code, onSaveShippingCode, status }: Props) {
+export function OrderOverview({ id, created_at, products, total, adress, shipping_code, onSaveShippingCode, status, shipping_tax, payment_method }: Props) {
     const [isLoading, setIsLoading] = useState(false)
     const inputRef = useRef(null)
 
@@ -55,22 +48,6 @@ export function OrderOverview({ id, created_at, products, total, adress, shippin
                         month: "long", day: "numeric", year: "numeric", second: "numeric", minute: "numeric", hour: "numeric"
                     })}
                     </CardDescription>
-                </div>
-                <div className="ml-auto flex items-center gap-1">
-                    <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                            <Button size="icon" variant="outline" className="h-8 w-8">
-                                <DotsThreeVertical className="h-3.5 w-3.5" />
-                                <span className="sr-only">More</span>
-                            </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                            <DropdownMenuItem>Edit</DropdownMenuItem>
-                            <DropdownMenuItem>Export</DropdownMenuItem>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem>Trash</DropdownMenuItem>
-                        </DropdownMenuContent>
-                    </DropdownMenu>
                 </div>
             </CardHeader>
             <CardContent className="p-6 text-sm">
@@ -95,11 +72,11 @@ export function OrderOverview({ id, created_at, products, total, adress, shippin
                         </li>
                         <li className="flex items-center justify-between">
                             <span className="text-muted-foreground">Entrega</span>
-                            <span>$5.00</span>
+                            <span>{(shipping_tax / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" })}</span>
                         </li>
                         <li className="flex items-center justify-between">
-                            <span className="text-muted-foreground">Taxa</span>
-                            <span>$25.00</span>
+                            {/* <span className="text-muted-foreground">Taxa</span>
+                            <span>$25.00</span> */}
                         </li>
                         <li className="flex items-center justify-between font-semibold">
                             <span className="text-muted-foreground">Total</span>
@@ -180,11 +157,18 @@ export function OrderOverview({ id, created_at, products, total, adress, shippin
                     <div className="font-semibold">Payment Information</div>
                     <dl className="grid gap-3">
                         <div className="flex items-center justify-between">
-                            <dt className="flex items-center gap-1 text-muted-foreground">
-                                <CreditCard className="h-4 w-4" />
-                                Visa
-                            </dt>
-                            <dd>**** **** **** 4532</dd>
+                            {payment_method === "card" &&
+                                <dt className="flex items-center gap-1 text-muted-foreground">
+                                    <CreditCard className="h-4 w-4" />
+                                    Cartão
+                                </dt>
+                            }
+                            {payment_method === "paypal" &&
+                                <dt className="flex items-center gap-1 text-muted-foreground">
+                                    <PaypalLogo className="h-4 w-4" />
+                                    Paypal
+                                </dt>
+                            }
                         </div>
                     </dl>
                 </div>
@@ -198,7 +182,7 @@ export function OrderOverview({ id, created_at, products, total, adress, shippin
     )
 }
 
-export function MobileOrderOverview({ id, created_at, products, total, adress, shipping_code, onSaveShippingCode, status, children }: Props) {
+export function MobileOrderOverview({ id, created_at, products, total, adress, shipping_code, onSaveShippingCode, status, shipping_tax, payment_method }: Props) {
     const [isLoading, setIsLoading] = useState(false)
     const inputRef = useRef(null)
 
@@ -218,22 +202,6 @@ export function MobileOrderOverview({ id, created_at, products, total, adress, s
                                 month: "long", day: "numeric", year: "numeric", second: "numeric", minute: "numeric", hour: "numeric"
                             })}
                             </CardDescription>
-                        </div>
-                        <div className="ml-auto flex items-center gap-1">
-                            <DropdownMenu>
-                                <DropdownMenuTrigger asChild>
-                                    <Button size="icon" variant="outline" className="h-8 w-8">
-                                        <DotsThreeVertical className="h-3.5 w-3.5" />
-                                        <span className="sr-only">More</span>
-                                    </Button>
-                                </DropdownMenuTrigger>
-                                <DropdownMenuContent align="end">
-                                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                                    <DropdownMenuItem>Export</DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem>Trash</DropdownMenuItem>
-                                </DropdownMenuContent>
-                            </DropdownMenu>
                         </div>
                     </CardHeader>
                     <CardContent className="p-6 text-sm">
@@ -258,11 +226,11 @@ export function MobileOrderOverview({ id, created_at, products, total, adress, s
                                 </li>
                                 <li className="flex items-center justify-between">
                                     <span className="text-muted-foreground">Entrega</span>
-                                    <span>$5.00</span>
+                                    <span>{(shipping_tax / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" })}</span>
                                 </li>
                                 <li className="flex items-center justify-between">
-                                    <span className="text-muted-foreground">Taxa</span>
-                                    <span>$25.00</span>
+                                    {/* <span className="text-muted-foreground">Taxa</span>
+                                    <span>$25.00</span> */}
                                 </li>
                                 <li className="flex items-center justify-between font-semibold">
                                     <span className="text-muted-foreground">Total</span>
@@ -343,11 +311,18 @@ export function MobileOrderOverview({ id, created_at, products, total, adress, s
                             <div className="font-semibold">Payment Information</div>
                             <dl className="grid gap-3">
                                 <div className="flex items-center justify-between">
-                                    <dt className="flex items-center gap-1 text-muted-foreground">
-                                        <CreditCard className="h-4 w-4" />
-                                        Visa
-                                    </dt>
-                                    <dd>**** **** **** 4532</dd>
+                                    {payment_method === "card" &&
+                                        <dt className="flex items-center gap-1 text-muted-foreground">
+                                            <CreditCard className="h-4 w-4" />
+                                            Cartão
+                                        </dt>
+                                    }
+                                    {payment_method === "paypal" &&
+                                        <dt className="flex items-center gap-1 text-muted-foreground">
+                                            <PaypalLogo className="h-4 w-4" />
+                                            Paypal
+                                        </dt>
+                                    }
                                 </div>
                             </dl>
                         </div>
