@@ -1,4 +1,4 @@
-import { CartProduct } from "@/app/(store)/cart/page"
+import { CartProduct } from "@/app/(store)/cart/content"
 import Image from "next/image"
 
 export function OrderProductsCard({ image, name, color, priceId, price, productId }: CartProduct) {
