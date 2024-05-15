@@ -58,7 +58,7 @@ const tabs: TabsProps[] = [
         name: <p className="sm:text-xs text-[11px] font-normal">richiesta <br /> ricevuta</p>,
         icon: <ListChecks size={18} />
         ,
-        status: "order_received"
+        status: "order_delivered"
     },
 ]
 
