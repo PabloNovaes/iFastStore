@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 
 import { ProductsPerOrderProps } from "@/app/(store)/account/content";
 import { Order } from "@prisma/client";
-import { NextSeo } from "next-seo";
 import Link from "next/link";
 import Stripe from "stripe";
 

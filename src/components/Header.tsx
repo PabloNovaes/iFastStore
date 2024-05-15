@@ -153,7 +153,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                             <ShoppingCartIcon size={18} />
                         </button>
                         {<SignedOut>
-                            <div className="hidden min-[500px]:flex">
+                            <div style={{display: "none"}} className="min-[500px]:flex overflow-hidden">
                                 <SignInButton mode='modal'>
                                     <Button className='py-1 rounded-l text-primary' variant={'outline'}>Sign in</Button>
                                 </SignInButton>
