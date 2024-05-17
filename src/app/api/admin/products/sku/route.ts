@@ -17,16 +17,14 @@ export async function GET(req: NextRequest) {
         if (sessionClaims?.metadata.role !== "admin") return NextResponse.json("You are not authorized")
 
         return NextResponse.json({})
-
     } catch (err) {
-        console.log(err);
         return NextResponse.json({}, { status: 500 })
     }
 }
 
 export async function POST(req: NextRequest) {
     try {
-        const data = await req.json() as SKUProps        
+        const data = await req.json() as SKUProps
 
         const updateSku = await stripe.prices.update(data.priceId, {
             metadata: {

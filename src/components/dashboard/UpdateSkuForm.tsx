@@ -22,7 +22,7 @@ interface Props extends SKUProps {
     onUpdateSku: (data: Stripe.Price) => void
 }
 
-export function UpdateSkuForm({ children, available_colors, priceId, stock, unit_amount, onUpdateSku }: Props) {
+export function UpdateSkuForm({ children, available_colors, priceId, stock, onUpdateSku }: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [colors, setColors] = useState<{ name: string, code: string, available: boolean }[]>(available_colors)

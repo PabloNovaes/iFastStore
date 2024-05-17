@@ -87,7 +87,6 @@ export function ProductDetails({ params }: Params) {
             const updatedState = [...state]
 
             updatedState[index] = { priceId: data.id, unit_amount: data.unit_amount, ...JSON.parse(data.metadata["SKU"]), nickname: data.nickname }
-
             return updatedState
         })
     }
@@ -156,9 +155,9 @@ export function ProductDetails({ params }: Params) {
 
                                 <div className="grid gap-3">
                                     <label className="font-medium text-sm" htmlFor="status">Status</label>
-                                    <Select onValueChange={async () => (
-                                        await changeProductStatus({ id: (product.id as string), active: !product.active })
-                                    )}>
+                                    <Select onValueChange={async (value: string) => {
+                                        await changeProductStatus({ id: (product.id as string), active: Boolean(value) })
+                                    }}>
                                         <SelectTrigger id="status" aria-label="Select status">
                                             <SelectValue placeholder={product.active === true ? "Ativo" : "Arquivado"} />
                                         </SelectTrigger>
@@ -173,11 +172,11 @@ export function ProductDetails({ params }: Params) {
                                     <Select onValueChange={async (value: string) => (await upadteShippingTax({ id: product.id, value: Number(value) }))}>
                                         <SelectTrigger id="status" aria-label="Select status">
                                             <SelectValue placeholder={
-                                                Number(shipping_tax) === 0 ? "Free" : Number(shipping_tax).toLocaleString("it-IT", { style: "currency", currency: "eur" })} />
+                                                Number(shipping_tax) === 0 ? "Free" : (Number(shipping_tax) / 100).toLocaleString("it-IT", { style: "currency", currency: "eur" })} />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value={"0"}>Free</SelectItem>
-                                            <SelectItem value={'1499'}>{(14.99).toLocaleString("it-IT", { style: "currency", currency: "eur" })}</SelectItem>
+                                            <SelectItem value={"1499"}>{(1499 / 100).toLocaleString("it-IT", { style: "currency", currency: "eur" })}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>

@@ -21,6 +21,9 @@ export function Home() {
                 setIsLoading(true)
                 const response = await fetch("/api/products", {
                     method: 'GET',
+                    next: {
+                        tags: ['all-products']
+                    }
                 })
                 const data = await response.json() as Stripe.Product[]
                 setProducts(data)

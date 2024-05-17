@@ -20,7 +20,11 @@ export function ProductDetail({ params }: Props) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetch(`/api/products/find?id=${params.id}`)
+            const response = await fetch(`/api/products/find?id=${params.id}`, {
+                next: {
+                    tags: ['product-detail']
+                }
+            })
             const data = await response.json() as Product
 
             const price = data.prices
@@ -49,7 +53,7 @@ export function ProductDetail({ params }: Props) {
     const { images, prices, ...rest } = product
 
     const filteredImages = filterImagesByColor === "" ? images : images.filter(images => images.name.includes(filterImagesByColor))
-    
+
     return (
         <>
             <main className=" max-w-5xl m-auto py-4 px-4 flex flex-col" style={{ minHeight: 'calc(100dvh - 50px)' }}>
