@@ -19,10 +19,10 @@ function useInputAnimation(searchIsOpen: boolean, isMenuOpen: boolean, isMobile:
 
     useEffect(() => {
 
-        isMobile && animate(
-            "div",
+        animate(
+            "div#mobile-menu",
             isMenuOpen
-                ? { height: "calc(100vh - 58px)", opacity: 1 }
+                ? { height: "100vh", opacity: 1, zIndex: 10 }
                 : { height: 0 }
             ,
             {
@@ -32,7 +32,7 @@ function useInputAnimation(searchIsOpen: boolean, isMenuOpen: boolean, isMobile:
             }
         );
 
-        isMobile && animate(
+        animate(
             "span.animate-span",
             isMenuOpen
                 ? { opacity: 1, filter: "blur(0px)", y: 0 }
@@ -152,7 +152,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         <button onClick={() => push('/cart')} className="rounded-lg p-2 hover:bg-accent transition-all duration-300">
                             <ShoppingCartIcon size={18} />
                         </button>
-                            <SignedOut>
+                        <SignedOut>
                             <span className="hidden min-[500px]:flex overflow-hidden">
                                 <SignInButton mode='modal'>
                                     <Button className='py-1 rounded-l text-primary' variant={'outline'}>Sign in</Button>
@@ -160,15 +160,15 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                             </span>
                         </SignedOut>
                         <button onClick={() => setIsMenuOpen(true)} className=" rounded-lg p-2 hover:bg-accent transition-all duration-300 min-[500px]:hidden">
-                            <Image src="/assets/icons/menu.svg" alt="menu icon" height={18} width={18} style={{maxWidth: "none"}} />
+                            <Image src="/assets/icons/menu.svg" alt="menu icon" height={18} width={18} style={{ maxWidth: "none" }} />
                         </button>
 
                     </div>
                 </div>
 
-                <motion.div className="menu w-full bg-white absolute top-full z-10 left-0 h-0 opacity-0">
+                <motion.div id="mobile-menu" className="menu w-full bg-white absolute -z-10 left-0 top-0 h-0 opacity-0">
                     <nav style={{ height: "calc(100% - 50px)" }} className="flex-col flex justify-center items-center h-nav gap-5 font-light text-4xl relative text-primary min-[500px]:overflow-hidden">
-                        <motion.button id="x" className="absolute right-7 -top-8" onClick={() => setIsMenuOpen(false)}>
+                        <motion.button id="x" className="absolute right-7 top-8" onClick={() => setIsMenuOpen(false)}>
                             <X size={18} />
                         </motion.button>
                         <motion.span className="animate-span" onClick={() => setIsMenuOpen(false)}>
