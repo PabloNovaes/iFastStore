@@ -64,7 +64,7 @@ export function Products() {
 
     if (products.length === 0) return
 
-    const handleCreateProduct = (newProduct: Product) => setProducts((state) => [...state, newProduct])
+    const handleCreateProduct = (newProduct: Product) => setProducts((state) => [newProduct, ...state])
 
     const filteredProducts = filter === "all" ? products : products.filter(product => product.active === filter)
 

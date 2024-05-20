@@ -15,6 +15,7 @@ export async function GET(req: NextRequest) {
         const orders: any = []
 
         for await (const order of getOrders) {
+            
             const { products, ...rest } = order
             const productsArray: any = []
 

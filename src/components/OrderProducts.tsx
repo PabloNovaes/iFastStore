@@ -22,7 +22,6 @@ const orderStatus = {
 const paymentMethods = {
     card: "Carta",
     paypal: 'Paypal',
-    boleto: 'Boleto',
 } as any
 
 interface Props extends OrdersProps {

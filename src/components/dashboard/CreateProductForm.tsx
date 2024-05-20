@@ -33,7 +33,17 @@ const options = [
     { name: 'Titanio Bianco', code: '#f2f1eb' },
     { name: 'Titanio Nero', code: '#3f4042' },
     { name: 'Bianco', code: '#ffffff' },
-    { name: 'Nero', code: '#000000' }
+    { name: 'Nero', code: '#000000' },
+    { name: 'Verde', code: '#495a48' },
+    { name: 'Rosso', code: '#c82333' },
+    { name: 'Rosa', code: '#fbe2dd' },
+    { name: 'Blu', code: '#437691' },
+    { name: 'Azzurro', code: '#aabbcd' },
+    { name: 'Viola', code: '#e5ddea' },
+    { name: 'Giallo', code: '#fff49b' },
+    { name: 'Verde', code: '#d0dbcb' },
+    { name: 'Blu', code: '#d5dde0' },
+    { name: 'Giallo', code: '#ede8ca' },
 ]
 
 export function CreateProductForm({ children, onCreateNewProduct }: { children: ReactNode, onCreateNewProduct: (data: Product) => void }) {
@@ -107,7 +117,7 @@ export function CreateProductForm({ children, onCreateNewProduct }: { children: 
                             <Input type="number" name="price" placeholder="Preço do produto" />
                         </label>
                         <label className="text-sm" htmlFor="nickname">
-                            <Select name="nickname">
+                            <Select name="nickname" defaultValue="Padrão">
                                 <SelectTrigger id="nickname" aria-label="Select category">
                                     <SelectValue placeholder="Identificador" />
                                 </SelectTrigger>

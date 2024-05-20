@@ -67,6 +67,7 @@ export async function POST(req: NextRequest) {
             name: name,
             metadata: {
                 category,
+                shipping_tax: 1499,
                 colors: JSON.stringify(colors.map(({ name, code }) => ({ name, code })))
             },
             default_price_data: {
@@ -88,7 +89,7 @@ export async function POST(req: NextRequest) {
             nickname
         })
 
-        return NextResponse.json(newProduct)
+        return NextResponse.json({ ...newProduct, prices: [newProduct.default_price] })
     } catch (err) {
         console.log(err)
         return NextResponse.json({}, { status: 500 })

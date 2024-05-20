@@ -57,7 +57,7 @@ export function UploadImage({ children, colors, id, handleUploadImages, imagesCo
             'image/*': []
         },
         maxFiles: 4,
-        onDropAccepted: (files) => setFiles(files)
+        onDropAccepted: (files) => setFiles(files.reverse())
     });
 
 

@@ -124,11 +124,21 @@ export function Account() {
 
 
     const handleConfirmDelivery = (orderId: string) => {
-        return setOrders((state) => [...state.filter(order => order.id !== orderId)])
+        return setOrders((state) => {
+            const index = state.findIndex(order => order.id === orderId)
+            const ordersArray = [...state]
+
+            const { status, ...rest } = state[index]
+            ordersArray[index] = {
+                ...rest, status: "ORDER_DELIVERED"
+            }
+
+            return ordersArray
+        })
+
     }
 
     if (!isLoaded) return
-
 
     return (
         <main className="p-5 flex flex-col gap-6 max-w-5xl m-auto " style={{ minHeight: 'calc(100dvh - 50px)' }}>
@@ -177,7 +187,7 @@ export function Account() {
                                     );
                                 }
                                 return (
-                                    <TabsContent key={status} value={status} className="max-h-[334px] overflow-auto grid gap-2 h-fit data-[state=inactive]:mt-0">
+                                    <TabsContent key={status} value={status} className="grid gap-2 h-fit data-[state=inactive]:mt-0">
                                         {filtered.map((order) => (
                                             <Accordion type="single" defaultValue={filtered[0].id} key={order.id} collapsible className="border h-fit px-2 rounded-xl w-full bg-white">
                                                 <OrderProductCard onConfirmDelivery={handleConfirmDelivery} {...order} />

@@ -14,12 +14,11 @@ interface ModelSelectorProps {
     defaultPrice: number;
     getProductData: () => CartProduct | null;
     onSetModel: (id: string) => void
+    activeColor: null | string
 }
 
-export function ProductModelSelector({ prices, defaultPrice, getProductData, onSetModel }: ModelSelectorProps) {
-    const [selected, setSelected] = useState(false)
+export function ProductModelSelector({ prices, defaultPrice, getProductData, onSetModel, activeColor }: ModelSelectorProps) {
     const [currentPrice, setCurrentPrice] = useState<number | null>(defaultPrice)
-
 
     const { pending } = useFormStatus()
     const { isSignedIn } = useAuth()
@@ -27,6 +26,7 @@ export function ProductModelSelector({ prices, defaultPrice, getProductData, onS
 
     const initOrder = () => {
         const product = getProductData()
+
         if (product === null) return
 
         const products = JSON.stringify({ products: [{ ...product, quantity: 1 }], total: currentPrice })
@@ -52,7 +52,6 @@ export function ProductModelSelector({ prices, defaultPrice, getProductData, onS
                                     <RadioGroupItem key={id} value={id} disabled={!inStock || Number(sku.stock) === 0}
                                         className="p-6 px-3 bg-accent rounded-2xl w-full flex justify-between gap-1 border data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed" data-price={unit_amount}
                                         onClick={(e) => {
-                                            setSelected(true)
                                             onSetModel(id)
                                             const target = e.target as HTMLButtonElement
                                             if (target.tagName.toLowerCase() !== 'button') return
@@ -77,7 +76,7 @@ export function ProductModelSelector({ prices, defaultPrice, getProductData, onS
                     {inStock
                         ?
                         <>
-                            <Button disabled={!selected && prices.length > 1}
+                            <Button disabled={currentPrice === null || activeColor === null}
                                 className="p-5 bg-primary text-primary-foreground w-full rounded-xl disabled:opacity-90 transition-opacity duration-500"
                                 type="button"
                                 onClick={initOrder}
@@ -87,7 +86,7 @@ export function ProductModelSelector({ prices, defaultPrice, getProductData, onS
                                     currency: 'EUR'
                                 })}`}
                             </Button>
-                            <Button disabled={!selected && prices.length > 1 || pending} variant={'outline'} className="w-[50px] h-max border grid place-content-center rounded-xl disabled:opacity-90 transition-opacity duration-500">
+                            <Button disabled={currentPrice === null || activeColor === null || pending} variant={'outline'} className="w-[50px] h-max border grid place-content-center rounded-xl disabled:opacity-90 transition-opacity duration-500">
                                 {pending
                                     ? <CircleNotch size={22} className="animate-spin" />
                                     : <ShoppingCart size={22} />

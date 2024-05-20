@@ -20,9 +20,8 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
     const SKU = JSON.parse(model !== null ? prices.filter(price => price.id === model)[0].metadata['SKU'] : prices[0].metadata['SKU'])
     const colors = SKU.available_colors as { name: string, code: string, available: boolean }[]
 
-    const [activeColor, setActiveColor] = useState<string>(colors.find(color => color.available === true)?.name || "")
+    const [activeColor, setActiveColor] = useState<string | null>(null)
     const price = default_price as Stripe.Price
-
 
     const formRef = useRef(null)
 
@@ -93,6 +92,7 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
                 colors={colors}
                 hasModelSelected={model} />
             <ProductModelSelector
+                activeColor={activeColor}
                 prices={prices}
                 defaultPrice={Number(price.unit_amount)}
                 getProductData={handleProductData}

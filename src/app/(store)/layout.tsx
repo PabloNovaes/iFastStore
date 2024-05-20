@@ -23,19 +23,19 @@ const telegraf = LocalFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "Fast Store",
-    template: "Fast Store | %s"
+    default: "iFast Store",
+    template: "iFast Store | %s"
   },
-  description: "Trasforma la tua esperienza digitale su Fast Store. Acquista iPhone, Notebook, AirPods e accessori originali. Scopri qualità e innovazione in ogni click!",
+  description: "Trasforma la tua esperienza digitale su iFast Store. Acquista iPhone, Notebook, AirPods e accessori originali. Scopri qualità e innovazione in ogni click!",
   keywords: ["iPhone", "AirPods", "comprare l'iphone", "Notebook"],
   openGraph: {
     type: 'website',
     locale: 'it_IT',
-    url: 'https://fast-store-test.vercel.app/',
-    siteName: "Fast Store",
+    url: 'https://ifaststore.it/',
+    siteName: "iFast Store",
     title: {
-      default: "Fast Store",
-      template: "Fast Store | %s"
+      default: "iFast Store",
+      template: "iFast Store | %s"
     },
     images: 'https://firebasestorage.googleapis.com/v0/b/upload-hub-fdabc.appspot.com/o/files%2Fbanner%20(1).png?alt=media&token=c29630ce-a5df-4a15-91df-772a5dd1f2f9'
   }
