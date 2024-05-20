@@ -156,7 +156,12 @@ export function ProductDetails({ params }: Params) {
                                 <div className="grid gap-3">
                                     <label className="font-medium text-sm" htmlFor="status">Status</label>
                                     <Select onValueChange={async (value: string) => {
-                                        await changeProductStatus({ id: (product.id as string), active: Boolean(value) })
+                                        let status
+
+                                        if (value === "true") status = true
+                                        if (value === "false") status = false
+
+                                        await changeProductStatus({ id: (product.id as string), active: Boolean(status) })
                                     }}>
                                         <SelectTrigger id="status" aria-label="Select status">
                                             <SelectValue placeholder={product.active === true ? "Ativo" : "Arquivado"} />

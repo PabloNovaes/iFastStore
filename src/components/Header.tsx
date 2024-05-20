@@ -13,7 +13,7 @@ import Link from "next/link";
 import { Button } from './ui/button';
 
 
-function useInputAnimation(searchIsOpen: boolean, isMenuOpen: boolean, isMobile: boolean) {
+function useInputAnimation(searchIsOpen: boolean, isMenuOpen: boolean) {
     const [scope, animate] = useAnimate();
     const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 
@@ -55,7 +55,7 @@ function useInputAnimation(searchIsOpen: boolean, isMenuOpen: boolean, isMobile:
                 delay: isMenuOpen ? staggerMenuItems : 0,
             }
         );
-    }, [isMenuOpen, animate, staggerMenuItems, isMobile]);
+    }, [isMenuOpen, animate, staggerMenuItems]);
 
     useEffect(() => {
         animate(
@@ -77,19 +77,8 @@ function useInputAnimation(searchIsOpen: boolean, isMenuOpen: boolean, isMobile:
 export function Header({ isAdmin }: { isAdmin: boolean }) {
     const [searchIsOpen, setSearchIsOpen] = useState(false)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [isMobile, setIsMobile] = useState<boolean>()
 
-    useEffect(() => {
-        if (typeof window !== undefined) {
-            window.onresize = (event) => {
-                const condition = window.innerWidth < 500
-                setIsMobile(condition)
-            }
-        }
-
-    }, [])
-
-    const scope = useInputAnimation(searchIsOpen, isMenuOpen, isMobile as boolean)
+    const scope = useInputAnimation(searchIsOpen, isMenuOpen)
     const inputRef = useRef(null);
 
     useEffect(() => {
