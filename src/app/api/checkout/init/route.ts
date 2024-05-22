@@ -7,7 +7,7 @@ interface SessionProductsProps extends ProductsPerOrderProps {
 }
 export async function POST(req: NextRequest) {
     try {
-        const { products, payment_method, id, shipping_tax } = await req.json()        
+        const { products, payment_method, id, shipping_tax } = await req.json()
 
         const initOrder = await stripe.checkout.sessions.create({
             mode: 'payment',
@@ -42,7 +42,11 @@ export async function POST(req: NextRequest) {
                     },
                     quantity,
                 }
-            })
+            }),
+            locale: "it",
+            automatic_tax: {
+                enabled: true
+            }
 
         })
 
