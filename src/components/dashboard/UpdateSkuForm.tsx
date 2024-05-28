@@ -13,18 +13,17 @@ import { Input } from "@/components/ui/input";
 import { SKUProps } from "@/app/(admin)/dashboard/products/edit/[id]/content";
 import { CircleNotch } from "@phosphor-icons/react";
 import { Checkbox } from "@radix-ui/react-checkbox";
-import { FormEvent, ReactNode, useState } from "react";
+import { FormEvent, useState } from "react";
 import { toast } from "sonner";
 import Stripe from "stripe";
 import { Button } from "../ui/button";
 
 interface Props extends SKUProps {
-    children: ReactNode
     onUpdateSku: (data: Stripe.Price) => void
     productId: string
 }
 
-export function UpdateSkuForm({ children, available_colors, priceId, stock, onUpdateSku }: Props) {
+export function UpdateSkuForm({ available_colors, priceId, stock, onUpdateSku }: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [colors, setColors] = useState<{ name: string, code: string, available: boolean }[]>(available_colors)
@@ -61,9 +60,7 @@ export function UpdateSkuForm({ children, available_colors, priceId, stock, onUp
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                {children}
-            </DialogTrigger>
+            <DialogTrigger className="absolute left-0 top-0 w-full h-full"></DialogTrigger>
             <DialogContent className="w-[90vw] rounded-lg">
                 <DialogHeader>
                     <DialogTitle className="text-center">Editar informações do SKU</DialogTitle>

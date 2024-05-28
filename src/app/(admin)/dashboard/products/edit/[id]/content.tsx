@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { CaretLeft, CircleNotch, PencilSimple, PlusCircle, Upload } from "@phosphor-icons/react";
+import { CaretLeft, CircleNotch, PlusCircle, Upload } from "@phosphor-icons/react";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -258,7 +258,7 @@ export function ProductDetails({ params }: Params) {
                                         const { unit_amount, priceId, stock, available_colors, nickname } = sku
                                         const availableCount = available_colors.filter(color => color.available).length
                                         return (
-                                            <TableRow key={priceId}>
+                                            <TableRow key={priceId} className="relative">
                                                 <TableCell className="font-semibold">{nickname}</TableCell>
                                                 <TableCell>
                                                     {stock}
@@ -269,7 +269,7 @@ export function ProductDetails({ params }: Params) {
                                                 <TableCell id="colors">
                                                     <DropdownMenu>
                                                         <DropdownMenuTrigger asChild>
-                                                            <Button variant={"outline"} className="min-w-[84px]">
+                                                            <Button variant={"outline"} className="min-w-[84px] relative z-10">
                                                                 {availableCount === 1 && "1 cor"}
                                                                 {availableCount === 0 && "Nenhuma cor"}
                                                                 {availableCount > 1 && `${availableCount} cores`}
@@ -291,13 +291,7 @@ export function ProductDetails({ params }: Params) {
                                                             })}
                                                         </DropdownMenuContent>
                                                     </DropdownMenu>
-                                                </TableCell>
-                                                <TableCell>
-                                                    <UpdateSkuForm {...sku} productId={product.id} onUpdateSku={handleUpdatedSku}>
-                                                        <Button variant={"outline"} className="p-1 h-fit">
-                                                            <PencilSimple className="opacity-80" size={16} />
-                                                        </Button>
-                                                    </UpdateSkuForm>
+                                                    <UpdateSkuForm {...sku} productId={product.id} onUpdateSku={handleUpdatedSku} />
                                                 </TableCell>
                                             </TableRow>
                                         )

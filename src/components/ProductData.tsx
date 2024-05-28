@@ -60,6 +60,8 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
 
     const handleSetModel = (id: string) => setModel(id)
 
+    const priceNickname = prices.filter(price => price.id === model)[0].nickname
+
     return (
         <form ref={formRef} className="flex flex-col gap-8" action={async () => {
             try {
@@ -77,7 +79,7 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
             }
         }} >
             <header className="flex flex-col justify-between items-start gap-4">
-                <h1 className="text-4xl font-medium">{name}</h1>
+                <h1 className="text-4xl font-medium">{name}{priceNickname !== "Padrão" && `- ${priceNickname}`}</h1>
                 {description !== "" && <p>{description}</p>}
             </header>
 
