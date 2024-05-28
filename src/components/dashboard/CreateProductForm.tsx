@@ -25,6 +25,7 @@ import {
 } from "@/components/ui/multi-select";
 import { toast } from "sonner";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
+import { Textarea } from "../ui/textarea";
 
 
 const options = [
@@ -60,7 +61,7 @@ export function CreateProductForm({ children, onCreateNewProduct }: { children: 
             </DialogTrigger>
             <DialogContent className="w-[90vw] rounded-lg">
                 <DialogHeader>
-                    <DialogTitle>Criar novo produto</DialogTitle>
+                    <DialogTitle className="text-center">Criar novo produto</DialogTitle>
                 </DialogHeader>
                 <form
                     className="grid gap-2"
@@ -80,19 +81,20 @@ export function CreateProductForm({ children, onCreateNewProduct }: { children: 
                                 price: Number(formData.get("price")),
                                 nickname: formData.get("nickname"),
                                 category: formData.get("category"),
+                                description: formData.get("description"),
                                 colors: value.map((current) => {
                                     const { name, code } = options.filter(
                                         (option) => option.name === current
                                     )[0];
                                     return { name: name.toLowerCase(), code };
                                 }),
-                            };
-
+                            };                            
+                            
                             const response = await fetch("/api/admin/products", {
                                 method: "POST",
                                 body: JSON.stringify(data)
                             })
-
+                            
                             const res = await response.json()
 
                             onCreateNewProduct(res)
@@ -140,8 +142,8 @@ export function CreateProductForm({ children, onCreateNewProduct }: { children: 
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="iphone">iPhone</SelectItem>
-                                    <SelectItem value="airpods">AirPods</SelectItem>
-                                    <SelectItem value="notebooks">Notebooks</SelectItem>
+                                    <SelectItem value="airpod">AirPods</SelectItem>
+                                    <SelectItem value="notebook">Notebooks</SelectItem>
                                 </SelectContent>
                             </Select>
                         </label>
@@ -171,10 +173,14 @@ export function CreateProductForm({ children, onCreateNewProduct }: { children: 
                             </MultiSelectorContent>
                         </MultiSelector>
                     </div>
+                    <label className="text-sm grid gap-2" htmlFor="description">
+                        Descrição (opcional)
+                        <Textarea name="description" placeholder="Descrição do produto" />
+                    </label>
 
                     <DialogFooter>
                         <Button type="submit">
-                            {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Salvar"}
+                            {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Cadastrar"}
                         </Button>
                     </DialogFooter>
                 </form>

@@ -1,4 +1,4 @@
-import { NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../../../../prisma/client";
 
 export async function DELETE(req: NextRequest) {
@@ -9,6 +9,6 @@ export async function DELETE(req: NextRequest) {
 
         return Response.json({ deletedProduct: deleted })
     } catch (err) {
-        console.log('erro', err)
+        return NextResponse.json({ message: "Ocurred unspected error on server" }, { status: 500 })
     }
 }

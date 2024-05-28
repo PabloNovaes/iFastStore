@@ -57,7 +57,7 @@ export function ProductDetail({ params }: Props) {
     return (
         <>
             <main className=" max-w-5xl m-auto py-4 px-4 flex flex-col" style={{ minHeight: 'calc(100dvh - 50px)' }}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 h-full gap-8 flex-1">
+                <div className="grid grid-cols-1 md:grid-cols-2 h-full gap-8 flex-1">
                     <div className="py-3 grid gap-3 relative" style={{ gridTemplateRows: '1fr min-content' }}>
                         <div className="rounded-[30px] bg-accent relative min-h-[260px]">
                             {filteredImages.length !== 0

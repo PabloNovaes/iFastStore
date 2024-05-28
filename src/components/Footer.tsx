@@ -10,7 +10,7 @@ export function Footer() {
                 <a className="flex gap-2 items-center p-3 rounded-full bg-accent border" href="https://www.instagram.com/fastriparazionepc" target="_blank">
                     <InstagramLogo weight="fill" size={18} />
                 </a>
-                <a className="flex gap-2 items-center p-3 rounded-full bg-accent border" href="tel:+393891811897">
+                <a className="flex gap-2 items-center p-3 rounded-full bg-accent border" href="tel:+39 3338343528">
                     <Phone weight="fill" size={18} />
                 </a>
             </ul>

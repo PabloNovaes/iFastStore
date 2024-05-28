@@ -12,6 +12,7 @@ import { UserButton, useUser } from "@clerk/nextjs";
 import { Cardholder, ListChecks, Package, PencilSimple, Plus, SmileySad, Truck } from "@phosphor-icons/react";
 import { Order, Products_per_order } from "@prisma/client";
 import { ReactNode, useEffect, useState } from "react";
+import { toast } from "sonner";
 import Stripe from "stripe";
 import { AdressProps } from "../../api/adresses/route";
 
@@ -82,7 +83,7 @@ export function Account() {
                 setAdress(adressData)
                 setOrders(ordersData)
             } catch (err) {
-                console.log(err)
+                throw err
             } finally {
                 setIsLoading(false)
             }
@@ -117,8 +118,9 @@ export function Account() {
 
             const newAdress = await response.json()
             setAdress([newAdress])
-        } catch (error) {
-            console.log(error)
+        } catch (err) {
+            toast.error("Si è verificato un errore imprevisto!")
+            throw err
         }
     }
 

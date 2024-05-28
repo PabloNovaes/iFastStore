@@ -18,11 +18,9 @@ export async function POST(req: NextRequest) {
     try {
         const data = await req.json() as AdressProps
         const adress = await db.adresses.create({ data })
-        console.log(adress)
 
         return NextResponse.json(adress)
     } catch (err) {
-        console.log(err)
         return NextResponse.json({ message: err, code: 500 })
     }
 }
@@ -34,11 +32,9 @@ export async function PUT(req: NextRequest) {
             where: { id: data.id },
             data
         })
-        console.log(adress)
 
         return NextResponse.json(adress)
     } catch (err) {
-        console.log(err)
         return NextResponse.json({ message: err, code: 500 })
     }
 }

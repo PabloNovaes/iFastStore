@@ -11,9 +11,9 @@ export async function POST(req: NextRequest) {
     try {
         const product = await req.json() as Props
 
-            const isAlredyExists = await db.shoppingCart.findMany({
-                where: { productId: product.productId, userId: product.userId }
-            })
+        const isAlredyExists = await db.shoppingCart.findMany({
+            where: { productId: product.productId, userId: product.userId }
+        })
 
         if (isAlredyExists.length === 0) {
             const { price, ...rest } = product
@@ -25,6 +25,6 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ message: 'This product is already in your cart' })
     } catch (err) {
-        console.log('erro', err)
+        return NextResponse.json({ message: "Ocurred an onexpectd error!" }, { status: 500 })
     }
 }

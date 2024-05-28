@@ -91,7 +91,7 @@ export function Products() {
                         Gerencie seus produtos e visualize seu desempenho de vendas.
                     </CardDescription>
                 </CardHeader>
-                <CardContent className="max-h-[380px]">
+                <CardContent className="overflow-auto" style={{maxHeight: "calc(100dvh - 240px)"}}>
                     <Table>
                         <TableHeader>
                             <TableRow>

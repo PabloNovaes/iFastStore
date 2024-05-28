@@ -141,13 +141,13 @@ export function OrderOverview({ id, created_at, products, total, adress, shippin
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">Email</dt>
                             <dd>
-                                <a href="mailto:">{adress.email}</a>
+                                <a href={`email:${adress.email}`}>{adress.email}</a>
                             </dd>
                         </div>
                         <div className="flex items-center justify-between">
                             <dt className="text-muted-foreground">Celular</dt>
                             <dd>
-                                <a href="tel:">{adress.cellphone}</a>
+                                <a href={`tel: ${adress.cellphone}`}>{adress.cellphone}</a>
                             </dd>
                         </div>
                     </dl>

@@ -44,13 +44,13 @@ export function ProductModelSelector({ prices, defaultPrice, getProductData, onS
                 {prices.length > 1 &&
                     <>
                         <h2 className="font-semibold">Prezzi:</h2>
-                        <RadioGroup className="model-selector flex flex-col gap-2 items-center" name="price_id">
+                        <RadioGroup className="model-selector flex flex-col gap-2 items-center" name="price_id" defaultValue={prices[0].id}>
                             {prices.map(({ id, nickname, unit_amount, metadata }) => {
                                 const sku = JSON.parse(metadata["SKU"]) as { stock: number }
 
                                 return (
                                     <RadioGroupItem key={id} value={id} disabled={!inStock || Number(sku.stock) === 0}
-                                        className="p-6 px-3 bg-accent rounded-2xl w-full flex justify-between gap-1 border data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed" data-price={unit_amount}
+                                        className="p-6 px-3 bg-accent rounded-2xl w-full flex justify-between relative gap-1 border data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed" data-price={unit_amount}
                                         onClick={(e) => {
                                             onSetModel(id)
                                             const target = e.target as HTMLButtonElement

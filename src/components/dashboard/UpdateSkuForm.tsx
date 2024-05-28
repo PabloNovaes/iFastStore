@@ -13,13 +13,15 @@ import { Input } from "@/components/ui/input";
 import { SKUProps } from "@/app/(admin)/dashboard/products/edit/[id]/content";
 import { CircleNotch } from "@phosphor-icons/react";
 import { Checkbox } from "@radix-ui/react-checkbox";
-import { ReactNode, useState } from "react";
+import { FormEvent, ReactNode, useState } from "react";
+import { toast } from "sonner";
 import Stripe from "stripe";
 import { Button } from "../ui/button";
 
 interface Props extends SKUProps {
     children: ReactNode
     onUpdateSku: (data: Stripe.Price) => void
+    productId: string
 }
 
 export function UpdateSkuForm({ children, available_colors, priceId, stock, onUpdateSku }: Props) {
@@ -27,6 +29,35 @@ export function UpdateSkuForm({ children, available_colors, priceId, stock, onUp
     const [open, setOpen] = useState(false);
     const [colors, setColors] = useState<{ name: string, code: string, available: boolean }[]>(available_colors)
 
+    const handleSubmit = async (event: FormEvent) => {
+        event.preventDefault()
+        setIsLoading(true)
+
+        try {
+            const skuData = {
+                priceId,
+                stock: new FormData(event.target as HTMLFormElement).get("stock"),
+                available_colors: colors
+            }
+
+            const response = await fetch("/api/admin/products/sku", {
+                method: "POST",
+                body: JSON.stringify(skuData)
+            })
+
+            const data = await response.json()
+
+            return onUpdateSku(data)
+
+        } catch (err) {
+            toast.error("si è verificato un errore imprevisto!")
+            throw err
+        } finally {
+            setOpen(false)
+            return setIsLoading(false)
+
+        }
+    }
 
     return (
         <Dialog open={open} onOpenChange={setOpen}>
@@ -37,38 +68,18 @@ export function UpdateSkuForm({ children, available_colors, priceId, stock, onUp
                 <DialogHeader>
                     <DialogTitle className="text-center">Editar informações do SKU</DialogTitle>
                 </DialogHeader>
-                <form className="grid gap-2" onSubmit={async (e) => {
-                    e.preventDefault()
-                    setIsLoading(true)
+                <form className="grid gap-2" onSubmit={handleSubmit}>
 
-                    try {
-                        const skuData = {
-                            priceId,
-                            stock: new FormData(e.target as HTMLFormElement).get("stock"),
-                            available_colors: colors
-                        }
+                    <div className="grid gap-2 grid-cols-3 items-end">
+                        <label className="text-sm grid gap-2 col-span-2" htmlFor="stock">
+                            Estoque
+                            <Input defaultValue={stock} type="number" name="stock" />
+                        </label>
+                        <Button variant={"secondary"} type="button">
+                            <a target="_blank" href={`https://dashboard.stripe.com/prices/${priceId}`}>Editar Preço</a>
+                        </Button>
+                    </div>
 
-                        const response = await fetch("/api/admin/products/sku", {
-                            method: "POST",
-                            body: JSON.stringify(skuData)
-                        })
-
-                        const data = await response.json()
-
-                        return onUpdateSku(data)
-
-                    } catch (err) {
-                        console.log(err)
-                    } finally {
-                        setOpen(false)
-                        return setIsLoading(false)
-
-                    }
-                }}>
-                    <label className="text-sm grid gap-2" htmlFor="stock">
-                        Stock
-                        <Input defaultValue={stock} type="number" name="stock" />
-                    </label>
                     <div className="grid gap-2">
                         {available_colors.map(({ name, code, available }) => (
                             <label key={name} className="flex items-center gap-2">

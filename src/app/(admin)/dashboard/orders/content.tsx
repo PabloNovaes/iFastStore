@@ -65,6 +65,7 @@ export function Orders() {
             setOrders((state) => {
                 const index = state.findIndex(order => order.id === id)
                 const ordersArray = [...state]
+
                 ordersArray[index] = data
 
                 return ordersArray
@@ -72,19 +73,15 @@ export function Orders() {
 
             setSelectedOrder(data)
         } catch (err) {
-            return console.log(err);
+            throw err
 
         }
     }
 
-    if (orders.length === 0) return
-
-    const filteredOrders = statusFilter === "all" ? orders : orders.filter(order => order.status === statusFilter.toUpperCase())
-
     return (
         <main className="p-4 sm:px-6 flex flex-col">
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 h-full">
-                <Card className="col-span-2 h-fit" style={{ maxHeight: "calc(100dvh - 110px)" }}>
+                <Card className="col-span-2 h-fit">
                     <CardHeader className="px-7">
                         <CardTitle>Pedidos</CardTitle>
                         <CardDescription>Todos os pedidos da sua loja.</CardDescription>
@@ -96,8 +93,10 @@ export function Orders() {
                                 <RadioGroupItem key={status} onClick={() => setFilter(status)} value={status} className="border px-4 text-sm py-1 rounded-lg transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white">{orderStatus[status.toUpperCase()]}</RadioGroupItem>
                             ))}
                         </RadioGroup>
-                        {filteredOrders.length !== 0 ?
-                            <div className="overflow-auto max-h-[50vh]">
+                        {(statusFilter === "all"
+                            ? orders
+                            : orders.filter(order => order.status === statusFilter.toUpperCase())).length !== 0 ?
+                            <div className="overflow-auto" style={{ maxHeight: "calc(100dvh - 285px)" }}>
                                 <Table>
                                     <TableHeader>
                                         <TableRow>
@@ -108,39 +107,42 @@ export function Orders() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {filteredOrders.length !== 0 && filteredOrders.map((order) => {
-                                            const { created_at, id, adress, status, total } = order
-                                            return (
-                                                <TableRow key={id} className="relative" onClick={() => setSelectedOrder(order)}>
-                                                    <TableCell>
-                                                        {window.innerWidth <= 640 && <MobileOrderOverview onSaveShippingCode={saveShippingCode} {...selectedOrder} />}
-                                                        <div className="font-medium">{adress.name}</div>
-                                                        <div className="hidden text-sm text-muted-foreground md:inline">
-                                                            {adress.email}
-                                                        </div>
-                                                    </TableCell>
-                                                    <TableCell className="sm:table-cell">
-                                                        {status === "AWAITING_PAYMENT" && <Badge className="text-xs" variant="blue">
-                                                            <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
-                                                            <Cardholder size={16} className="min-[455px]:hidden" />
-                                                        </Badge>}
-                                                        {status === "AWAITING_SEND" && <Badge className="text-xs" variant="destructive">
-                                                            <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
-                                                            <Package size={16} className="min-[455px]:hidden" />
-                                                        </Badge>}
-                                                        {status === "ORDER_DISPATCHED" && <Badge className="text-xs" variant="warning">
-                                                            <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
-                                                            <Truck size={16} className="min-[455px]:hidden" />
-                                                        </Badge>}
-                                                        {status === "ORDER_DELIVERED" && <Badge className="text-xs" variant="green">
-                                                            <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
-                                                            <CheckCircle size={16} className="min-[455px]:hidden" />
-                                                        </Badge>}
-                                                    </TableCell>
-                                                    <TableCell className="hidden md:table-cell">{new Date(created_at).toLocaleString("pt-BR")}</TableCell>
-                                                    <TableCell className="text-right">{(total / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" })}</TableCell>
-                                                </TableRow>)
-                                        })}
+                                        {(statusFilter === "all"
+                                            ? orders
+                                            : orders.filter(order => order.status === statusFilter.toUpperCase()))
+                                            .map((order) => {
+                                                const { created_at, id, adress, status, total } = order
+                                                return (
+                                                    <TableRow key={id} className="relative" onClick={() => setSelectedOrder(order)}>
+                                                        <TableCell>
+                                                            {window.innerWidth <= 640 && <MobileOrderOverview onSaveShippingCode={saveShippingCode} {...selectedOrder} />}
+                                                            <div className="font-medium">{adress.name}</div>
+                                                            <div className="hidden text-sm text-muted-foreground md:inline">
+                                                                {adress.email}
+                                                            </div>
+                                                        </TableCell>
+                                                        <TableCell className="sm:table-cell">
+                                                            {status === "AWAITING_PAYMENT" && <Badge className="text-xs" variant="blue">
+                                                                <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
+                                                                <Cardholder size={16} className="min-[455px]:hidden" />
+                                                            </Badge>}
+                                                            {status === "AWAITING_SEND" && <Badge className="text-xs" variant="destructive">
+                                                                <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
+                                                                <Package size={16} className="min-[455px]:hidden" />
+                                                            </Badge>}
+                                                            {status === "ORDER_DISPATCHED" && <Badge className="text-xs" variant="warning">
+                                                                <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
+                                                                <Truck size={16} className="min-[455px]:hidden" />
+                                                            </Badge>}
+                                                            {status === "ORDER_DELIVERED" && <Badge className="text-xs" variant="green">
+                                                                <span className="hidden min-[455px]:inline">{orderStatus[status]}</span>
+                                                                <CheckCircle size={16} className="min-[455px]:hidden" />
+                                                            </Badge>}
+                                                        </TableCell>
+                                                        <TableCell className="hidden md:table-cell">{new Date(created_at).toLocaleString("pt-BR")}</TableCell>
+                                                        <TableCell className="text-right">{(total / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" })}</TableCell>
+                                                    </TableRow>)
+                                            })}
                                     </TableBody>
                                 </Table>
                             </div>
@@ -148,7 +150,16 @@ export function Orders() {
                     </CardContent>
                 </Card>
 
-                <OrderOverview onSaveShippingCode={saveShippingCode} {...selectedOrder} />
+                {orders.length !== 0
+                    ? <OrderOverview onSaveShippingCode={saveShippingCode} {...selectedOrder} />
+                    :
+                    <Card className="h-fit">
+                        <CardHeader className="text-start">
+                            <CardTitle>Nenhum pedido encontrado</CardTitle>
+                            <CardDescription>È aqui que você vera os detalhes dos pedidos de seus clientes.</CardDescription>
+                        </CardHeader>
+                    </Card>
+                }
             </div>
         </main>
 

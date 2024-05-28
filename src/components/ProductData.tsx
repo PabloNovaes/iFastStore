@@ -13,9 +13,9 @@ interface Props extends Omit<Product, "sales"> {
     onSetFilterImagesToColor: (color: string) => void
 }
 
-export function ProductData({ default_price, prices, name, id, images, onSetFilterImagesToColor, metadata }: Props) {
+export function ProductData({ default_price, prices, name, id, images, onSetFilterImagesToColor, metadata, description }: Props) {
     const { userId } = useAuth()
-    const [model, setModel] = useState<string | null>(null)
+    const [model, setModel] = useState<string>(prices[0].id)
 
     const SKU = JSON.parse(model !== null ? prices.filter(price => price.id === model)[0].metadata['SKU'] : prices[0].metadata['SKU'])
     const colors = SKU.available_colors as { name: string, code: string, available: boolean }[]
@@ -76,8 +76,9 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
                 return err
             }
         }} >
-            <header className="flex justify-between items-center">
+            <header className="flex flex-col justify-between items-start gap-4">
                 <h1 className="text-4xl font-medium">{name}</h1>
+                {description !== "" && <p>{description}</p>}
             </header>
 
             <div className="grid gap-2">

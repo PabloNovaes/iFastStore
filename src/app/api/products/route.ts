@@ -16,8 +16,6 @@ export async function GET(req: NextRequestProps) {
 
         return NextResponse.json(activeProducts)
     } catch (error) {
-        console.log(error);
-
-        return NextResponse.json({ error })
+        return NextResponse.json({ message: "Ocurred unspected error on server" }, { status: 500 })
     }
 }

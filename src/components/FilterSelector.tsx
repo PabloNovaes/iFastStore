@@ -8,7 +8,7 @@ interface FilterProps {
 }
 
 const filterOptions: FilterProps[] = [
-    { name: 'all', title: 'All' },
+    { name: 'all', title: 'Tutti' },
     { name: 'iphone', title: 'iPhones' },
     { name: 'airpod', title: 'AirPods' },
     { name: 'notebook', title: 'Notebooks' }

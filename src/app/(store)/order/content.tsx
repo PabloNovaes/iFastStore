@@ -9,6 +9,7 @@ import { CheckCircle, CircleNotch, CreditCard, PaypalLogo, Plus } from "@phospho
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
+import { toast } from "sonner";
 import Stripe from "stripe";
 import { AdressProps } from "../../api/adresses/route";
 import { CartProduct } from "../cart/content";
@@ -37,7 +38,7 @@ export function Order() {
                 const data = await response.json()
                 setAdress(data)
             } catch (err) {
-                console.log(err)
+                throw err
             }
         }
 
@@ -102,9 +103,8 @@ export function Order() {
             replace(path)
             push("/account")
         } catch (err) {
-            alert(err)
-
-            console.log(err)
+            toast.error("Si è verificato un errore imprevisto!")
+            throw err
         }
         finally {
             setPending(false)

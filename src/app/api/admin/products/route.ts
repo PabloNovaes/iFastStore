@@ -8,6 +8,7 @@ interface CreateProductProps {
     name: string;
     stock: number;
     price: number;
+    description: string;
     nickname: string;
     category: string;
     colors: {
@@ -50,8 +51,7 @@ export async function GET(req: NextRequest) {
         return NextResponse.json(data)
 
     } catch (err) {
-        console.log(err);
-        return NextResponse.json({}, { status: 500 })
+        return NextResponse.json({ message: "Ocurred unspected error on server" }, { status: 500 })
     }
 }
 
@@ -61,10 +61,11 @@ export async function POST(req: NextRequest) {
 
         if (sessionClaims?.metadata.role !== "admin") return NextResponse.json("You are not authorized")
 
-        const { colors, name, category, price, stock, nickname } = await req.json() as CreateProductProps
+        const { colors, name, category, price, stock, nickname, description } = await req.json() as CreateProductProps
 
         const newProduct = await stripe.products.create({
             name: name,
+            description,
             metadata: {
                 category,
                 shipping_tax: 1499,
@@ -91,7 +92,8 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json({ ...newProduct, prices: [newProduct.default_price] })
     } catch (err) {
-        console.log(err)
+        console.log(err);
+        
         return NextResponse.json({}, { status: 500 })
     }
 }

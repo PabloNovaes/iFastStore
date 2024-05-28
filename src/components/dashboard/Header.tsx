@@ -48,7 +48,7 @@ export function Header() {
                 <BreadcrumbList>
                     {paths.map((pathname, indx) => (
                         <>
-                            <BreadcrumbItem key={pathname + indx}>
+                            <BreadcrumbItem key={indx}>
                                 <BreadcrumbLink asChild>
                                     <p>{pathname}</p>
                                 </BreadcrumbLink>

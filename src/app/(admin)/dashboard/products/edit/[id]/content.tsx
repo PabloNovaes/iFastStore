@@ -1,11 +1,10 @@
 'use client'
 
-import Stripe from "stripe";
-
-import { CaretLeft, PencilSimple, PlusCircle, Upload } from "@phosphor-icons/react";
-import { useEffect, useState } from "react";
-import { Product } from "../../content";
-
+import { changeProductCategory, changeProductStatus, upadteShippingTax, updateProductDescription } from "@/app/actions";
+import { CreateSkuModal } from "@/components/dashboard/CreateSkuModal";
+import { DeleteProductImageModal } from "@/components/dashboard/DeleteProductImageModal";
+import { UpdateSkuForm } from "@/components/dashboard/UpdateSkuForm";
+import { UploadImage } from "@/components/dashboard/UploadImage";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -25,14 +24,15 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-
-import { changeProductCategory, changeProductStatus, upadteShippingTax } from "@/app/actions";
-import { CreateSkuModal } from "@/components/dashboard/CreateSkuModal";
-import { DeleteProductImageModal } from "@/components/dashboard/DeleteProductImageModal";
-import { UpdateSkuForm } from "@/components/dashboard/UpdateSkuForm";
-import { UploadImage } from "@/components/dashboard/UploadImage";
+import { Textarea } from "@/components/ui/textarea";
+import { CaretLeft, CircleNotch, PencilSimple, PlusCircle, Upload } from "@phosphor-icons/react";
+import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useFormStatus } from "react-dom";
+import Stripe from "stripe";
+import { Product } from "../../content";
 
 interface Params {
     params: {
@@ -48,11 +48,37 @@ export interface SKUProps {
     available_colors: { name: string, code: string, available: boolean }[]
 }
 
+function useAnimation(showSaveButton: boolean) {
+    const scopeRef = useRef<HTMLDivElement | null>(null);
+    const [_, animate] = useAnimate();
+
+    useEffect(() => {
+        if (scopeRef.current) {
+            animate(
+                scopeRef.current,
+                showSaveButton
+                    ? { height: "fit-content" }
+                    : { height: 0 },
+                {
+                    type: "spring",
+                    bounce: 0,
+                    duration: 0.3,
+                }
+            );
+        }
+    }, [animate, showSaveButton]);
+
+    return scopeRef;
+}
+
 export function ProductDetails({ params }: Params) {
     const [product, setProduct] = useState<Product>()
     const [images, setImages] = useState<{ name: string, url: string }[]>([])
     const [Skus, setSkus] = useState<SKUProps[]>([])
+    const [showSaveButton, setShowSaveButton] = useState(false)
+    const { pending, data } = useFormStatus()
 
+    const scope = useAnimation(showSaveButton)
     const router = useRouter()
 
     useEffect(() => {
@@ -103,8 +129,9 @@ export function ProductDetails({ params }: Params) {
     }
 
     const onUploadImages = (data: { name: string, url: string }[]) => setImages((state) => [...state, ...data])
-
     const handleDeleteImage = (fileName: string) => setImages((state) => [...state.filter(image => image.name !== fileName)])
+
+    const textareaRef = useRef<HTMLTextAreaElement>(null)
 
     if (!product) return
 
@@ -112,6 +139,7 @@ export function ProductDetails({ params }: Params) {
     const stockCount = Skus.reduce((acc, count) => { return acc + count.stock }, 0)
     const thumbIndex = images.findIndex(image => image.name.includes("thumb"))
     const shipping_tax = product.metadata["shipping_tax"]
+
 
     return (
         <main className="p-4 sm:px-6 flex flex-col max-w-[64rem] w-full m-auto gap-4">
@@ -133,6 +161,25 @@ export function ProductDetails({ params }: Params) {
                             <label className="font-medium text-sm">
                                 Nome<Input name="name" defaultValue={product.name} className="mt-1" placeholder="Nome do produto" />
                             </label>
+                            {product.description !== "" &&
+                                <label className="font-medium text-sm">
+                                    Descrição
+                                    <form className="flex flex-col items-end gap-2" action={async () => {
+                                        if (textareaRef.current === null) return
+                                        await updateProductDescription({ id: product.id, description: textareaRef.current.value })
+                                        setShowSaveButton(false)
+                                    }}>
+                                        <Textarea defaultValue={product.description as string} ref={textareaRef}
+                                            onChange={() => setShowSaveButton(true)}
+                                            className="mt-1" placeholder="Descrição" />
+                                        <motion.div id="save-description" ref={scope} className="h-0 overflow-hidden">
+                                            <Button className="w-fit" type="submit">
+                                                {pending ? <CircleNotch size={22} className=" animate-spin" /> : "Salvar"}
+                                            </Button>
+                                        </motion.div>
+                                    </form>
+                                </label>
+                            }
                             <div className="grid gap-4 grid-cols-3">
                                 <div className="grid gap-3">
                                     <label className="font-medium text-sm" htmlFor="category">Categoria</label>
@@ -246,7 +293,7 @@ export function ProductDetails({ params }: Params) {
                                                     </DropdownMenu>
                                                 </TableCell>
                                                 <TableCell>
-                                                    <UpdateSkuForm {...sku} onUpdateSku={handleUpdatedSku}>
+                                                    <UpdateSkuForm {...sku} productId={product.id} onUpdateSku={handleUpdatedSku}>
                                                         <Button variant={"outline"} className="p-1 h-fit">
                                                             <PencilSimple className="opacity-80" size={16} />
                                                         </Button>

@@ -38,8 +38,6 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(order)
     } catch (err) {
-        console.log(err);
-
-        return NextResponse.json({ message: err, code: 500 })
+        return NextResponse.json({ message: "Ocurred unspected error on server" }, { status: 500 })
     }
 }

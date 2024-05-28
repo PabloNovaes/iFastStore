@@ -7,6 +7,7 @@ import { ArrowDown, ArrowUp } from "@phosphor-icons/react"
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
+import { toast } from "sonner"
 
 
 import Stripe from "stripe"
@@ -35,8 +36,9 @@ export function Search() {
                 const filteredProducts = data.filter(product => product.name.toLowerCase().includes(nameQuery ? nameQuery : ''))
 
                 setProducts(filteredProducts)
-            } catch (error) {
-                console.log(error);
+            } catch (err) {
+                toast.error("Si è verificato un errore imprevisto!")
+                throw err
             } finally {
                 setIsLoading(false)
             }
@@ -71,7 +73,7 @@ export function Search() {
                 <h1 className="text-xl font-semibold">
                     {
                         nameQuery == null
-                            ? 'Tutti i prodotti'
+                            ? 'Tutti prodotti'
                             : `Resultati per "${nameQuery}"`
                     }
                 </h1>

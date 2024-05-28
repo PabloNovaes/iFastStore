@@ -54,6 +54,17 @@ export async function upadteShippingTax({ id, value }: { id: string, value: numb
         throw err
     }
 }
+export async function updateProductDescription({ id, description }: { id: string, description: string }) {
+    try {
+        await stripe.products.update(id, {
+            description
+        })
+        revalidatePath('/products/[id]', "page")
+
+    } catch (err) {
+        throw err
+    }
+}
 export async function deleteProductThumb(id: string) {
     try {
         await stripe.products.update(id, {

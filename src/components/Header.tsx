@@ -125,7 +125,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         }
                     </h1>
                     <nav className="flex items-center gap-8 font-light text-sm max-[500px]:hidden">
-                        <Link href={'/'}>Casa</Link>
+                        <Link href={'/'}>Home</Link>
                         <Link href={'/products'}>Prodotti</Link>
                         <Link href={'/account'}>Account</Link>
                         {isAdmin && <Link href={'/dashboard'}>Dashboard</Link>}
@@ -144,7 +144,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         <SignedOut>
                             <span className="hidden min-[500px]:flex overflow-hidden">
                                 <SignInButton mode='modal'>
-                                    <Button className='py-1 rounded-l text-primary' variant={'outline'}>Sign in</Button>
+                                    <Button className='py-1 rounded-l text-primary' variant={'outline'}>Login</Button>
                                 </SignInButton>
                             </span>
                         </SignedOut>
@@ -161,7 +161,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                             <X size={18} />
                         </motion.button>
                         <motion.span className="animate-span" onClick={() => setIsMenuOpen(false)}>
-                            <Link href={'/'}>Casa</Link>
+                            <Link href={'/'}>Home</Link>
                         </motion.span>
                         <motion.span className="animate-span" onClick={() => setIsMenuOpen(false)}>
                             <Link href={'/account'}>Account</Link>
@@ -175,7 +175,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         <SignedOut>
                             <motion.span className="animate-span" onClick={() => setIsMenuOpen(false)}>
                                 <SignInButton mode='modal'>
-                                    <Button className='py-1 rounded-l w-full'>Sign in</Button>
+                                    <Button className='py-1 rounded-l w-full'>Login</Button>
                                 </SignInButton>
                             </motion.span>
                         </SignedOut>

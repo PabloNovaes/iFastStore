@@ -17,6 +17,7 @@ import { Button } from "../ui/button";
 import { CreateSkuProps, createNewSku } from "@/app/actions";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
 import { SelectTrigger as PrimitiveTrigger } from "@radix-ui/react-select";
+import { toast } from "sonner";
 import Stripe from "stripe";
 import { Select, SelectContent, SelectItem } from "../ui/select";
 
@@ -42,7 +43,7 @@ export function CreateSkuModal({ children, onUpdateCreateNewSku, productData }: 
             </DialogTrigger>
             <DialogContent className="w-[90vw] rounded-lg">
                 <DialogHeader>
-                    <DialogTitle>Criar novo produto</DialogTitle>
+                    <DialogTitle>Criar nova variação</DialogTitle>
                 </DialogHeader>
                 <form
                     className="grid gap-2"
@@ -63,7 +64,8 @@ export function CreateSkuModal({ children, onUpdateCreateNewSku, productData }: 
                             return onUpdateCreateNewSku(data)
 
                         } catch (err) {
-                            console.log(err);
+                            toast.error("Si è verificato un errore imprevisto!")
+                            throw err
                         } finally {
                             setOpen(false);
                             setIsLoading(false);
@@ -79,7 +81,7 @@ export function CreateSkuModal({ children, onUpdateCreateNewSku, productData }: 
                             <Input type="number" name="stock" placeholder="Estoque inicial" />
                         </label>
                         <label className="text-sm flex gap-2" style={{ gridColumn: "1/4" }}>
-                            <Input ref={inputRef} type="text" name="identifier" placeholder="Crie um identificador ou use um dos prontos" />
+                            <Input ref={inputRef} type="text" name="identifier" placeholder="Crie um identificador ou use um pronto" />
                             <Select onValueChange={(value) => {
                                 if (inputRef.current === null) return
                                 (inputRef.current as HTMLInputElement).value = value

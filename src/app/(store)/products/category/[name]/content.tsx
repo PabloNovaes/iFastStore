@@ -5,6 +5,7 @@ import { ProductCard } from "@/components/ProductCard"
 import { ProductCardSkeleton } from "@/components/ProductCard-Skeleton"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
+import { toast } from "sonner"
 
 import Stripe from "stripe"
 
@@ -34,9 +35,9 @@ export function Products() {
                 const filteredProducts = data.filter(product => product.metadata.category.toLowerCase().startsWith(name[0]))
 
                 setProducts(filteredProducts)
-            } catch (error) {
-                console.log(error);
-            } finally {
+            } catch (err) {
+                toast.error("Si è verificato un errore imprevisto!")
+                throw err            } finally {
                 setIsLoading(false)
             }
         }

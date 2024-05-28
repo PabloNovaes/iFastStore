@@ -10,9 +10,7 @@ export async function PUT(req: NextRequest) {
         if (sessionClaims?.metadata.role !== "admin") return NextResponse.json("You are not authorized")
 
         const { code, id } = await req.json()
-        console.log(code, id);
-
-
+        
         const updateOrder = await db.order.update({
             where: { id }, data: {
                 shipping_code: code,
@@ -37,7 +35,6 @@ export async function PUT(req: NextRequest) {
         })
 
     } catch (err) {
-        console.log(err);
-        return NextResponse.json({}, { status: 500 })
+        return NextResponse.json({ message: "Ocurred unspected error on server" }, { status: 500 })
     }
 }
