@@ -45,6 +45,15 @@ const options = [
     { name: 'Verde', code: '#d0dbcb' },
     { name: 'Blu', code: '#d5dde0' },
     { name: 'Giallo', code: '#ede8ca' },
+    { name: 'Mezzanotte', code: '#2e3641' },
+    { name: 'Galassia', code: '#f0e5d3' },
+    { name: 'Grigio siderale', code: '#7d7e80' },
+    { name: 'Argento', code: '#e3e4e6' },
+    { name: 'Nero siderale', code: '#2e2c2f' },
+    { name: 'Blu', code: '#8698a8' },
+    { name: 'Verde', code: '#a4bdb4' },
+    { name: 'Rosa', code: '#ecb8ac' },
+
 ]
 
 export function CreateProductForm({ children, onCreateNewProduct }: { children: ReactNode, onCreateNewProduct: (data: Product) => void }) {
@@ -88,13 +97,13 @@ export function CreateProductForm({ children, onCreateNewProduct }: { children: 
                                     )[0];
                                     return { name: name.toLowerCase(), code };
                                 }),
-                            };                            
-                            
+                            };
+
                             const response = await fetch("/api/admin/products", {
                                 method: "POST",
                                 body: JSON.stringify(data)
                             })
-                            
+
                             const res = await response.json()
 
                             onCreateNewProduct(res)
@@ -125,6 +134,7 @@ export function CreateProductForm({ children, onCreateNewProduct }: { children: 
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="Padrão">Padrão</SelectItem>
+                                    <SelectItem value="64 GB">64 GB</SelectItem>
                                     <SelectItem value="128 GB">128 GB</SelectItem>
                                     <SelectItem value="256 GB">256 GB</SelectItem>
                                     <SelectItem value="512 GB">512 GB</SelectItem>
