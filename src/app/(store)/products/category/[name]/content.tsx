@@ -10,7 +10,7 @@ import { toast } from "sonner"
 import Stripe from "stripe"
 
 const categories = {
-    iphones: "iPhones",
+    iphone: "iPhone",
     airpods: "AirPods",
     notebooks: "Notebooks"
 } as { [key: string]: string }
