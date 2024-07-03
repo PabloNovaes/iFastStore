@@ -41,7 +41,7 @@ export function CardsSection() {
                     <p className="text-sm w-[65%] min-[900px]:w-[55%] text-balance mt-12 opacity-70">{"Noi di Fast Informatica abbiamo diversi modelli di iPhone disponibili con il migliore prezzo sul mercato. Spedizione in tutt'italia"}</p>
                 </header>
                 <footer className="text-sm mt flex items-end w-fit z-[2]">
-                    <Link href="products/category/iphones" className="card-link flex gap-3 items-center relative">
+                    <Link href="products/category/iphone" className="card-link flex gap-3 items-center relative">
                         Tutti gli iPhone
                         <img src='/assets/icons/arrow-right.svg' className="w-8" />
                         <span className="absolute h-px bg-primary w-0 opacity-0 -bottom-2 transition-all duration-300 "></span>
