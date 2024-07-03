@@ -3,8 +3,14 @@ module.exports = {
     generateRobotsTxt: true,
     exclude: ['/server-sitemap-index.xml'],
     robotsTxtOptions: {
+        policies: [
+            {
+                userAgent: '*',
+                allow: '/'
+            }
+        ],
         additionalSitemaps: [
-          'https://ifaststore.it/sitemap.xml'  
+            'https://ifaststore.it/sitemap.xml'
         ]
     }
 }
