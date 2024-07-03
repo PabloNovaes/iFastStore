@@ -4,7 +4,7 @@ module.exports = {
     exclude: ['/server-sitemap-index.xml'],
     robotsTxtOptions: {
         additionalSitemaps: [
-            'https://ifaststore.it/'
+          'https://ifaststore.it/sitemap.xml'  
         ]
     }
 }
