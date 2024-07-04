@@ -19,7 +19,7 @@ export function Search() {
     const router = useRouter()
     const searchParams = useSearchParams()
 
-    const nameQuery = searchParams.get('name').toLowerCase()
+    const nameQuery = searchParams.get('name')
     const sortBy = searchParams.get('sort-by') as string
 
     useEffect(() => {
@@ -33,7 +33,7 @@ export function Search() {
                     }
                 })
                 const data = await response.json() as Stripe.Product[]
-                const filteredProducts = data.filter(product => product.name.toLowerCase().includes(nameQuery ? nameQuery : ''))
+                const filteredProducts = data.filter(product => product.name.toLowerCase().includes(nameQuery ? nameQuery.toLowerCase() : ''))
 
                 setProducts(filteredProducts)
             } catch (err) {
