@@ -19,7 +19,7 @@ export function Search() {
     const router = useRouter()
     const searchParams = useSearchParams()
 
-    const nameQuery = searchParams.get('name')
+    const nameQuery = searchParams.get('name').toLowerCase()
     const sortBy = searchParams.get('sort-by') as string
 
     useEffect(() => {
