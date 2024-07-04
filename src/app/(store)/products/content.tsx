@@ -33,7 +33,7 @@ export function Search() {
                     }
                 })
                 const data = await response.json() as Stripe.Product[]
-                const filteredProducts = data.filter(product => product.name.toLowerCase().includes(nameQuery ? nameQuery.toLowerCase() : ''))
+                const filteredProducts = data.filter(product => product.name.toLowerCase().includes(nameQuery ? nameQuery : ''))
 
                 setProducts(filteredProducts)
             } catch (err) {
