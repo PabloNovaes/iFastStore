@@ -352,7 +352,7 @@ export function ProductDetails({ params }: Params) {
                                         : Array.from({ length: 2 }).map((_, indx) => (
                                             <div key={indx} className="bg-muted rounded-md overflow-hidden">
                                                 <Image
-                                                    alt="Product image"
+                                                    alt="product image"
                                                     className="aspect-square w-full object-contain"
                                                     height="84"
                                                     src={'/assets/icons/placeholder.png'}

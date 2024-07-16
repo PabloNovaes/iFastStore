@@ -1,7 +1,7 @@
 import { Products } from "./content"
 
 export const metadata = {
-    title: "Ricerca"
+    title: "Categoria"
 }
 
 export default function Page() {

@@ -118,7 +118,7 @@ export function Products() {
                                         <TableCell className="hidden sm:table-cell relative">
                                             {images.length === 0
                                                 ? <Image
-                                                    alt="Product image"
+                                                    alt="product image"
                                                     className="aspect-square rounded-md w-fit py-1"
                                                     style={{ objectFit: 'contain' }}
                                                     layout="fill"
@@ -126,7 +126,7 @@ export function Products() {
                                                 />
                                                 :
                                                 <Image
-                                                    alt="Product image"
+                                                    alt="product image"
                                                     className="aspect-square rounded-md w-fit py-1"
                                                     style={{ objectFit: 'contain' }}
                                                     layout="fill"
