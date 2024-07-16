@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Bloquear rotas a partir de /dashboard
+Disallow: /dashboard/
+
+# Sitemaps
+Sitemap: https://ifaststore.it/sitemap.xml
+Sitemap: https://ifaststore.it/server-sitemap-index.xml

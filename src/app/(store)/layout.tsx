@@ -37,8 +37,7 @@ export const metadata: Metadata = {
       default: "iFast Store",
       template: "iFast Store | %s"
     },
-    images: 'https://firebasestorage.googleapis.com/v0/b/upload-hub-fdabc.appspot.com/o/files%2Fbanner%20(2).png?alt=media&token=110cfd28-966f-45ee-96d6-1ceed7933459'
-  }
+    images: 'https://ifaststore.it/assets/banner.png'}
 }
 
 export default function RootLayout({
