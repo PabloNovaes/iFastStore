@@ -13,7 +13,7 @@ const filterOptions: FilterProps[] = [
     { name: 'airpod', title: 'AirPods' },
     { name: 'notebook', title: 'Notebooks' },
     { name: 'software', title: 'Software' },
-    { name: 'acessorio', title: 'Accessori' },
+    { name: 'accesories', title: 'Accessori' },
 ]
 export function FilterSelector({ handleFilter }: { handleFilter: (filter: string) => void }) {
     return (
