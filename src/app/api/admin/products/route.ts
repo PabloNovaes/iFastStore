@@ -1,5 +1,6 @@
 import { stripe } from "@/services/stripe/config";
 import { auth } from "@clerk/nextjs/server";
+import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { db } from "../../../../../prisma/client";
@@ -63,13 +64,12 @@ export async function POST(req: NextRequest) {
 
         const { colors, name, category, price, stock, nickname, description } = await req.json() as CreateProductProps
 
-        const newProduct = await stripe.products.create({
+        const params: Stripe.ProductCreateParams = {
             name: name,
-            description,
             metadata: {
                 category,
                 shipping_tax: 1499,
-                colors: JSON.stringify(colors.map(({ name, code }) => ({ name, code })))
+                colors: category === "software" ? null : JSON.stringify(colors.map(({ name, code }) => ({ name, code })))
             },
             default_price_data: {
                 unit_amount: price * 100,
@@ -78,7 +78,13 @@ export async function POST(req: NextRequest) {
             },
             active: true,
             expand: ['default_price']
-        })
+        }
+
+        if (description.trim() !== "") {
+            params.description = description
+        }
+
+        const newProduct = await stripe.products.create(params)
 
         await stripe.prices.update((newProduct.default_price as Stripe.Price).id, {
             metadata: {
@@ -89,11 +95,10 @@ export async function POST(req: NextRequest) {
             },
             nickname
         })
-
+        revalidateTag("load-product")
         return NextResponse.json({ ...newProduct, prices: [newProduct.default_price] })
     } catch (err) {
         console.log(err);
-        
         return NextResponse.json({}, { status: 500 })
     }
 }

@@ -78,8 +78,11 @@ export function Order() {
 
 
     const createOrder = async (event: FormEvent) => {
+        event.preventDefault()
         try {
-            event.preventDefault()
+            if (adress.length === 0) return toast.error("L'indirizzo è obbligatorio")
+            if (!selected) return toast.error("Scegli il metodo di pagamento")
+
             setPending(true)
 
             const formData = Object.fromEntries(new FormData(event.target as HTMLFormElement).entries())
@@ -117,7 +120,11 @@ export function Order() {
         const { name, cap, ...rest } = data
         const response = await fetch(`/api/adresses?userId=${user.id}`, {
             method: 'POST',
-            body: JSON.stringify({ ...rest, userId: user ? user.id : "" as string, name, cap: Number(cap) })
+            body: JSON.stringify({ ...rest, userId: user ? user.id : "" as string, name, cap: Number(cap) }),
+            next: {
+                tags: ['load-adress']
+            },
+            cache: "no-store"
         })
 
         const newAdress = await response.json()
@@ -125,12 +132,11 @@ export function Order() {
     }
 
     return (
-        <main className="p-5 grid max-md:grid-cols-1 grid-cols-2 gap-6 max-w-5xl m-auto">
-            <div className="w-full max-h-[70dvh] overflow-auto gap-5 flex flex-col">
+        <main className="p-5 grid max-md:grid-cols-1 grid-cols-2 gap-6 max-w-5xl m-auto main-height">
+            <div className="w-full max-h-[70svh] overflow-auto gap-5 flex flex-col">
                 {products.map((product: CartProduct) => <OrderProductsCard key={product.productId} {...product} />)}
             </div>
             <div>
-
                 <div className="rounded-xl w-full border gap-2 flex flex-col overflow-hidden min-h-32 h-fit p-3 ">
                     <div className="grid gap-3">
                         <div className="font-semibold">{"Dettagli dell'ordine"}</div>
@@ -154,7 +160,12 @@ export function Order() {
                         <ul className="grid gap-3">
                             <li className="flex items-center justify-between">
                                 <span className="text-muted-foreground">Totale parziale</span>
-                                <span>{formatedTotal}</span>
+                                <span>
+                                    {((total) / 100).toLocaleString("it-IT", {
+                                        style: 'currency',
+                                        currency: 'EUR'
+                                    })}
+                                </span>
                             </li>
                             <li className="flex items-center justify-between">
                                 <span className="text-muted-foreground">Spedizione</span>
@@ -200,7 +211,6 @@ export function Order() {
                     </div>
                     <Separator className="my-4" />
                     <form onSubmit={(event: FormEvent) => createOrder(event)} ref={formRef}>
-
                         <RadioGroup className="flex gap-2 items-center" name="payment_method">
                             <RadioGroupItem value="card" onClick={() => setSelected(true)} className="p-2 bg-accent rounded-lg flex flex-1 items-center gap-2 justify-center border data-[state=checked]:border-blue-400 transition-colors duration-500">
                                 <CreditCard size={18} />
@@ -212,7 +222,7 @@ export function Order() {
                             </RadioGroupItem>
                         </RadioGroup>
 
-                        <Button disabled={!selected || adress.length === 0 ? true : false} className="w-full p-5 mt-4 transition-all duration-500">
+                        <Button className="w-full p-5 mt-4 transition-all duration-500">
                             {pending ? <CircleNotch size={22} className={`${finished && 'hidden'} animate-spin`} /> : <p className={`${finished && 'hidden'} `}>{"Confermare l'ordine"}</p>}
                             {finished && <CheckCircle size={22} />}
                         </Button>

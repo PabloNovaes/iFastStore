@@ -14,12 +14,14 @@ export function ProductColorSelector({ colors, handleSetActiveColor, inStock, ha
     if (!colors) return
 
     return (
-        <RadioGroup className="gap-2 flex color-selector" name="color" required>
+        <RadioGroup className="gap-2 flex color-selector radio-group" name="color">
             {modelCount > 1 ?
                 colors.map(({ name, code, available }) => {
                     return (
-                        <RadioGroupItem disabled={!available || !inStock || hasModelSelected === null} style={{ background: code }} key={name} id={name} value={name} onClick={() => handleSetActiveColor(name)}
-                            className="radio-item overflow-hidden rounded-full size-6 shadow-inner shadow-black/50 border-2 data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed relative">
+                        <RadioGroupItem disabled={!available || !inStock || hasModelSelected === null} key={name} id={name} value={name} onClick={() => handleSetActiveColor(name)}
+                            className="border rounded-lg shadow-sm p-1 px-2 flex gap-2 items-center radio-item overflow-hidden  data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed relative">
+                            <div className="rounded-sm size-4 shadow-black/50 shadow-inner" style={{ background: code }}></div>
+                            <span className="text-sm select-none">{name}</span>
                             <span id="disabled"></span>
                         </RadioGroupItem>
                     )
@@ -27,8 +29,10 @@ export function ProductColorSelector({ colors, handleSetActiveColor, inStock, ha
                 :
                 colors.map(({ name, code, available }) => {
                     return (
-                        <RadioGroupItem disabled={!inStock || !available} style={{ background: code }} key={name} id={name} value={name} onClick={() => handleSetActiveColor(name)}
-                            className="radio-item overflow-hidden rounded-full size-6 shadow-inner shadow-black/50 border-2 data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed relative">
+                        <RadioGroupItem disabled={!inStock || !available}  key={name} id={name} value={name} onClick={() => handleSetActiveColor(name)}
+                            className="border rounded-lg shadow-sm p-1 px-2 flex gap-2 items-center radio-item overflow-hidden  data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed relative">
+                            <div className="rounded-sm size-4 shadow-black/50 shadow-inner" style={{ background: code }}></div>
+                            <span className="text-sm select-none">{name}</span>
                             <span id="disabled"></span>
                         </RadioGroupItem>
                     )

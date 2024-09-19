@@ -6,6 +6,8 @@ export async function POST(req: NextRequest) {
     try {
         const { products, userId, adressId, payment_method, total, shipping_tax } = await req.json()
 
+        if(!products) throw new Error("Products is missing")
+
         const order = await db.order.create({
             data: {
                 status: "AWAITING_PAYMENT",

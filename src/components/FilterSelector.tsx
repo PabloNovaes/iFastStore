@@ -11,12 +11,14 @@ const filterOptions: FilterProps[] = [
     { name: 'all', title: 'Tutti' },
     { name: 'iphone', title: 'iPhones' },
     { name: 'airpod', title: 'AirPods' },
-    { name: 'notebook', title: 'Notebooks' }
+    { name: 'notebook', title: 'Notebooks' },
+    { name: 'software', title: 'Software' },
+    { name: 'acessorio', title: 'Accessori' },
 ]
 export function FilterSelector({ handleFilter }: { handleFilter: (filter: string) => void }) {
     return (
         <>
-            <RadioGroup className="filter-selector flex gap-3 text-sm flex-1" defaultValue="all">
+            <RadioGroup className="filter-selector flex gap-3 text-sm w-full overflow-auto" defaultValue="all">
                 {filterOptions.map(({ name, title }) => (
                     <RadioGroupItem key={name} onClick={() => handleFilter(name)} value={name} className="border px-4 py-1 rounded-2xl transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white" >{title}</RadioGroupItem>
                 ))}

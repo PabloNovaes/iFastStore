@@ -19,11 +19,12 @@ import Stripe from "stripe";
 import { Button } from "../ui/button";
 
 interface Props extends SKUProps {
-    onUpdateSku: (data: Stripe.Price) => void
-    productId: string
+    onUpdateSku: (data: Stripe.Price) => void;
+    productId: string;
+    productCategory: string;
 }
 
-export function UpdateSkuForm({ available_colors, priceId, stock, onUpdateSku }: Props) {
+export function UpdateSkuForm({ available_colors, priceId, stock, onUpdateSku, productCategory }: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [colors, setColors] = useState<{ name: string, code: string, available: boolean }[]>(available_colors)
@@ -77,23 +78,25 @@ export function UpdateSkuForm({ available_colors, priceId, stock, onUpdateSku }:
                         </Button>
                     </div>
 
-                    <div className="grid gap-2">
-                        {available_colors.map(({ name, code, available }) => (
-                            <label key={name} className="flex items-center gap-2">
-                                <Checkbox onClick={() => setColors((state) => {
-                                    const index = state.findIndex(x => x.name === name)
-                                    const updateColors = [...state]
-                                    updateColors[index] = { name, code, available: available === true ? false : true }
+                    {productCategory !== "software" && (
+                        <div className="grid gap-2">
+                            {available_colors.map(({ name, code, available }) => (
+                                <label key={name} className="flex items-center gap-2">
+                                    <Checkbox onClick={() => setColors((state) => {
+                                        const index = state.findIndex(x => x.name === name)
+                                        const updateColors = [...state]
+                                        updateColors[index] = { name, code, available: available === true ? false : true }
 
-                                    return updateColors
-                                })}
-                                    className="rounded-full size-7 shadow-inner shadow-black/50 border-2 data-[state=checked]:border-blue-400"
-                                    style={{ background: code }} name={name} value={code} defaultChecked={available} />
-                                {name}
-                            </label>
-                        ))}
-                    </div>
+                                        return updateColors
+                                    })}
+                                        className="rounded-full size-7 shadow-inner shadow-black/50 border-2 data-[state=checked]:border-blue-400"
+                                        style={{ background: code }} name={name} value={code} defaultChecked={available} />
+                                    {name}
+                                </label>
+                            ))}
+                        </div>
 
+                    )}
                     <DialogFooter>
                         <Button type="submit">
                             {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Salvar"}

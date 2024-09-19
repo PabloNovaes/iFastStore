@@ -32,8 +32,10 @@ export default function RootLayout({
     return (
         <>
             <ClerkProvider>
-                <html lang="en" className={GeistSans.className}>
-                    <link rel="icon" href="/assets/icons/fast-store-icon.svg" sizes="any" />
+                <html lang='pt-BR' className={GeistSans.className}>
+                    <head>
+                        <link rel="icon" href="/assets/icons/fast-store-icon.svg" sizes="any" />
+                    </head>
                     <body>
                         <div className="flex w-full flex-col bg-muted/40">
                             <Sidebar />

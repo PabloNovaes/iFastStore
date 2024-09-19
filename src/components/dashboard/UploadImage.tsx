@@ -30,7 +30,8 @@ import { Input } from "../ui/input";
 interface Props {
     children: ReactNode;
     id: string;
-    colors: {
+    category: string
+    colors?: {
         name: string,
         code: string,
         available: boolean
@@ -40,7 +41,7 @@ interface Props {
     imagesCount: number
 }
 
-export function UploadImage({ children, colors, id, handleUploadImages, imagesCount }: Props) {
+export function UploadImage({ children, colors, id, handleUploadImages, imagesCount, category }: Props) {
     const [isLoading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const [files, setFiles] = useState<File[]>([])
@@ -113,24 +114,26 @@ export function UploadImage({ children, colors, id, handleUploadImages, imagesCo
                     <DialogTitle className="text-center">Adicionar imagens do produto</DialogTitle>
                 </DialogHeader>
                 <form className="grid gap-2" onSubmit={async (event) => await handleSubmit(event)}>
-                    <label className="text-sm grid gap-2" htmlFor="files">
-                        Associação
-                        <Select name="color" required>
-                            <SelectTrigger id="category" aria-label="Select category">
-                                <SelectValue placeholder="Associe as imagens a uma cor do produto" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {colors.map(({ code, name }) => (
-                                    <SelectItem value={name} key={name}>
-                                        <div className="flex items-center gap-2">
-                                            <span className="rounded-full size-6 shadow-inner shadow-black/50 border-2" style={{ background: code }}></span>
-                                            {name}
-                                        </div>
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </label>
+                    {category !== "software" && (
+                        <label className="text-sm grid gap-2" htmlFor="files">
+                            Associação
+                            <Select name="color" required>
+                                <SelectTrigger id="category" aria-label="Select category">
+                                    <SelectValue placeholder="Associe as imagens a uma cor do produto" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {category !== "software" && colors && colors.map(({ code, name }) => (
+                                        <SelectItem value={name} key={name}>
+                                            <div className="flex items-center gap-2">
+                                                <span className="rounded-full size-6 shadow-inner shadow-black/50 border-2" style={{ background: code }}></span>
+                                                {name}
+                                            </div>
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                        </label>
+                    )}
                     <label className="text-sm grid gap-2" htmlFor="files">
                         <div className="flex flex-col gap-4">
                             <div

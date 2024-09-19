@@ -15,7 +15,7 @@ interface Props {
 
 export function ProductDetail({ params }: Props) {
     const [product, setProduct] = useState<Product>()
-    const [filterImagesByColor, setFilterImagesByColor] = useState("")
+    const [colorFilter, setColorFilter] = useState("")
     const [activeImage, setActiveImage] = useState("")
 
     useEffect(() => {
@@ -23,7 +23,8 @@ export function ProductDetail({ params }: Props) {
             const response = await fetch(`/api/products/find?id=${params.id}`, {
                 next: {
                     tags: ['product-detail']
-                }
+                },
+                cache: "no-store"
             })
             const data = await response.json() as Product
 
@@ -34,8 +35,11 @@ export function ProductDetail({ params }: Props) {
                 })
                 .find(price => price.stock !== 0)
 
-            const color = price?.available_colors.find(color => color.available)
-            setFilterImagesByColor(color?.name as string)
+
+            if (data.metadata["category"] as string !== "software") {
+                const color = price?.available_colors.find(color => color.available)
+                setColorFilter(color?.name as string)
+            }
             setProduct(data)
         }
 
@@ -46,17 +50,19 @@ export function ProductDetail({ params }: Props) {
     if (!product) return <Loading />
 
     const handleSetFilterImagesByColor = (color: string) => {
-        setFilterImagesByColor(color)
+        setColorFilter(color)
         setActiveImage("")
     }
 
     const { images, prices, ...rest } = product
 
-    const filteredImages = filterImagesByColor === "" ? images : images.filter(images => images.name.includes(filterImagesByColor))
+    const category = rest.metadata["category"] as string
+
+    const filteredImages = colorFilter === "" ? images : images.filter(images => images.name.includes(colorFilter))
 
     return (
         <>
-            <main className=" max-w-5xl m-auto py-4 px-4 flex flex-col" style={{ minHeight: 'calc(100dvh - 50px)' }}>
+            <main className=" max-w-5xl m-auto py-4 px-4 flex flex-col main-height">
                 <div className="grid grid-cols-1 md:grid-cols-2 h-full gap-8 flex-1">
                     <div className="py-3 grid gap-3 relative" style={{ gridTemplateRows: '1fr min-content' }}>
                         <div className="rounded-[30px] bg-accent relative min-h-[260px]">
@@ -84,7 +90,7 @@ export function ProductDetail({ params }: Props) {
                             </RadioGroup>
                         }
                     </div>
-                    <ProductData {...{ ...rest, images: filteredImages, prices: prices.sort((a, b) => Number(a.unit_amount) - Number(b.unit_amount)) }} onSetFilterImagesToColor={handleSetFilterImagesByColor} />
+                    <ProductData {...{ ...rest, category, images: filteredImages, prices: prices.sort((a, b) => Number(a.unit_amount) - Number(b.unit_amount)) }} onSetFilterImagesToColor={handleSetFilterImagesByColor} />
                 </div>
             </main>
         </>

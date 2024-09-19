@@ -25,7 +25,7 @@ interface Props {
     children: ReactNode,
     productData: {
         id: string
-        colors: { name: string, code: string }[]
+        colors?: { name: string, code: string }[]
     }
     onUpdateCreateNewSku: (data: Stripe.Price) => void
 }

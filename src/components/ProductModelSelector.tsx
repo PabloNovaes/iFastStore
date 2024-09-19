@@ -15,10 +15,16 @@ interface ModelSelectorProps {
     getProductData: () => CartProduct | null;
     onSetModel: (id: string) => void
     activeColor: null | string
+    category: string
 }
 
-export function ProductModelSelector({ prices, defaultPrice, getProductData, onSetModel, activeColor }: ModelSelectorProps) {
-    const [currentPrice, setCurrentPrice] = useState<number | null>(defaultPrice)
+export function ProductModelSelector({ prices, defaultPrice, getProductData, onSetModel, activeColor, category }: ModelSelectorProps) {
+    const [currentPrice, setCurrentPrice] = useState<number | null>(() => {
+        return prices.filter(price => {
+            const sku = JSON.parse(price.metadata["SKU"]) as { stock: number }
+            return sku.stock > 0 && price
+        })[0].unit_amount
+    })
 
     const { pending } = useFormStatus()
     const { isSignedIn } = useAuth()
@@ -26,8 +32,9 @@ export function ProductModelSelector({ prices, defaultPrice, getProductData, onS
 
     const initOrder = () => {
         const product = getProductData()
+        if (!product) return
 
-        if (product === null) return
+        if (!activeColor && category !== "software") return
 
         const products = JSON.stringify({ products: [{ ...product, quantity: 1 }], total: currentPrice })
         push(`/order?data=${encodeURIComponent(products)}`);
@@ -44,23 +51,24 @@ export function ProductModelSelector({ prices, defaultPrice, getProductData, onS
                 {prices.length > 1 &&
                     <>
                         <h2 className="font-semibold">Prezzi:</h2>
-                        <RadioGroup className="model-selector flex flex-col gap-2 items-center" name="price_id" defaultValue={prices[0].id}>
+                        <RadioGroup className="model-selector flex flex-col gap-2 items-center" name="price_id" defaultValue={
+                            prices.filter(price => {
+                                const sku = JSON.parse(price.metadata["SKU"]) as { stock: number }
+                                return sku.stock > 0 && price
+                            })[0].id}>
                             {prices.map(({ id, nickname, unit_amount, metadata }) => {
                                 const sku = JSON.parse(metadata["SKU"]) as { stock: number }
 
                                 return (
-                                    <RadioGroupItem key={id} value={id} disabled={!inStock || Number(sku.stock) === 0}
-                                        className="p-6 px-3 bg-accent rounded-2xl w-full flex justify-between relative gap-1 border data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed" data-price={unit_amount}
-                                        onClick={(e) => {
+                                    <RadioGroupItem required key={id} value={id} disabled={!inStock || Number(sku.stock) === 0}
+                                        className="p-6 px-3 bg-accent rounded-2xl w-full flex justify-between relative gap-1 border data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                                        onClick={() => {
                                             onSetModel(id)
-                                            const target = e.target as HTMLButtonElement
-                                            if (target.tagName.toLowerCase() !== 'button') return
-
-                                            setCurrentPrice(Number(target.getAttribute('data-price')))
+                                            setCurrentPrice(unit_amount)
 
                                         }}>
                                         <p className="-z-0 font-semibold">{nickname}</p>
-                                        <p className="-z-0 text-sm opacity-80">{unit_amount && (unit_amount / 100).toLocaleString('it-IT', {
+                                        <p className="-z-0 text-sm opacity-80">{unit_amount === 0 ? "Free" : unit_amount && (unit_amount / 100).toLocaleString('it-IT', {
                                             style: 'currency',
                                             currency: 'EUR'
                                         })}</p>
@@ -70,23 +78,23 @@ export function ProductModelSelector({ prices, defaultPrice, getProductData, onS
                         </RadioGroup>
                     </>
                 }
-            </div>
+            </div >
             <footer className="flex gap-3">
                 {isSignedIn && <>
                     {inStock
                         ?
                         <>
-                            <Button disabled={currentPrice === null || activeColor === null}
+                            <Button
                                 className="p-5 bg-primary text-primary-foreground w-full rounded-xl disabled:opacity-90 transition-opacity duration-500"
-                                type="button"
                                 onClick={initOrder}
+                                type="button"
                             >
-                                {`Compra per ${currentPrice && (currentPrice / 100).toLocaleString('it-IT', {
+                                {currentPrice === 0 ? "Acquistare gratuitamente" : `Compra per ${currentPrice && (currentPrice / 100).toLocaleString('it-IT', {
                                     style: 'currency',
                                     currency: 'EUR'
                                 })}`}
                             </Button>
-                            <Button disabled={currentPrice === null || activeColor === null || pending} variant={'outline'} className="w-[50px] h-max border grid place-content-center rounded-xl disabled:opacity-90 transition-opacity duration-500">
+                            <Button disabled={pending} variant={'outline'} className="w-[50px] h-max border grid place-content-center rounded-xl disabled:opacity-90 transition-opacity duration-500">
                                 {pending
                                     ? <CircleNotch size={22} className="animate-spin" />
                                     : <ShoppingCart size={22} />

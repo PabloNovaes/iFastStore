@@ -30,7 +30,6 @@ export async function changeProductCategory({ id, data }: { id: string, data: St
         return err
     }
 }
-
 export async function UpadteProductThumb({ id, url }: { id: string, url: string }) {
     try {
         await stripe.products.update(id, {
@@ -65,10 +64,21 @@ export async function updateProductDescription({ id, description }: { id: string
         throw err
     }
 }
-export async function deleteProductThumb(id: string) {
+export async function updateProductName({ id, name }: { id: string, name: string }) {
     try {
         await stripe.products.update(id, {
-            images: []
+            name
+        })
+        revalidatePath('/products/[id]', "page")
+
+    } catch (err) {
+        throw err
+    }
+}
+export async function deleteProductThumb(id: string, newThumbImage: string) {
+    try {
+        await stripe.products.update(id, {
+            images: [newThumbImage]
         })
         revalidatePath('/products/[id]')
 
@@ -76,7 +86,6 @@ export async function deleteProductThumb(id: string) {
         throw err
     }
 }
-
 export async function createNewSku({ price, stock, identifier, id, colors }: CreateSkuProps) {
     try {
         const newSku = await stripe.prices.create({
@@ -99,7 +108,6 @@ export async function createNewSku({ price, stock, identifier, id, colors }: Cre
         throw err
     }
 }
-
 export async function confirmDelivery(orderId: string) {
     try {
         return await db.order.update({
@@ -114,10 +122,74 @@ export async function confirmDelivery(orderId: string) {
         throw err
     }
 }
+export async function addNewProductColors({ id, colors }: { id: string, colors: { name: string, code: string }[] }) {
+    try {
+        const addNewColorsInProduct = stripe.products.update(id, {
+            metadata: {
+                ["colors"]: JSON.stringify(colors),
+            }
+        })
+        const loadPrices = stripe.prices.list({
+            product: id,
+        })
 
+        const [newColors, prices] = await Promise.all([addNewColorsInProduct, loadPrices])
 
+        const updatedSkuColors = []
 
+        for (let { metadata, id: priceId } of prices.data) {
+            const updateAvailableColors = await stripe.prices.update(priceId, {
+                metadata: {
+                    SKU: JSON.stringify({
+                        stock: (JSON.parse(metadata.SKU) as any).stock,
+                        available_colors: [...colors.map(({ name, code }) => ({ name, code, available: true }))]
+                    })
+                }
+            })
+            updatedSkuColors.push(updateAvailableColors)
+        }
 
+        return {
+            colors: JSON.parse(newColors.metadata["colors"]) as { name: string, code: string }[],
+            updatedPrices: updatedSkuColors
+        }
+    } catch (err) {
+        throw err
+    }
+}
+export async function deleteProductColor({ id, colors, removeColor }: { id: string, removeColor: { name: string, code: string }, colors: { name: string, code: string }[] }) {
+    try {
+        const addNewColorsInProduct = stripe.products.update(id, {
+            metadata: {
+                ["colors"]: JSON.stringify(colors),
+            }
+        })
+        const loadPrices = stripe.prices.list({
+            product: id,
+        })
 
+        const [newColors, prices] = await Promise.all([addNewColorsInProduct, loadPrices])
 
+        const updatedSkuColors = []
 
+        for (let { metadata, id: priceId } of prices.data) {
+            const available_colors = (JSON.parse(metadata.SKU) as any).available_colors as { name: string, code: string, available: boolean }[]
+            const updateAvailableColors = await stripe.prices.update(priceId, {
+                metadata: {
+                    SKU: JSON.stringify({
+                        stock: (JSON.parse(metadata.SKU) as any).stock,
+                        available_colors: available_colors.filter(color => color.name !== removeColor.name)
+                    })
+                }
+            })
+            updatedSkuColors.push(updateAvailableColors)
+        }
+
+        return {
+            colors: JSON.parse(newColors.metadata["colors"]) as { name: string, code: string }[],
+            updatedPrices: updatedSkuColors
+        }
+    } catch (err) {
+        throw err
+    }
+}

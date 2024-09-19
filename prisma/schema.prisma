@@ -20,7 +20,7 @@ model ShoppingCart {
   shipping_tax Int
   image        String
   name         String
-  color        String
+  color        String?
   userId       String
 
   @@map("shopping_cart")
@@ -44,7 +44,7 @@ model Adresses {
 model Products_per_order {
   id        String  @id @default(uuid())
   quantity  Int
-  color     String
+  color     String?
   productId String
   priceId   String
   imageUrl  String

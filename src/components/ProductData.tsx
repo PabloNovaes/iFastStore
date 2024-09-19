@@ -11,9 +11,10 @@ import { ProductModelSelector } from "./ProductModelSelector"
 
 interface Props extends Omit<Product, "sales"> {
     onSetFilterImagesToColor: (color: string) => void
+    category: string;
 }
 
-export function ProductData({ default_price, prices, name, id, images, onSetFilterImagesToColor, metadata, description }: Props) {
+export function ProductData({ default_price, prices, name, id, images, onSetFilterImagesToColor, metadata, description, category }: Props) {
     const { userId } = useAuth()
     const [model, setModel] = useState<string>(prices[0].id)
 
@@ -31,12 +32,13 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
         const form = formRef.current as HTMLFormElement
         const { color, price_id } = Object.fromEntries(new FormData(form).entries()) as { color: string, price_id: string }
 
-        if (!color) return toast.error("Seleziona un colore")
+        if (!color && category !== "software") return toast.error("Seleziona un colore")
 
         const priceId = price_id ? price_id : price.id
 
         return {
-            color,
+            category,
+            ...(category !== "software" && { color }),
             productId: id,
             userId,
             shipping_tax: Number(metadata["shipping_tax"]),
@@ -65,9 +67,7 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
     return (
         <form ref={formRef} className="flex flex-col gap-8" action={async () => {
             try {
-                const data = handleProductData()
-
-                if (data === null) return
+                const data = handleProductData() as CartProduct
 
                 await fetch('/api/cart/add', {
                     method: 'POST',
@@ -83,18 +83,21 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
                 {description !== "" && <p>{description}</p>}
             </header>
 
-            <div className="grid gap-2">
-                <p>
-                    <span className="font-semibold mr-1">Colore:</span>{activeColor}
-                </p>
-            </div>
-            <ProductColorSelector
-                modelCount={prices.length}
-                handleSetActiveColor={handleSetActiveColor}
-                inStock={inStock}
-                colors={colors}
-                hasModelSelected={model} />
+            {category !== "software" && (
+                <div className="grid gap-2">
+                    <p>
+                        <span className="font-semibold mr-1">Colore:</span>{activeColor}
+                    </p>
+                    <ProductColorSelector
+                        modelCount={prices.length}
+                        handleSetActiveColor={handleSetActiveColor}
+                        inStock={inStock}
+                        colors={colors}
+                        hasModelSelected={model} />
+                </div>
+            )}
             <ProductModelSelector
+                category={category}
                 activeColor={activeColor}
                 prices={prices}
                 defaultPrice={Number(price.unit_amount)}

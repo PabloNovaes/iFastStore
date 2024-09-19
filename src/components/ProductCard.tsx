@@ -32,6 +32,7 @@ export function ProductCard({ product }: { product: Stripe.Product }) {
 
     const price = default_price as Stripe.Price
     const colorOptions: ColorProps[] = metadata.colors ? JSON.parse(metadata.colors) : []
+    const category = metadata["category"] as string
 
     const ref = useRef(null)
     const isInVIew = useInView(ref, { once: true })
@@ -55,7 +56,7 @@ export function ProductCard({ product }: { product: Stripe.Product }) {
                 <div className="grid pl-3">
                     <header className="font-semibold py-2">
                         <ul className="flex gap-1 w-full justify-start py-3">
-                            {metadata.colors && colorOptions.map(({ name, code }) => (
+                            {category !== "software" && metadata.colors && colorOptions.map(({ name, code }) => (
                                 <li key={name} style={{ background: code }} className={`rounded-full h-3 w-3 shadow-inner shadow-black/50`}></li>
                             ))}
                         </ul>

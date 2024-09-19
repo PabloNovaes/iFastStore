@@ -99,7 +99,11 @@ export function Account() {
         const { name, cap, ...rest } = data
         const response = await fetch(`/api/adresses/${user.id}`, {
             method: 'POST',
-            body: JSON.stringify({ ...rest, userId: user ? user.id : "" as string, name, cap: Number(cap) })
+            body: JSON.stringify({ ...rest, userId: user ? user.id : "" as string, name, cap: Number(cap) }),
+            next: {
+                tags: ['load-adress']
+            },
+            cache: "no-store"
         })
 
         const newAdress = await response.json()
@@ -143,7 +147,7 @@ export function Account() {
     if (!isLoaded) return
 
     return (
-        <main className="p-5 flex flex-col gap-6 max-w-5xl m-auto " style={{ minHeight: 'calc(100dvh - 50px)' }}>
+        <main className="p-5 flex flex-col gap-6 max-w-5xl m-auto " style={{ minHeight: 'calc(100svh - 50px)' }}>
             {!user &&
                 <div className="flex flex-1 items-center opacity-80 justify-center gap-4 flex-col">
                     <SmileySad size={60} />
@@ -190,7 +194,7 @@ export function Account() {
                                 }
                                 return (
                                     <TabsContent key={status} value={status} className="grid gap-2 h-fit data-[state=inactive]:mt-0">
-                                        {filtered.map((order) => (
+                                        {filtered.reverse().map((order) => (
                                             <Accordion type="single" defaultValue={filtered[0].id} key={order.id} collapsible className="border h-fit px-2 rounded-xl w-full bg-white">
                                                 <OrderProductCard onConfirmDelivery={handleConfirmDelivery} {...order} />
                                             </Accordion>

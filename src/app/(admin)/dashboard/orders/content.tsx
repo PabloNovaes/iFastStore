@@ -96,7 +96,7 @@ export function Orders() {
                         {(statusFilter === "all"
                             ? orders
                             : orders.filter(order => order.status === statusFilter.toUpperCase())).length !== 0 ?
-                            <div className="overflow-auto" style={{ maxHeight: "calc(100dvh - 285px)" }}>
+                            <div className="overflow-auto" style={{ maxHeight: "calc(100svh - 285px)" }}>
                                 <Table>
                                     <TableHeader>
                                         <TableRow>

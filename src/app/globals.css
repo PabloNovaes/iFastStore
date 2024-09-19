@@ -98,7 +98,20 @@
     @apply opacity-0;
   }
 
-  .radio-item:disabled span {
-      @apply absolute w-1 h-full bg-red-400 m-auto rotate-45 inset-0
+  .radio-group input {
+    transform: translateX(0) !important;
   }
+
+  .radio-item:disabled span {
+    @apply absolute w-1 h-full bg-red-400 m-auto rotate-45 inset-0;
+  }
+
+  .filter-selector::-webkit-scrollbar {
+    @apply w-0 h-0;
+  }
+
+  .main-height{
+    min-height: calc(100svh - 50px);
+  }
+
 }

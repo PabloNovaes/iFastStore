@@ -2,18 +2,18 @@ import { Skeleton } from "@/components/ui/skeleton"
 
 export default function Loading() {
     return (
-        <main className=" max-w-5xl m-auto py-4 px-4" style={{ height: 'calc(100vh - 50px)' }}>
+        <main className=" max-w-5xl m-auto py-4 px-4 main-height">
             <div className="grid grid-cols-1 lg:grid-cols-2 h-full gap-8">
                 <div className="grid gap-6">
                     <div className="rounded-[30px] min-h-[262px] ">
                         <Skeleton className="w-full h-full rounded-[20px]" />
                     </div>
-                    {/* <ul className="grid w-full gap-2 grid-cols-4">
+                    <ul className="grid w-full gap-2 grid-cols-4">
                         <Skeleton className="w-full h-[100px] rounded-[20px]" />
                         <Skeleton className="w-full h-[100px] rounded-[20px]" />
                         <Skeleton className="w-full h-[100px] rounded-[20px]" />
                         <Skeleton className="w-full h-[100px] rounded-[20px]" />
-                    </ul> */}
+                    </ul>
 
                 </div>
                 <div className="grid gap-8">
@@ -36,13 +36,13 @@ export default function Loading() {
                         <Skeleton className="h-14 w-24 rounded-xl" />
                     </div>
                     {/* <span className=" animate-pulse rounded-lg bg-accent h-[30px]"></span>
-            <span className=" animate-pulse rounded-lg bg-accent h-[24px]"></span>
-            <span className=" animate-pulse rounded-lg bg-accent h-[24px]"></span>
-            <div className="h-full flex flex-col gap-4 h">
-              <span className=" animate-pulse rounded-lg bg-accent h-[24px]"></span>
-              <span className=" animate-pulse rounded-lg bg-accent h-[58px]"></span>
-              <span className=" animate-pulse rounded-lg bg-accent h-[58px]"></span>
-            </div> */}
+                    <span className=" animate-pulse rounded-lg bg-accent h-[24px]"></span>
+                    <span className=" animate-pulse rounded-lg bg-accent h-[24px]"></span>
+                    <div className="h-full flex flex-col gap-4 h">
+                        <span className=" animate-pulse rounded-lg bg-accent h-[24px]"></span>
+                        <span className=" animate-pulse rounded-lg bg-accent h-[58px]"></span>
+                        <span className=" animate-pulse rounded-lg bg-accent h-[58px]"></span>
+                    </div> */}
                 </div>
             </div>
         </main>

@@ -68,12 +68,14 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
                                     alt="product image" className="w-full p-2" style={{ objectFit: 'contain' }} />
 
                             </div>
-                            <div className="flex flex-col items-start">
+                            <div className="flex flex-col items-start gap-1">
                                 <p className="font-semibold">{price.nickname ? `${name} - ${price.nickname}` : name}</p>
-                                <span className="flex gap-1 w-full justify-start pb-3 text-sm">
-                                    <p className="font-semibold">Colore:</p>
-                                    <p className="font-normal opacity-80">{color}</p>
-                                </span>
+                                {color && (
+                                    <span className="flex gap-1 w-full justify-start pb-3 text-sm">
+                                        <p className="font-semibold">Colore:</p>
+                                        <p className="font-normal opacity-80">{color}</p>
+                                    </span>
+                                )}
                                 <p>{price.unit_amount && (price.unit_amount / 100).toLocaleString("it-IT", {
                                     style: "currency",
                                     currency: "EUR",
@@ -124,7 +126,7 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
                                         try {
                                             setIsLoading(true)
                                             await confirmDelivery(id)
-                                            
+
                                             onConfirmDelivery(id)
                                             return toast.success("Consegna confermata")
                                         } catch (err) {

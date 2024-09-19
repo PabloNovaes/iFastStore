@@ -58,7 +58,7 @@ export function OrderOverview({ id, created_at, products, total, adress, shippin
                             <li key={id} className="flex items-center justify-between">
                                 <span className="text-muted-foreground grid">
                                     <span>{`${name} - ${price.nickname} x ${quantity}`}</span>
-                                    <span>cor: {color}</span>
+                                    {color && <span>cor: {color}</span>}
                                 </span>
                                 <span>{price.unit_amount && (price.unit_amount / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" })}</span>
                             </li>
@@ -106,19 +106,22 @@ export function OrderOverview({ id, created_at, products, total, adress, shippin
                                                         Insira o código para que seu cliente consiga acompanhar o trajeto do pedido.
                                                     </DialogDescription>
                                                 </DialogHeader>
-                                                <Input ref={inputRef} type="text" placeholder="Digite ou cole o código" className="my-4" />
-                                                <DialogFooter>
-                                                    <Button type="submit" className="w-fit self-end" disabled={isLoading} onClick={async () => {
-                                                        if (inputRef.current === null) return
-                                                        setIsLoading(true)
+                                                <form onSubmit={async (e) => {
+                                                    e.preventDefault()
+                                                    if (inputRef.current === null) return
+                                                    setIsLoading(true)
 
-                                                        const code = (inputRef.current as HTMLInputElement).value
-                                                        await onSaveShippingCode({ code, id })
-                                                        setIsLoading(false)
-                                                    }}>
-                                                        {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Enviar"}
-                                                    </Button>
-                                                </DialogFooter>
+                                                    const code = (inputRef.current as HTMLInputElement).value
+                                                    await onSaveShippingCode({ code, id })
+                                                    setIsLoading(false)
+                                                }}>
+                                                    <Input ref={inputRef} required type="text" placeholder="Digite ou cole o código" className="my-4" />
+                                                    <DialogFooter>
+                                                        <Button type="submit" className="w-fit self-end" disabled={isLoading}>
+                                                            {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Enviar"}
+                                                        </Button>
+                                                    </DialogFooter>
+                                                </form>
                                             </DialogContent>
                                         </Dialog >
 
@@ -212,7 +215,7 @@ export function MobileOrderOverview({ id, created_at, products, total, adress, s
                                     <li key={id} className="flex items-center justify-between">
                                         <span className="text-muted-foreground grid">
                                             <span>{`${name} - ${price.nickname} x ${quantity}`}</span>
-                                            <span>cor: {color}</span>
+                                            {color && <span>cor: {color}</span>}
                                         </span>
                                         <span>{price.unit_amount && (price.unit_amount / 100).toLocaleString("it-IT", { style: "currency", currency: "EUR" })}</span>
                                     </li>
@@ -260,19 +263,22 @@ export function MobileOrderOverview({ id, created_at, products, total, adress, s
                                                                 Insira o código para que seu cliente consiga acompanhar o trajeto do pedido.
                                                             </DialogDescription>
                                                         </DialogHeader>
-                                                        <Input ref={inputRef} type="text" placeholder="Digite ou cole o código" className="my-4" />
-                                                        <DialogFooter>
-                                                            <Button type="submit" className="w-fit self-end" disabled={isLoading} onClick={async () => {
-                                                                if (inputRef.current === null) return
-                                                                setIsLoading(true)
+                                                        <form onSubmit={async (e) => {
+                                                            e.preventDefault()
+                                                            if (inputRef.current === null) return
+                                                            setIsLoading(true)
 
-                                                                const code = (inputRef.current as HTMLInputElement).value
-                                                                await onSaveShippingCode({ code, id })
-                                                                setIsLoading(false)
-                                                            }}>
-                                                                {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Enviar"}
-                                                            </Button>
-                                                        </DialogFooter>
+                                                            const code = (inputRef.current as HTMLInputElement).value
+                                                            await onSaveShippingCode({ code, id })
+                                                            setIsLoading(false)
+                                                        }}>
+                                                            <Input ref={inputRef} required type="text" placeholder="Digite ou cole o código" className="my-4" />
+                                                            <DialogFooter>
+                                                                <Button type="submit" className="w-fit self-end" disabled={isLoading}>
+                                                                    {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Enviar"}
+                                                                </Button>
+                                                            </DialogFooter>
+                                                        </form>
                                                     </DialogContent>
                                                 </Dialog >
 

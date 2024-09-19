@@ -19,7 +19,7 @@ export function Search() {
     const router = useRouter()
     const searchParams = useSearchParams()
 
-    const nameQuery = searchParams.get('name')
+    const queryText = searchParams.get('name')
     const sortBy = searchParams.get('sort-by') as string
 
     useEffect(() => {
@@ -30,10 +30,15 @@ export function Search() {
                     method: 'GET',
                     next: {
                         tags: ['all-products']
-                    }
+                    },
+                    cache: "no-store"
                 })
                 const data = await response.json() as Stripe.Product[]
-                const filteredProducts = data.filter(product => product.name.toLowerCase().includes(nameQuery ? nameQuery : ''))
+
+                const filteredProducts = data.filter(product => {
+                    return product.name.replace(" ", "").toLowerCase().includes(queryText ? queryText.replace(" ", "") : '') ||
+                        (product.description ? product.description : "").replace(" ", "").toLowerCase().includes(queryText ? queryText.replace(" ", "") : '')
+                })
 
                 setProducts(filteredProducts)
             } catch (err) {
@@ -44,7 +49,7 @@ export function Search() {
             }
         }
         fetchData()
-    }, [nameQuery])
+    }, [queryText])
 
     const sortingMethods: {
         [key: string]: (products: Stripe.Product[]) => Stripe.Product[]
@@ -68,13 +73,13 @@ export function Search() {
     }
 
     return (
-        <main className="px-5 flex flex-col gap-4 max-w-5xl m-auto pt-5" style={{ minHeight: "calc(100dvh - 143px)" }}>
+        <main className="px-5 flex flex-col gap-4 max-w-5xl m-auto pt-5" style={{ minHeight: "calc(100dvh - 90px)" }}>
             <div className="w-full py-5 flex flex-col">
                 <h1 className="text-xl font-semibold">
                     {
-                        nameQuery == null
+                        queryText == null
                             ? 'Tutti prodotti'
-                            : `Resultati per "${nameQuery}"`
+                            : `Resultati per "${queryText}"`
                     }
                 </h1>
                 <RadioGroup className="filter-selector flex gap-3 text-sm flex-1 mt-4" onValueChange={(value: string) => {

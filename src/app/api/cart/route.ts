@@ -23,8 +23,12 @@ export async function GET(req: NextRequest) {
             products.push({ ...product, price: getProductPrice })
         }
 
+        console.log(products);
+
         return NextResponse.json(products)
     } catch (err) {
+        console.log(err);
+
         return NextResponse.json({ code: 500, message: err })
     }
 }

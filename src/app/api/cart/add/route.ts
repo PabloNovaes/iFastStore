@@ -1,11 +1,11 @@
 import { ShoppingCart } from "@prisma/client";
-import { revalidateTag } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 import Stripe from "stripe";
 import { db } from "../../../../../prisma/client";
 
 interface Props extends ShoppingCart {
     price: Stripe.Price
+    category: string
 }
 export async function POST(req: NextRequest) {
     try {
@@ -16,10 +16,9 @@ export async function POST(req: NextRequest) {
         })
 
         if (isAlredyExists.length === 0) {
-            const { price, ...rest } = product
+            const { price, category, ...rest } = product
             await db.shoppingCart.create({ data: rest })
 
-            revalidateTag("cart-request")
             return Response.json({ revalidated: true })
         }
 

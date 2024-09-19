@@ -22,6 +22,7 @@ export interface CartProduct {
     price: Stripe.Price
     quantity?: number
     shipping_tax: number
+    category?: string
 }
 export function ShoppingCart() {
     const [products, setProducts] = useState<CartProduct[] | string>([])
@@ -35,7 +36,7 @@ export function ShoppingCart() {
             if (!isSignedIn) return
 
             const response = await fetch(`/api/cart?userId=${userId}`, {
-                cache: 'default',
+                cache: 'no-store',
                 next: {
                     tags: ['cart-request'],
                 }
@@ -134,10 +135,10 @@ export function ShoppingCart() {
     )
 
     return (
-        <main className="p-5 flex gap-6 max-w-5xl m-auto justify-center" style={{ height: 'calc(100dvh - 50px)' }}>
+        <main className="p-5 flex gap-6 max-w-2xl m-auto justify-center" style={{ height: 'calc(100svh - 50px)' }}>
             <div className="max-w-4xl w-full grid" style={{ gridTemplateRows: 'min-content 1fr min-content' }}>
                 <header className="py-2 font-semibold text-md">Carrelo</header>
-                <div className="w-full max-h-[70dvh] overflow-auto gap-5 flex flex-col">
+                <div className="w-full max-h-[70svh] overflow-auto gap-5 flex flex-col">
                     {(products as CartProduct[]).length !== 0 && typeof products !== 'string' &&
                         (products as CartProduct[]).map((props: CartProduct) => (
                             <ShoppingCartCard key={props.productId} {...props}

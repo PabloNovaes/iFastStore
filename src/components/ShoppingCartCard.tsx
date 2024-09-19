@@ -42,7 +42,6 @@ export function ShoppingCartCard(product: Props) {
         },
     }
 
-
     return (
         <div key={productId} className="w-full overflow-hidden flex gap-4 h-fit items-center relative">
             <Checkbox id={productId} ref={checkRef} className="absolute right-0 m-auto" onClick={(e) => {
@@ -65,15 +64,20 @@ export function ShoppingCartCard(product: Props) {
             <div className="grid pl-3 gap-2">
                 <header className="font-semibold py-2">
                     <p>{nickname ? `${name} - ${nickname}` : name}</p>
-                    <span className="flex gap-1 w-full justify-start pb-3 text-sm">
-                        <p>Colore:</p>
-                        <p className="font-normal opacity-80">{color}</p>
-                    </span>
+                    {product.category !== "software" && (
+                        <span className="flex gap-1 w-full justify-start text-sm">
+                            <p>Colore:</p>
+                            <p className="font-normal opacity-80">{color}</p>
+                        </span>
+                    )}
                 </header>
-                <span className="text-sm" data-price={priceId}>{price.unit_amount && (price.unit_amount / 100).toLocaleString('it-IT', {
-                    style: 'currency',
-                    currency: 'EUR'
-                })}
+                <span className="text-sm" data-price={priceId}>
+                    {
+                        price.unit_amount !== 0 && price.unit_amount ? (price.unit_amount / 100).toLocaleString('it-IT', {
+                            style: 'currency',
+                            currency: 'EUR'
+                        }) : "Free"
+                    }
                 </span>
                 <div className="flex gap-2 items-center">
                     <Button disabled={disabled} onClick={() => {

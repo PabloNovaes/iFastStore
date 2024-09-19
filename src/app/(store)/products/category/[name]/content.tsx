@@ -11,8 +11,10 @@ import Stripe from "stripe"
 
 const categories = {
     iphone: "iPhone",
-    airpods: "AirPods",
-    notebooks: "Notebooks"
+    headphone: "Cuffie",
+    notebooks: "Notebooks",
+    accessories: "Acessori",
+    software: "Software",
 } as { [key: string]: string }
 
 export function Products() {
@@ -45,7 +47,7 @@ export function Products() {
     }, [name])
 
     return (
-        <main className="px-5 flex flex-col gap-6 max-w-5xl m-auto pt-5" style={{ minHeight: "calc(100dvh - 143px)" }}>
+        <main className="px-5 flex flex-col gap-6 max-w-5xl m-auto pt-5" style={{ minHeight: "calc(100svh - 90px)" }}>
             <div className="w-full py-5 flex justify-between items-center">
                 <h1 className="text-xl font-semibold">{categories[name as string]}</h1>
             </div>

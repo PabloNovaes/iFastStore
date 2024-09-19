@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 
 import Stripe from "stripe";
 
-
 export function Home() {
     const [products, setProducts] = useState<Stripe.Product[]>([])
     const [filter, setFilter] = useState('all')
@@ -22,8 +21,9 @@ export function Home() {
                 const response = await fetch("/api/products", {
                     method: 'GET',
                     next: {
-                        tags: ['all-products']
+                        tags: ["all-products"]
                     }
+                    , cache: "no-store"
                 })
                 const data = await response.json() as Stripe.Product[]
                 setProducts(data)
@@ -41,12 +41,11 @@ export function Home() {
 
     return (
         <>
-
             <main className="px-5 flex flex-col gap-6 max-w-5xl m-auto pt-5">
                 <CardsSection />
                 <FilterSelector handleFilter={onSelectFilter} />
                 <div className="grid gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4">
-                    {isLoading && Array.from({ length: 4 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
+                    {isLoading && Array.from({ length: 8 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
 
                     {!isLoading && filter !== 'all'
                         ? products

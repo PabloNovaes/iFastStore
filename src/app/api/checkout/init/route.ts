@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
                         product_data: {
                             name,
                             images: [imageUrl],
-                            description: model !== null ? `Colore: ${color}, Modello: ${model}` : `Colore: ${color}`
+                            description: `${color && `Colore: ${color},`} ${model && `Modello: ${model}`}`
 
                         },
                         unit_amount: Number(price.unit_amount).toFixed(0),
@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
             }),
             locale: "it",
             automatic_tax: {
-                enabled: true
+                enabled: true,
             }
 
         })

@@ -251,7 +251,7 @@ const MultiSelectorList = forwardRef<
         <CommandList
             ref={ref}
             className={cn(
-                "p-2 flex flex-col gap-2 ",
+                "p-2 flex flex-col gap-2 pb-8",
                 className
             )}
         >
