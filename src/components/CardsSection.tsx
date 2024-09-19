@@ -89,7 +89,7 @@ export function CardsSection() {
                             Tutti 
                             <Link href="products/category/software" className="underline">Software</Link>
                             &
-                            <Link href="products/category/accssories" className="underline">Acessori</Link>
+                            <Link href="products/category/accesories" className="underline">Acessori</Link>
                         </p>
                         <Image src='/assets/icons/arrow-right.svg' alt="arrow right icon" width={32} height={32} />
                         <span className="absolute h-[1.5px] bg-primary w-0 opacity-0 -bottom-2 transition-all duration-300 "></span>
