@@ -107,8 +107,10 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
 
         if (input.value.trim() === '') return
 
+        const query = input.value
+        input.value = ""
         input.blur()
-        push(`/products?name=${input.value.toLowerCase()}`)
+        push(`/products?name=${query.toLowerCase()}`)
     }
 
     return (

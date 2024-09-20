@@ -1,6 +1,7 @@
 'use client'
 
 
+import { NotResultsFound } from "@/components/NotResults"
 import { ProductCard } from "@/components/ProductCard"
 import { ProductCardSkeleton } from "@/components/ProductCard-Skeleton"
 import { ArrowDown, ArrowUp } from "@phosphor-icons/react"
@@ -73,8 +74,8 @@ export function Search() {
     }
 
     return (
-        <main className="px-5 flex flex-col gap-4 max-w-5xl m-auto pt-5" style={{ minHeight: "calc(100dvh - 90px)" }}>
-            <div className="w-full py-5 flex flex-col">
+        <main className="px-5 flex flex-col gap-4 max-w-5xl m-auto pt-5" style={{ minHeight: "calc(100svh - 50px)" }}>
+            {!isLoading && products.length !== 0 ? <div className="w-full py-5 flex flex-col">
                 <h1 className="text-xl font-semibold">
                     {
                         queryText == null
@@ -97,15 +98,20 @@ export function Search() {
                     </RadioGroupItem>
                 </RadioGroup>
             </div>
+                : <NotResultsFound />
+            }
 
-            <div className="grid gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4">
-                {isLoading && Array.from({ length: 8 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
-                {!isLoading && sortBy !== null
-                    ? [...sortingMethods[sortBy](products)].map((product) => <ProductCard key={product.id} product={product} />)
-                    : products.map((product) => <ProductCard key={product.id} product={product} />)
-                }
+            {!isLoading && products.length !== 0 && (
+                <div className="grid gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4">
+                    {isLoading && Array.from({ length: 8 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
+                    {!isLoading && sortBy !== null
+                        ? [...sortingMethods[sortBy](products)].map((product) => <ProductCard key={product.id} product={product} />)
+                        : products.map((product) => <ProductCard key={product.id} product={product} />)
+                    }
+                </div>
+            )}
 
-            </div>
+
         </main>
     )
 }

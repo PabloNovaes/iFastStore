@@ -88,8 +88,8 @@ export function ProductModelSelector({ prices, getProductData, onSetModel, activ
                                             setCurrentPrice(unit_amount)
 
                                         }}>
-                                        <p className="-z-0 font-semibold">{nickname}</p>
-                                        <p className="-z-0 text-sm opacity-80">{unit_amount === 0 ? "Free" : unit_amount && (unit_amount / 100).toLocaleString('it-IT', {
+                                        {unit_amount !== 0 && <p className="-z-0 font-semibold">{nickname}</p>}
+                                        <p className={`-z-0 text-sm opacity-80 ${unit_amount === 0 && 'w-full'}`}>{unit_amount === 0 ? "Free" : unit_amount && (unit_amount / 100).toLocaleString('it-IT', {
                                             style: 'currency',
                                             currency: 'EUR'
                                         })}</p>

@@ -18,19 +18,20 @@ const filterOptions: FilterProps[] = [
     { icon: <WindowsLogo weight="fill" />, name: 'software', title: 'Software' },
     { icon: <AppleLogo weight="fill" />, name: 'accessories', title: 'Accessori' },
 ]
-export function FilterSelector({ handleFilter }: { handleFilter: (filter: string) => void }) {
+export function FilterSelector({ handleFilter, currentFilter }: { handleFilter: (filter: string) => void, currentFilter: string }) {
     return (
         <div className="scroller w-full overflow-x-auto snap-x snap-mandatory snap-center scrollbar-hide">
             <RadioGroup className="flex gap-3 text-sm pb-4" defaultValue="all">
                 {filterOptions.map(({ name, title, icon }) => (
-                    <RadioGroupItem 
-                        key={name} 
-                        onClick={() => handleFilter(name)} 
-                        value={name} 
+                    <RadioGroupItem
+                        key={name}
+                        onClick={() => handleFilter(name)}
+                        value={name}
+                        checked={currentFilter === name}
                         className="snap-start shrink-0 border flex justify-center gap-1 items-center px-4 py-1 rounded-full transition-colors 
-                        duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white" 
+                        duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white"
                     >
-                        {icon}
+                        {/* {icon} */}
                         {title}
                     </RadioGroupItem>
                 ))}
