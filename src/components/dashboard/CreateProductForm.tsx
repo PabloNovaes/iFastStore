@@ -59,7 +59,14 @@ export const colorOptions = [
     { name: 'Rosa', code: '#f3b2dc' },
     // Novas cores do iPhone 16 pro
     { name: 'Titanio Sabbia', code: '#c4ab97' },
+    // Cores faltantes
+    { name: 'Blu', code: '#0000ff' },  // Cor genérica do azul
+    { name: 'Verde', code: '#00ff00' },  // Cor genérica do verde
+    { name: 'Oro', code: '#ffd700' },  // Dourado
+    { name: 'Arancione', code: '#ffa500' },  // Laranja
+    { name: 'Grigio', code: '#808080' },  // Cinza genérico
 ];
+
 export function CreateProductForm({ children, onCreateNewProduct }: { children: ReactNode, onCreateNewProduct: (data: Product) => void }) {
     const [isLoading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
