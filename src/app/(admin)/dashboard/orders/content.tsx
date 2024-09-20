@@ -153,7 +153,7 @@ export function Orders() {
                 {orders.length !== 0
                     ? <OrderOverview onSaveShippingCode={saveShippingCode} {...selectedOrder} />
                     :
-                    <Card className="h-fit">
+                    <Card className="h-fit col-span-2 lg:col-span-1">
                         <CardHeader className="text-start">
                             <CardTitle>Nenhum pedido encontrado</CardTitle>
                             <CardDescription>È aqui que você vera os detalhes dos pedidos de seus clientes.</CardDescription>

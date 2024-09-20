@@ -3,7 +3,7 @@ import { useAuth } from "@clerk/nextjs";
 import { CircleNotch, ShoppingCart } from "@phosphor-icons/react";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import Stripe from "stripe";
 import { Button } from "./ui/button";
@@ -20,12 +20,38 @@ interface ModelSelectorProps {
 
 export function ProductModelSelector({ prices, getProductData, onSetModel, activeColor, category }: ModelSelectorProps) {
     const [isLoading, setIsLoading] = useState(false)
-    const [currentPrice, setCurrentPrice] = useState<number | null>(() => {
-        return prices.filter(price => {
-            const sku = JSON.parse(price.metadata["SKU"]) as { stock: number }
-            return sku.stock > 0 && price
-        })[0].unit_amount
+    const [currentPrice, setCurrentPrice] = useState<number | null>(null)
+    const [inStock, setInStock] = useState<{ stock: boolean, id: string }>({
+        stock: false,
+        id: ""
     })
+
+    useEffect(() => {
+        const verifyProductStock = () => {
+            const condition = prices.reduce((acc, count) => {
+                const sku = JSON.parse(count.metadata["SKU"]) as { stock: number }
+                return acc + Number(sku.stock)
+            }, 0) > 0
+
+            if (condition) {
+                return setCurrentPrice(() => {
+                    const price = prices.filter(price => {
+                        const sku = JSON.parse(price.metadata["SKU"]) as { stock: number }
+                        return sku.stock > 0 && price
+                    })[0]
+
+                    if (prices.length > 1) {
+                        onSetModel(price.id)
+                    }
+                    setInStock({ id: price.id as string, stock: true })
+                    return price.unit_amount
+                })
+            }
+
+        }
+
+        verifyProductStock()
+    }, [prices])
 
     const { pending } = useFormStatus()
     const { isSignedIn } = useAuth()
@@ -44,27 +70,18 @@ export function ProductModelSelector({ prices, getProductData, onSetModel, activ
         }, 2000)
     }
 
-    const inStock = (prices.reduce((acc, count) => {
-        const sku = JSON.parse(count.metadata["SKU"]) as { stock: number }
-        return acc + Number(sku.stock)
-    }, 0)) > 0
-
     return (
         <>
             <div className="grid gap-4">
                 {prices.length > 1 &&
                     <>
                         <h2 className="font-semibold">Prezzi:</h2>
-                        <RadioGroup className="model-selector flex flex-col gap-2 items-center" name="price_id" defaultValue={
-                            prices.filter(price => {
-                                const sku = JSON.parse(price.metadata["SKU"]) as { stock: number }
-                                return sku.stock > 0 && price
-                            })[0].id}>
+                        <RadioGroup className="model-selector flex flex-col gap-2 items-center" name="price_id">
                             {prices.map(({ id, nickname, unit_amount, metadata }) => {
                                 const sku = JSON.parse(metadata["SKU"]) as { stock: number }
 
                                 return (
-                                    <RadioGroupItem required key={id} value={id} disabled={!inStock || Number(sku.stock) === 0}
+                                    <RadioGroupItem checked={id === inStock.id} required key={id} value={id} disabled={!inStock || Number(sku.stock) === 0}
                                         className="p-6 px-3 bg-accent rounded-2xl w-full flex justify-between relative gap-1 border data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                         onClick={() => {
                                             onSetModel(id)
@@ -85,7 +102,7 @@ export function ProductModelSelector({ prices, getProductData, onSetModel, activ
             </div >
             <footer className="flex gap-3">
                 {isSignedIn && <>
-                    {inStock
+                    {inStock.stock
                         ?
                         <>
                             <Button

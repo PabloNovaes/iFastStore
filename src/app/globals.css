@@ -114,9 +114,6 @@
     transform: translateX(0) !important;
   }
 
-  .radio-item:disabled span {
-    @apply absolute w-1 h-full bg-red-400 m-auto rotate-45 inset-0;
-  }
 
   .scroller {
     mask: linear-gradient(90deg, transparent, black 0, black 90%, transparent);

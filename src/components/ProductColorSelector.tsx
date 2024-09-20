@@ -22,7 +22,6 @@ export function ProductColorSelector({ colors, handleSetActiveColor, inStock, ha
                             className="border rounded-full shadow-sm p-1 px-2 flex gap-2 items-center radio-item overflow-hidden  data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed relative">
                             <div className="rounded-full size-4 shadow-black/50 shadow-inner" style={{ background: code }}></div>
                             <span className="text-sm select-none">{name}</span>
-                            <span id="disabled"></span>
                         </RadioGroupItem>
                     )
                 })
@@ -33,7 +32,6 @@ export function ProductColorSelector({ colors, handleSetActiveColor, inStock, ha
                             className="border rounded-full shadow-sm p-1 px-2 flex gap-2 items-center radio-item overflow-hidden  data-[state=checked]:border-blue-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed relative">
                             <div className="rounded-full size-4 shadow-black/50 shadow-inner" style={{ background: code }}></div>
                             <span className="text-sm select-none">{name}</span>
-                            <span id="disabled"></span>
                         </RadioGroupItem>
                     )
                 })
