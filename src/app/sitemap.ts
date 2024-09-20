@@ -25,12 +25,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
             priority: .8,
         },
         {
-            url: baseURL.concat("products/category/airpods"),
+            url: baseURL.concat("products/category/headphone"),
             lastModified: new Date(),
             priority: .8,
         },
         {
             url: baseURL.concat("products/category/notebooks"),
+            lastModified: new Date(),
+            priority: .8,
+        },
+        {
+            url: baseURL.concat("products/category/software"),
+            lastModified: new Date(),
+            priority: .8,
+        },
+        {
+            url: baseURL.concat("products/category/accessories"),
             lastModified: new Date(),
             priority: .8,
         },

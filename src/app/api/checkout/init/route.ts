@@ -1,5 +1,6 @@
 import { ProductsPerOrderProps } from "@/app/(store)/account/content";
 import { stripe } from "@/services/stripe/config";
+import { currentUser } from "@clerk/nextjs/server";
 import { NextRequest, NextResponse } from "next/server";
 
 interface SessionProductsProps extends ProductsPerOrderProps {
@@ -8,6 +9,7 @@ interface SessionProductsProps extends ProductsPerOrderProps {
 export async function POST(req: NextRequest) {
     try {
         const { products, payment_method, id, shipping_tax } = await req.json()
+        const user = await currentUser()
 
         const initOrder = await stripe.checkout.sessions.create({
             mode: 'payment',
@@ -25,6 +27,10 @@ export async function POST(req: NextRequest) {
             }],
             cancel_url: process.env.STRIPE_CANCEL_URL,
             metadata: {
+                user: JSON.stringify({
+                    name: user?.fullName,
+                    email: user?.primaryEmailAddress?.emailAddress,
+                }),
                 orderId: id,
                 products: JSON.stringify(products.map(({ quantity, priceId }: SessionProductsProps) => ({ priceId, quantity })))
             },

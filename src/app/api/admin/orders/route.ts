@@ -57,8 +57,6 @@ export async function GET(req: NextRequest) {
         return NextResponse.json(data)
 
     } catch (err) {
-        console.log(err);
-        
         return NextResponse.json({ message: "Ocurred unspected error on server" }, { status: 500 })
     }
 }

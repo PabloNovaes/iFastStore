@@ -98,7 +98,6 @@ export async function POST(req: NextRequest) {
         revalidateTag("load-product")
         return NextResponse.json({ ...newProduct, prices: [newProduct.default_price] })
     } catch (err) {
-        console.log(err);
         return NextResponse.json({}, { status: 500 })
     }
 }

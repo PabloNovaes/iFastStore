@@ -1,28 +1,40 @@
 'use client'
 
+import { AppleLogo, Headphones, Laptop, ListChecks, WindowsLogo } from "@phosphor-icons/react";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
+import { ReactNode } from "react";
 
 interface FilterProps {
     name: string;
     title: string;
+    icon: ReactNode
 }
 
 const filterOptions: FilterProps[] = [
-    { name: 'all', title: 'Tutti' },
-    { name: 'iphone', title: 'iPhones' },
-    { name: 'airpod', title: 'AirPods' },
-    { name: 'notebook', title: 'Notebooks' },
-    { name: 'software', title: 'Software' },
-    { name: 'accessories', title: 'Accessori' },
+    { icon: <ListChecks />, name: 'all', title: 'Tutti' },
+    { icon: <AppleLogo weight="fill" />, name: 'iphone', title: 'iPhone' },
+    { icon: <Headphones weight="fill" />, name: 'headphone', title: 'Cuffie' },
+    { icon: <Laptop weight="fill" size={16} />, name: 'notebook', title: 'Notebook' },
+    { icon: <WindowsLogo weight="fill" />, name: 'software', title: 'Software' },
+    { icon: <AppleLogo weight="fill" />, name: 'accessories', title: 'Accessori' },
 ]
 export function FilterSelector({ handleFilter }: { handleFilter: (filter: string) => void }) {
     return (
-        <>
-            <RadioGroup className="filter-selector flex gap-3 text-sm w-full overflow-auto" defaultValue="all">
-                {filterOptions.map(({ name, title }) => (
-                    <RadioGroupItem key={name} onClick={() => handleFilter(name)} value={name} className="border px-4 py-1 rounded-2xl transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white" >{title}</RadioGroupItem>
+        <div className="scroller w-full overflow-x-auto snap-x snap-mandatory snap-center scrollbar-hide">
+            <RadioGroup className="flex gap-3 text-sm pb-4" defaultValue="all">
+                {filterOptions.map(({ name, title, icon }) => (
+                    <RadioGroupItem 
+                        key={name} 
+                        onClick={() => handleFilter(name)} 
+                        value={name} 
+                        className="snap-start shrink-0 border flex justify-center gap-1 items-center px-4 py-1 rounded-full transition-colors 
+                        duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white" 
+                    >
+                        {icon}
+                        {title}
+                    </RadioGroupItem>
                 ))}
             </RadioGroup>
-        </>
+        </div>
     )
 }

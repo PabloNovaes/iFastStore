@@ -6,6 +6,7 @@ import Image from "next/image"
 import Loading from "./loading"
 
 import { Product } from "@/app/(admin)/dashboard/products/content"
+import { Badge } from "@/components/ui/badge"
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group"
 import { useEffect, useState } from "react"
 
@@ -37,7 +38,7 @@ export function ProductDetail({ params }: Props) {
 
 
             if (data.metadata["category"] as string !== "software") {
-                const color = price?.available_colors.find(color => color.available)
+                const color = price?.available_colors.find(color => data.images.some(image => image.name.startsWith(color.name)))
                 setColorFilter(color?.name as string)
             }
             setProduct(data)
@@ -56,8 +57,8 @@ export function ProductDetail({ params }: Props) {
 
     const { images, prices, ...rest } = product
 
+    const shippingTax = Number(rest.metadata["shipping_tax"])
     const category = rest.metadata["category"] as string
-
     const filteredImages = colorFilter === "" ? images : images.filter(images => images.name.includes(colorFilter))
 
     return (
@@ -74,6 +75,9 @@ export function ProductDetail({ params }: Props) {
                                     layout="fill" alt="product image" style={{ maxWidth: 260, objectFit: 'contain', margin: '0 auto' }} />
 
                             }
+                            {shippingTax === 0 && (
+                                <Badge variant={"green"} className="text-[9px] absolute left-3 bottom-3 z-20 rounded-full">spedizione gratuita</Badge>
+                            )}
                         </div>
 
                         {filteredImages.length > 1 &&

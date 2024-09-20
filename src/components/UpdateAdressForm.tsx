@@ -64,7 +64,7 @@ export function UpdateAdressForm({ onSubmit, children, currentData }: CreateAdre
                             name="cellphone" placeholder={errors.cellphone ? errors.cellphone.message : "Cellulare"} type="number" autoComplete="cc-number" />
                     </label>
                     <label className="text-sm grid gap-2" htmlFor="street">
-                        Estrada
+                        Strada
                         <Input {...register("street")} defaultValue={street} className={`${errors.street && 'border-red-500'}`}
                             name="street" placeholder={errors.street ? errors.street.message : "Estrada (compreso} il numero)"} autoComplete="street-address" />
                     </label>

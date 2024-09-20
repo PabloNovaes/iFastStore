@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import Stripe from "stripe";
+import { Badge } from "./ui/badge";
 
 export interface ColorProps {
     name: string
@@ -32,7 +33,7 @@ export function ProductCard({ product }: { product: Stripe.Product }) {
 
     const price = default_price as Stripe.Price
     const colorOptions: ColorProps[] = metadata.colors ? JSON.parse(metadata.colors) : []
-    const category = metadata["category"] as string
+    const shippingTax = Number(metadata["shipping_tax"])
 
     const ref = useRef(null)
     const isInVIew = useInView(ref, { once: true })
@@ -45,22 +46,29 @@ export function ProductCard({ product }: { product: Stripe.Product }) {
     }, [isInVIew, useProductCardAnimation])
 
     return (
-        <motion.div ref={ref} variants={variants} initial={'hidden'} animate={useProductCardAnimation}>
+        <motion.div className="relative" ref={ref} variants={variants} initial={'hidden'} animate={useProductCardAnimation}>
             <Link href={`/products/${id}`} className="w-full overflow-hidden" prefetch={true}>
                 <div className="bg-accent rounded-[30px] min-h-[160px] relative">
                     <Image src={images.length === 0 ? '/assets/icons/placeholder.png' : images[0]}
                         priority quality={100}
                         layout="fill"
                         alt="product image" className="m-auto" style={{ maxWidth: 150, objectFit: 'contain' }} />
+                    <div className="flex flex-col gap-1 absolute left-3 bottom-3">
+                        {colorOptions.length > 1 &&
+                            <ul className="flex gap-1 justify-start rounded-full p-1 bg-neutral-800/80 backdrop-blur-sm w-fit">
+                                {colorOptions.map(({ name, code }) => (
+                                    <li key={name} style={{ background: code }} className={`rounded-full border h-3 w-3 shadow-inner shadow-black/50`}></li>
+                                ))}
+                            </ul>}
+                        {shippingTax === 0 && (
+                            <Badge variant={"green"} className="text-[9px]">spedizione gratuita</Badge>
+                        )}
+                    </div>
+
                 </div>
                 <div className="grid pl-3">
                     <header className="font-semibold py-2">
-                        <ul className="flex gap-1 w-full justify-start py-3">
-                            {category !== "software" && metadata.colors && colorOptions.map(({ name, code }) => (
-                                <li key={name} style={{ background: code }} className={`rounded-full h-3 w-3 shadow-inner shadow-black/50`}></li>
-                            ))}
-                        </ul>
-                        <p>{name}</p>
+                        <p className="line-clamp-2">{name}</p>
                     </header>
                     <span className="text-sm">{price.unit_amount && (price.unit_amount / 100)?.toLocaleString('it-IT', {
                         style: 'currency',

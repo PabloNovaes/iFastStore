@@ -39,7 +39,6 @@ export function DeleteProductImageModal({ children, onDeleteImage, fileName, id,
                 return "Imagem deletada com sucesso!"
             },
             error: (err) => {
-                console.log(err);
                 return "Ocorreu um erro ao deletar a imagem!"
             },
         })

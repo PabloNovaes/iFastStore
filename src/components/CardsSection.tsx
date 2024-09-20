@@ -68,7 +68,9 @@ export function CardsSection() {
                 <header className="text-3xl">
                     <h1>Notebook</h1>
                 </header>
-                <p className="text-sm w-[70%] min-[900px]:w-[50%] text-balance opacity-70">Notebook Disponiamo del miglor prezzo di notebook di diversi modelli, e altri prodotti informatici.</p>
+                <p className="text-sm w-[70%] min-[900px]:w-[50%] text-balance opacity-70">
+                    Abbiamo il miglor prezzo e diversi modelli di notebook per soddisfare ogni esigenza.
+                </p>
                 <footer className="text-sm  flex items-end w-fit z-[2]">
                     <Link href="products/category/notebooks" className="flex gap-3 underline items-center relative">
                         Tutti prodotti
@@ -82,11 +84,13 @@ export function CardsSection() {
                 <header className="text-3xl">
                     <h1>Software & acessori</h1>
                 </header>
-                <p className="text-sm w-[70%] min-[900px]:w-[50%] text-balance opacity-70">Notebook Disponiamo del miglor prezzo di notebook di diversi modelli, e altri prodotti informatici.</p>
+                <p className="text-sm w-[70%] min-[900px]:w-[50%] text-balance opacity-70">
+                    Diversi accessori informatici e software con un ottimo prezzo.
+                </p>
                 <footer className="text-sm  flex items-end w-fit z-[2]">
                     <span className="flex gap-3 items-center relative">
                         <p className="flex gap-1">
-                            Tutti 
+                            Tutti
                             <Link href="products/category/software" className="underline">Software</Link>
                             &
                             <Link href="products/category/accessories" className="underline">Acessori</Link>

@@ -67,7 +67,7 @@ export function CreteAdressForm({ onSubmit, children }: CreateAdressFormProps) {
                         <Input className={`${errors.cellphone && 'border-red-500'}`}  {...register("cellphone")} name="cellphone" placeholder={errors.cellphone ? errors.cellphone.message : "Cellulare"} type="number" autoComplete="cc-number" />
                     </label>
                     <label className="text-sm grid gap-2" htmlFor="street">
-                        Estrada
+                        Strada
                         <Input className={`${errors.street && 'border-red-500'}`} {...register("street")} name="street" placeholder={errors.street ? errors.street.message : "Estrada (compreso} il numero)"} autoComplete="street-address" />
                     </label>
                     <label className="text-sm grid gap-2" htmlFor="cap">

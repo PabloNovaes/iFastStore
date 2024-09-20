@@ -18,7 +18,8 @@ interface ModelSelectorProps {
     category: string
 }
 
-export function ProductModelSelector({ prices, defaultPrice, getProductData, onSetModel, activeColor, category }: ModelSelectorProps) {
+export function ProductModelSelector({ prices, getProductData, onSetModel, activeColor, category }: ModelSelectorProps) {
+    const [isLoading, setIsLoading] = useState(false)
     const [currentPrice, setCurrentPrice] = useState<number | null>(() => {
         return prices.filter(price => {
             const sku = JSON.parse(price.metadata["SKU"]) as { stock: number }
@@ -35,9 +36,12 @@ export function ProductModelSelector({ prices, defaultPrice, getProductData, onS
         if (!product) return
 
         if (!activeColor && category !== "software") return
-
+        setIsLoading(true)
         const products = JSON.stringify({ products: [{ ...product, quantity: 1 }], total: currentPrice })
-        push(`/order?data=${encodeURIComponent(products)}`);
+        setTimeout(() => {
+            push(`/order?data=${encodeURIComponent(products)}`);
+            setIsLoading(false)
+        }, 2000)
     }
 
     const inStock = (prices.reduce((acc, count) => {
@@ -89,10 +93,19 @@ export function ProductModelSelector({ prices, defaultPrice, getProductData, onS
                                 onClick={initOrder}
                                 type="button"
                             >
-                                {currentPrice === 0 ? "Acquistare gratuitamente" : `Compra per ${currentPrice && (currentPrice / 100).toLocaleString('it-IT', {
-                                    style: 'currency',
-                                    currency: 'EUR'
-                                })}`}
+                                {isLoading ? (
+                                    <div className='flex space-x-2 justify-center items-center h-screen'>
+                                        <span className='sr-only'>Loading...</span>
+                                        <div className='h-2 w-2 bg-background rounded-full duration-500 animate-bounce [animation-delay:-0.3s]'></div>
+                                        <div className='h-2 w-2 bg-background rounded-full duration-500 animate-bounce [animation-delay:-0.15s]'></div>
+                                        <div className='h-2 w-2 bg-background rounded-full duration-500 animate-bounce'></div>
+                                    </div>
+                                )
+                                    : (currentPrice === 0 ? "Acquistare gratuitamente" : `Compra per ${currentPrice && (currentPrice / 100).toLocaleString('it-IT', {
+                                        style: 'currency',
+                                        currency: 'EUR'
+                                    })}`)
+                                }
                             </Button>
                             <Button disabled={pending} variant={'outline'} className="w-[50px] h-max border grid place-content-center rounded-xl disabled:opacity-90 transition-opacity duration-500">
                                 {pending

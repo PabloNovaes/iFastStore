@@ -65,7 +65,7 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
     const priceNickname = prices.filter(price => price.id === model)[0].nickname
 
     return (
-        <form ref={formRef} className="flex flex-col gap-8" action={async () => {
+        <form ref={formRef} className="flex flex-col gap-4" action={async () => {
             try {
                 const data = handleProductData() as CartProduct
 
@@ -84,8 +84,8 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
             </header>
 
             {category !== "software" && (
-                <div className="grid gap-2">
-                    <p>
+                <div className="grid gap-2 items-start">
+                <p>
                         <span className="font-semibold mr-1">Colore:</span>{activeColor}
                     </p>
                     <ProductColorSelector

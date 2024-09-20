@@ -1,6 +1,6 @@
 'use client'
 
-import { MobileOrderOverview, OrderOverview } from "@/components/dashboard/OrderOverview"
+import { MobileOrderOverview, OrderOverview } from "@/components/dashboard/OrderDetails"
 import { Badge } from "@/components/ui/badge"
 import {
     Card,

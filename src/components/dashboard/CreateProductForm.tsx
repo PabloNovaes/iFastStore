@@ -158,7 +158,7 @@ export function CreateProductForm({ children, onCreateNewProduct }: { children: 
                                 </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem key={"iphone"} value="iphone">iPhone</SelectItem>
-                                    <SelectItem key={"airpod"} value="airpod">AirPods</SelectItem>
+                                    <SelectItem key={"headphone"} value="airpod">Fones de ouvido</SelectItem>
                                     <SelectItem key={"notebook"} value="notebook">Notebooks</SelectItem>
                                     <SelectItem key={"software"} value="software">Software</SelectItem>
                                     <SelectItem key={"accessories"} value="accessories">Acessorios</SelectItem>
