@@ -13,7 +13,7 @@ export async function POST(req: NextRequest) {
 
         const initOrder = await stripe.checkout.sessions.create({
             mode: 'payment',
-            payment_method_types: [payment_method],
+            payment_method_types: [...(payment_method === "card" ? ["klarna", "card"] : payment_method)],
             success_url: process.env.STRIPE_SUCCESS_URL,
             shipping_options: [{
                 shipping_rate_data: {
@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
                     quantity,
                 }
             }),
-            locale: "it",
+            // locale: "it",
             automatic_tax: {
                 enabled: true,
             }
