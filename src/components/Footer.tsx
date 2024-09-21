@@ -83,6 +83,21 @@ export function Footer() {
                             </li>
                         </ul>
                     </div>
+                    <div className="space-y-3 flex flex-col">
+                        <h2 className="text-lg font-semibold">Informazioni Legali</h2>
+                        <ul className="space-y-2 text-sm">
+                            <li>
+                                <Link href="/use-terms" className="text-muted-foreground hover:text-primary transition-colors duration-200">
+                                    Termini di Utilizzo
+                                </Link>
+                            </li>
+                            <li>
+                                <Link href="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors duration-200">
+                                    Politica sulla Privacy
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
                 <div className="mt-8 pt-8 border-t flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-2 justify-center sm:justify-start w-full sm:w-auto">
