@@ -58,6 +58,7 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(initOrder)
     } catch (err) {
+console.log(err)
         return NextResponse.json({ message: "Ocurred unspected error on server" }, { status: 500 })
     }
 }
