@@ -12,7 +12,6 @@ export default function Page() {
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-
         <p>
           La tua privacy è importante per noi. È politica di iFast Store rispettare la tua privacy in relazione a qualsiasi
           informazione che possiamo raccogliere sul sito iFast Store e altri siti che possediamo e gestiamo.
@@ -41,7 +40,7 @@ export default function Page() {
           di fornirti alcuni dei servizi desiderati.
         </p>
         <p>
-          L'uso continuato del nostro sito sarà considerato come accettazione delle nostre pratiche relative alla privacy e alle
+          L&#39;uso continuato del nostro sito sarà considerato come accettazione delle nostre pratiche relative alla privacy e alle
           informazioni personali. Se hai domande su come gestiamo i dati degli utenti e le informazioni personali, contattaci.
         </p>
         <p>
@@ -63,17 +62,17 @@ export default function Page() {
           accreditare adeguatamente e, ove applicabile, consentire ai nostri partner affiliati di offrire eventuali promozioni
           che possono fornirti per effettuare un acquisto.
         </p>
-        <h2 className="text-xl font-semibold mt-6 mb-2">Impegno dell'Utente</h2>
+        <h2 className="text-xl font-semibold mt-6 mb-2">Impegno dell&#39;Utente</h2>
         <p>
-          L'utente si impegna a fare un uso adeguato dei contenuti e delle informazioni che iFast Store offre sul sito e con
+          L&#39;utente si impegna a fare un uso adeguato dei contenuti e delle informazioni che iFast Store offre sul sito e con
           carattere enunciativo, ma non limitativo:
         </p>
         <ul className="list-disc list-inside space-y-2 ml-4">
           <li>
-            A) Non impegnarsi in attività che siano illegali o contrarie alla buona fede e all'ordine pubblico;
+            A) Non impegnarsi in attività che siano illegali o contrarie alla buona fede e all&#39;ordine pubblico;
           </li>
           <li>
-            B) Non diffondere propaganda o contenuti di natura razzista, xenofoba, bbebbet o gioco d'azzardo, qualsiasi tipo di
+            B) Non diffondere propaganda o contenuti di natura razzista, xenofoba, bbebbet o gioco d&#39;azzardo, qualsiasi tipo di
             pornografia illegale, di apologia del terrorismo o contro i diritti umani;
           </li>
           <li>
@@ -84,7 +83,7 @@ export default function Page() {
         </ul>
         <h2 className="text-xl font-semibold mt-6 mb-2">Ulteriori informazioni</h2>
         <p>
-          Ci auguriamo che questo sia chiaro e, come menzionato in precedenza, se c'è qualcosa che non sei sicuro di avere
+          Ci auguriamo che questo sia chiaro e, come menzionato in precedenza, se c&#39;è qualcosa che non sei sicuro di avere
           bisogno o meno, di solito è più sicuro lasciare i cookie attivati nel caso in cui interagisca con una delle
           funzionalità che usi sul nostro sito.
         </p>
