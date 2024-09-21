@@ -10,10 +10,11 @@ export async function POST(req: NextRequest) {
     try {
         const { products, payment_method, id, shipping_tax } = await req.json()
         const user = await currentUser()
+        console.log([...(payment_method === "card" ? ["klarna", "card"] : [payment_method])])
 
         const initOrder = await stripe.checkout.sessions.create({
             mode: 'payment',
-            payment_method_types: [...(payment_method === "card" ? ["klarna", "card"] : payment_method)],
+            payment_method_types: [...(payment_method === "card" ? ["klarna", "card"] : [payment_method])],
             success_url: process.env.STRIPE_SUCCESS_URL,
             shipping_options: [{
                 shipping_rate_data: {
@@ -58,6 +59,8 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(initOrder)
     } catch (err) {
+        console.log(err);
+        
         return NextResponse.json({ message: "Ocurred unspected error on server" }, { status: 500 })
     }
 }
