@@ -3,11 +3,13 @@ import { ClerkProvider } from '@clerk/nextjs';
 
 import { Footer } from "@/components/Footer";
 import { Toaster } from "@/components/ui/sonner";
+import { itIT } from '@clerk/localizations';
 import { auth } from "@clerk/nextjs/server";
 import { Metadata } from "next";
 import LocalFont from "next/font/local";
 import React from 'react';
 import "../globals.css";
+
 
 const telegraf = LocalFont({
   src: [
@@ -37,7 +39,8 @@ export const metadata: Metadata = {
       default: "iFast Store",
       template: "iFast Store | %s"
     },
-    images: 'https://ifaststore.it/assets/banner.png'}
+    images: 'https://ifaststore.it/assets/banner.png'
+  }
 }
 
 export default function RootLayout({
@@ -49,7 +52,7 @@ export default function RootLayout({
   const { sessionClaims } = auth();
 
   return (
-    <ClerkProvider>
+    <ClerkProvider localization={itIT}>
       <html lang="en" className={telegraf.className}>
         <link rel="icon" href="/assets/icons/fast-store-icon.svg" sizes="any" />
         <body>

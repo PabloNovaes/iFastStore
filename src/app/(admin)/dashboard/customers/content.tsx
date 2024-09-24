@@ -69,8 +69,8 @@ export function Orders() {
                                         {(statusFilter === "all"
                                             ? customers
                                             : customers.filter(customer => String(customer.isBuyer) === statusFilter))
-                                            .map((customer, indx) => {
-                                                const { name, email, isBuyer, adress, created_at } = customer
+                                            .map((customer) => {
+                                                const { name, email, created_at } = customer
                                                 return (
                                                     <TableRow key={email + created_at} className="relative" onClick={() => setSelectedCustomer(customer)}>
                                                         <TableCell>
@@ -86,7 +86,7 @@ export function Orders() {
                                                                 year: "numeric",
                                                             })}`}
                                                         </TableCell>
-                                                        {window.innerWidth <= 640 && <MobileCustomersDetails {...selectedCustomer} />}
+                                                        {window.innerWidth <= 1025 && <MobileCustomersDetails {...selectedCustomer} />}
                                                     </TableRow>
                                                 )
                                             })}

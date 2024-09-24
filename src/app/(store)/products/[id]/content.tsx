@@ -81,7 +81,7 @@ export function ProductDetail({ params }: Props) {
                         </div>
 
                         {filteredImages.length > 1 &&
-                            <RadioGroup className="grid gap-3 rounded-3xl" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(0, 1fr))" }} defaultValue={filteredImages[0].url}
+                            <RadioGroup className="grid gap-3 rounded-3xl grid-cols-4 md:grid-cols-2" defaultValue={filteredImages[0].url}
                                 onValueChange={(value: string) => setActiveImage(value)}>
                                 {filteredImages.map(({ name, url }) => (
                                     <RadioGroupItem key={name} value={url} className="rounded-2xl bg-accent relative flex aspect-square data-[state=unchecked]:opacity-50 transition-opacity duration-300">

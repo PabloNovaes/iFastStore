@@ -274,8 +274,8 @@ export function ProductDetails({ params }: Params) {
                                     </form>
                                 </label>
                             }
-                            <div className="grid gap-4 grid-cols-3">
-                                <div className="grid gap-3">
+                            <div className="grid gap-4 grid-cols-2">
+                                <div className="grid gap-3 col-span-2">
                                     <label className="font-medium text-sm" htmlFor="category">Categoria</label>
                                     <Select onValueChange={async (value) => {
                                         const metadata = product.metadata
@@ -317,7 +317,8 @@ export function ProductDetails({ params }: Params) {
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value={"0"}>Free</SelectItem>
-                                            <SelectItem value={"1499"}>{(1499 / 100).toLocaleString("it-IT", { style: "currency", currency: "eur" })}</SelectItem>
+                                            <SelectItem value={"1299"}>{(1299 / 100).toLocaleString("it-IT", { style: "currency", currency: "eur" })}</SelectItem>
+                                            <SelectItem value={"899"}>{(899 / 100).toLocaleString("it-IT", { style: "currency", currency: "eur" })}</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>

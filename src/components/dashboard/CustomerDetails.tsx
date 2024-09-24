@@ -27,7 +27,7 @@ export interface CustomerProps {
 
 export function CustomersDetails({ name, email, adress, isBuyer, created_at }: CustomerProps) {
     return (
-        <Card className="overflow-hidden max-lg:col-span-2 max-sm:hidden h-fit">
+        <Card className="overflow-hidden max-lg:col-span-2 max-[1025px]:hidden h-fit">
             <CardHeader className="flex flex-row items-start bg-muted/50">
                 <div className="grid gap-0.5">
                     <CardTitle className="group flex items-center gap-2 text-lg">
@@ -132,7 +132,7 @@ export function MobileCustomersDetails({ name, email, adress, isBuyer, created_a
                             </dl>
                         </div>
                     </CardContent>
-                </Card >
+                </Card>
             </DrawerContent>
         </Drawer>
 

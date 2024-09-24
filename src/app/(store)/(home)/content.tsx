@@ -47,8 +47,9 @@ export function Home() {
                 <CardsSection />
                 <FilterSelector handleFilter={onSelectFilter} currentFilter={filter} />
                 <div className="grid gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4">
-                    {products.length === 0 && Array.from({ length: 8 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
-                    {!isLoading && filteredProducts.length !== 0 ? filteredProducts.map((product) => <ProductCard key={product.id} product={product} />) : <NotResultsFound resetFilter={onSelectFilter} />}
+                    {isLoading && Array.from({ length: 8 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
+                    {filteredProducts.length !== 0 && !isLoading && filteredProducts.map((product) => <ProductCard key={product.id} product={product} />)}
+                    {products.length === 0 && !isLoading && <NotResultsFound resetFilter={onSelectFilter} />}
                 </div>
             </main>
         </>

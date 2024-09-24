@@ -52,7 +52,7 @@ export function Dashboard() {
 
     const renderTotalRevenue = () => (
         !orders ? (
-            <Skeleton className="w-24 h-8" />
+            <Skeleton className="w-[60%] h-8" />
         ) : (
             <span className="text-2xl font-bold fade-in-0 animate-in duration-500">
                 {orders.filter(order => order.status !== "AWAITING_PAYMENT")
@@ -65,7 +65,7 @@ export function Dashboard() {
 
     const renderOrderCount = () => (
         !orders ? (
-            <Skeleton className="w-16 h-8" />
+            <Skeleton className="w-[60%] h-8" />
         ) : (
             <span className="text-2xl font-bold fade-in-0 animate-in duration-500">
                 {orders.filter(order => order.status !== "AWAITING_PAYMENT").length}
@@ -75,7 +75,7 @@ export function Dashboard() {
 
     const renderPendingOrders = () => (
         !orders ? (
-            <Skeleton className="w-20 h-8" />
+            <Skeleton className="w-[60%] h-8" />
         ) : (
             <span className="text-2xl font-bold fade-in-0 animate-in duration-500">
                 {orders.filter(order => order.status === "AWAITING_SEND").length}
@@ -85,7 +85,7 @@ export function Dashboard() {
 
     const renderUsers = () => (
         !customers ? (
-            <Skeleton className="w-20 h-8" />
+            <Skeleton className="w-[60%] h-8" />
         ) : (
             <span className="text-2xl font-bold fade-in-0 animate-in duration-500">
                 {customers.length}
