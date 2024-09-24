@@ -10,7 +10,6 @@ import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 
-
 import Stripe from "stripe"
 
 export function Search() {
@@ -75,7 +74,7 @@ export function Search() {
 
     return (
         <main className="px-5 flex flex-col gap-4 max-w-5xl m-auto pt-5" style={{ minHeight: "calc(100svh - 50px)" }}>
-            {!isLoading && products.length !== 0 ? <div className="w-full py-5 flex flex-col">
+            <div className="w-full py-5 flex flex-col">
                 <h1 className="text-xl font-semibold">
                     {
                         queryText == null
@@ -98,20 +97,20 @@ export function Search() {
                     </RadioGroupItem>
                 </RadioGroup>
             </div>
-                : <NotResultsFound />
+            {isLoading && (
+                <div className="grid gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4">
+                    {Array.from({ length: 8 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
+                </div>)
             }
-
             {!isLoading && products.length !== 0 && (
                 <div className="grid gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4">
-                    {isLoading && Array.from({ length: 8 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
                     {!isLoading && sortBy !== null
                         ? [...sortingMethods[sortBy](products)].map((product) => <ProductCard key={product.id} product={product} />)
                         : products.map((product) => <ProductCard key={product.id} product={product} />)
                     }
-                </div>
-            )}
-
-
+                </div>)
+            }
+            {!isLoading && products.length === 0 && <NotResultsFound className="my-0" />}
         </main>
     )
 }

@@ -21,8 +21,7 @@ interface CreateAdressFormProps {
     currentData: AdressProps;
     onSubmit: (data: CreateAdressSchema) => Promise<void>;
 }
-
-export function UpdateAdressForm({ onSubmit, children, currentData }: CreateAdressFormProps) {
+export function UpdateAddressForm({ onSubmit, children, currentData }: CreateAdressFormProps) {
     const [isLoading, setIsLoading] = useState(false);
     const [open, setOpen] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm<CreateAdressSchema>({

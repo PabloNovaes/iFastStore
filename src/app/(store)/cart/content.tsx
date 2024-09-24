@@ -1,5 +1,6 @@
 'use client'
 
+import { NotResultsFound } from "@/components/NotResults";
 import { ShoppingCartCard } from "@/components/ShoppingCartCard";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -27,6 +28,7 @@ export interface CartProduct {
 export function ShoppingCart() {
     const [products, setProducts] = useState<CartProduct[] | string>([])
     const [selectedProducts, setSelectedProducts] = useState<CartProduct[]>([])
+    const [isLoading, setIsLoading] = useState(false)
     const [selectDeleteProduct, setSelectDeleteProduct] = useState<CartProduct | null>(null)
     const { isSignedIn, userId } = useAuth()
 
@@ -34,16 +36,22 @@ export function ShoppingCart() {
     useEffect(() => {
         const fetchData = async () => {
             if (!isSignedIn) return
+            try {
+                setIsLoading(true)
+                const response = await fetch(`/api/cart?userId=${userId}`, {
+                    cache: 'no-store',
+                    next: {
+                        tags: ['cart-request'],
+                    }
+                })
 
-            const response = await fetch(`/api/cart?userId=${userId}`, {
-                cache: 'no-store',
-                next: {
-                    tags: ['cart-request'],
-                }
-            })
-
-            const data = await response.json() as CartProduct[] | string
-            setProducts(data)
+                const data = await response.json() as CartProduct[] | string
+                setProducts(data)
+            } catch (error) {
+                return toast.error("Si è verificato un errore imprevisto")
+            } finally {
+                setIsLoading(false)
+            }
         }
 
         fetchData()
@@ -53,7 +61,6 @@ export function ShoppingCart() {
 
         const fetchData = async () => {
             if (selectDeleteProduct === null) return
-
             try {
                 await fetch(`/api/cart/remove`, {
                     method: 'DELETE',
@@ -133,6 +140,7 @@ export function ShoppingCart() {
             <p className="font-medium text-2xl text-center">Oops...sembra che tu non sia autenticato</p>
         </div>
     )
+    console.log(isLoading);
 
     return (
         <main className="p-5 flex gap-6 max-w-2xl m-auto justify-center" style={{ height: 'calc(100svh - 50px)' }}>
@@ -147,7 +155,7 @@ export function ShoppingCart() {
                         ))
                     }
 
-                    {(products as CartProduct[]).length === 0 && Array.from({ length: 2 }).map(() => (
+                    {isLoading && Array.from({ length: 2 }).map(() => (
                         <>
                             <div key={Math.random()} className="flex gap-4 items-center h-fit">
                                 <Skeleton className="rounded-[20px] size-28" />
@@ -159,6 +167,7 @@ export function ShoppingCart() {
                             </div>
                         </>
                     ))}
+                    {products.length > 0 && !isLoading && <NotResultsFound />}
                 </div>
                 <footer className="grid gap-3">
                     {

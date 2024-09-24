@@ -49,7 +49,7 @@ export function Home() {
                 <div className="grid gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4">
                     {isLoading && Array.from({ length: 8 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
                     {filteredProducts.length !== 0 && !isLoading && filteredProducts.map((product) => <ProductCard key={product.id} product={product} />)}
-                    {products.length === 0 && !isLoading && <NotResultsFound resetFilter={onSelectFilter} />}
+                    {filteredProducts.length === 0 && !isLoading && <NotResultsFound resetFilter={onSelectFilter} />}
                 </div>
             </main>
         </>
