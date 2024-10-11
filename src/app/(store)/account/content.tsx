@@ -223,7 +223,7 @@ export function Account() {
         </div>
         <Card className="rounded-xl md:max-w-72 w-full h-fit text-sm overflow-auto">
           {address.length === 0 ? (
-            <CardHeader className="bg-zinc-950/50 flex items-center justify-between">
+            <CardHeader className="bg-muted/40 flex items-center justify-between">
               {isLoading ? (
                 <div className="flex gap-3 w-full">
                   <Skeleton className="w-full h-9" />
@@ -242,7 +242,7 @@ export function Account() {
             </CardHeader>
           ) : (
             <>
-              <CardHeader className="bg-zinc-950/50 flex flex-row items-center justify-between ">
+              <CardHeader className="bg-muted dark:bg-muted/30 flex flex-row items-center justify-between ">
                 <CardTitle className="font-semibold text-lg">Dati di consegna</CardTitle>
                 <UpdateAddressForm currentData={address[0]} onSubmit={updateAddress}>
                   <Button className="rounded-lg" variant="outline" size="icon" aria-label="Edit delivery details">

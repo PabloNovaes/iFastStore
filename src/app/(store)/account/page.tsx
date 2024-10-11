@@ -1,4 +1,3 @@
-
 import { Account } from "./content"
 
 export const metadata = {
