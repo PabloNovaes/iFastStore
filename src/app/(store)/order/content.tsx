@@ -1,6 +1,6 @@
 'use client'
 
-import { CreateAdressSchema, CreteAdressForm } from "@/components/CreateAdressForm";
+import { CreateAdressForm, CreateAdressSchema } from "@/components/CreateAdressForm";
 import { OrderProductsCard } from "@/components/InitOrderProductsCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -201,22 +201,22 @@ export function Order() {
                                 <span>{adress[0].complement}</span>
                             </address>
                         </div>
-                            : <CreteAdressForm onSubmit={createAdress} >
+                            : <CreateAdressForm onSubmit={createAdress} >
                                 <Button variant={"outline"} className="flex justify-center h-fit gap-2 p-2 rounded-lg" style={{ gridColumn: '1/4' }}>
                                     <Plus size={18} />
                                     <h2 className="font-semibold text-md">{"Registra i dettagli della consegna"}</h2>
                                 </Button>
-                            </CreteAdressForm>
+                            </CreateAdressForm>
                         }
                     </div>
                     <Separator className="my-4" />
                     <form onSubmit={(event: FormEvent) => createOrder(event)} ref={formRef}>
                         <RadioGroup className="flex gap-2 items-center" name="payment_method">
-                            <RadioGroupItem value="card" onClick={() => setSelected(true)} className="p-2 bg-accent rounded-lg flex flex-1 items-center gap-2 justify-center border data-[state=checked]:border-blue-400 transition-colors duration-500">
+                            <RadioGroupItem value="card" onClick={() => setSelected(true)} className="p-2 bg-muted/40 rounded-lg flex flex-1 items-center gap-2 justify-center border data-[state=checked]:border-blue-400 transition-colors duration-500">
                                 <CreditCard size={18} />
                                 Carta
                             </RadioGroupItem>
-                            <RadioGroupItem value="paypal" onClick={() => setSelected(true)} className="p-2 bg-accent rounded-lg flex flex-1 items-center gap-2 justify-center border data-[state=checked]:border-blue-400 transition-colors duration-500">
+                            <RadioGroupItem value="paypal" onClick={() => setSelected(true)} className="p-2 bg-muted/40 rounded-lg flex flex-1 items-center gap-2 justify-center border data-[state=checked]:border-blue-400 transition-colors duration-500">
                                 <PaypalLogo size={18} />
                                 Paypal
                             </RadioGroupItem>

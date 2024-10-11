@@ -471,7 +471,7 @@ export function ProductDetails({ params }: Params) {
                                                     return (
                                                         <CarouselItem onClick={() => setCurrentImage(image)} className={`basis-1/3 ${images.length < 3 && "basis-1/2"}`} key={index}>
                                                             <DeleteProductImageModal newThumbImage={images[0].url} onDeleteImage={handleDeleteImage} id={params.id as string} fileName={name}>
-                                                                <div className="rounded-2xl bg-accent relative h-[120px]">
+                                                                <div className="rounded-2xl bg-muted/40 relative h-[120px]">
                                                                     <Image src={url}
                                                                         priority quality={100}
                                                                         layout="fill"

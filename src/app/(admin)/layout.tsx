@@ -37,7 +37,7 @@ export default function RootLayout({
                         <link rel="icon" href="/assets/icons/fast-store-icon.svg" sizes="any" />
                     </head>
                     <body>
-                        <div className="flex w-full flex-col bg-muted/40">
+                        <div className="flex w-full flex-col">
                             <Sidebar />
                             <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 min-h-screen">
                                 <Header />

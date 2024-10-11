@@ -38,7 +38,7 @@ export function OrderOverview({ id, created_at, products, total, adress, shippin
     return (
 
         <Card className="overflow-hidden max-lg:col-span-2 max-sm:hidden">
-            <CardHeader className="flex flex-row items-start bg-muted/50">
+            <CardHeader className="flex flex-row items-start bg-muted/40">
                 <div className="grid gap-0.5">
                     <CardTitle className="group flex items-center gap-2 text-lg">
                         Pedido
@@ -176,7 +176,7 @@ export function OrderOverview({ id, created_at, products, total, adress, shippin
                     </dl>
                 </div>
             </CardContent>
-            <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
+            <CardFooter className="flex flex-row items-center border-t bg-muted/40 px-6 py-3">
                 <div className="text-xs text-muted-foreground gap-2 flex items-center">
                     {`ID: ${id}`} <CopyCode code={id} />
                 </div>
@@ -333,7 +333,7 @@ export function MobileOrderOverview({ id, created_at, products, total, adress, s
                             </dl>
                         </div>
                     </CardContent>
-                    <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">
+                    <CardFooter className="flex flex-row items-center border-t bg-muted/40 px-6 py-3">
                         <div className="text-xs text-muted-foreground gap-2 flex items-center">
                             {`ID: ${id}`} <CopyCode code={id} />
                         </div>

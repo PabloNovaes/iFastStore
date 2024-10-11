@@ -7,7 +7,7 @@ interface ProductColorSelectorProps {
     handleSetActiveColor: (name: string) => void;
     inStock: boolean
     modelCount: number
-    hasModelSelected: string
+    hasModelSelected: boolean
 }
 
 export function ProductColorSelector({ colors, handleSetActiveColor, inStock, hasModelSelected, modelCount }: ProductColorSelectorProps) {

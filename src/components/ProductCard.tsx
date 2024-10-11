@@ -48,7 +48,7 @@ export function ProductCard({ product }: { product: Stripe.Product }) {
     return (
         <motion.div className="relative" ref={ref} variants={variants} initial={'hidden'} animate={useProductCardAnimation}>
             <Link href={`/products/${id}`} className="w-full overflow-hidden" prefetch={true}>
-                <div className="bg-accent rounded-[30px] min-h-[160px] relative">
+                <div className="bg-muted/40 rounded-[30px] min-h-[160px] relative">
                     <Image src={images.length === 0 ? '/assets/icons/placeholder.png' : images[0]}
                         priority quality={100}
                         layout="fill"

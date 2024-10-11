@@ -12,7 +12,7 @@ import Stripe from "stripe";
 export function Home() {
     const [products, setProducts] = useState<Stripe.Product[]>([])
     const [filter, setFilter] = useState('all')
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
 
     useEffect(() => {

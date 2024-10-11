@@ -50,9 +50,9 @@ export function Orders() {
                     </CardHeader>
                     <CardContent>
                         <RadioGroup defaultValue="all" className="flex items-center gap-2 pb-3 flex-wrap">
-                            <RadioGroupItem onClick={() => setFilter("all")} value="all" key="all" className="border px-4 text-sm py-1 rounded-lg transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white">Todos</RadioGroupItem>
+                            <RadioGroupItem onClick={() => setFilter("all")} value="all" key="all" className="border px-4 text-sm py-1 rounded-lg bg-muted/40 transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-secondary">Todos</RadioGroupItem>
                             {tabs.map(({ isBuyer }) => (
-                                <RadioGroupItem key={isBuyer} onClick={() => setFilter(isBuyer)} value={isBuyer} className="border px-4 text-sm py-1 rounded-lg transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white">{buyerStatus[isBuyer]}</RadioGroupItem>
+                                <RadioGroupItem key={isBuyer} onClick={() => setFilter(isBuyer)} value={isBuyer} className="border px-4 text-sm py-1 rounded-lg bg-muted/40 transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-secondary">{buyerStatus[isBuyer]}</RadioGroupItem>
                             ))}
                         </RadioGroup>
                         {!customers || customers.length === 0

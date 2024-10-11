@@ -17,7 +17,7 @@ export interface CartProduct {
     priceId: string
     image: string
     name: string
-    color: string
+    color?: string
     userId: string | null | undefined
     id?: string
     price: Stripe.Price

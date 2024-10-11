@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { ClerkProvider } from '@clerk/nextjs';
 
 import { Footer } from "@/components/Footer";
+import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { itIT } from '@clerk/localizations';
 import { auth } from "@clerk/nextjs/server";
@@ -56,10 +57,17 @@ export default function RootLayout({
       <html lang="en" className={telegraf.className}>
         <link rel="icon" href="/assets/icons/fast-store-icon.svg" sizes="any" />
         <body>
-          <Header isAdmin={sessionClaims?.metadata.role === "admin"} />
-          {children}
-          <Toaster />
-          <Footer />
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Header isAdmin={sessionClaims?.metadata.role === "admin"} />
+            {children}
+            <Toaster />
+            <Footer />
+          </ThemeProvider>
         </body>
       </html>
     </ClerkProvider>

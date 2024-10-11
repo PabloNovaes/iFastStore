@@ -55,7 +55,7 @@ export function ShoppingCartCard(product: Props) {
                 setDisabled(false)
                 selectProduct({ productId, name, image, color, price, priceId, userId, quantity, id, shipping_tax })
             }} />
-            <div className="bg-accent rounded-[20px] aspect-square size-32 relative">
+            <div className="bg-muted/40 rounded-[20px] aspect-square size-32 relative">
                 <Image src={image}
                     priority quality={100}
                     layout="fill"

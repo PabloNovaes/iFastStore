@@ -66,7 +66,7 @@ export function ProductDetail({ params }: Props) {
             <main className=" max-w-5xl m-auto py-4 px-4 flex flex-col main-height">
                 <div className="grid grid-cols-1 md:grid-cols-2 h-full gap-8 flex-1">
                     <div className="py-3 grid gap-3 relative" style={{ gridTemplateRows: '1fr min-content' }}>
-                        <div className="rounded-[30px] bg-accent relative min-h-[260px]">
+                        <div className="rounded-[30px] bg-muted/40 relative min-h-[260px]">
                             {filteredImages.length !== 0
                                 ? <Image src={activeImage === '' ? filteredImages[0].url : activeImage} priority quality={100}
                                     layout="fill" alt="product image" style={{ maxWidth: 260, objectFit: 'contain', margin: '0 auto' }} />
@@ -84,7 +84,7 @@ export function ProductDetail({ params }: Props) {
                             <RadioGroup className="grid gap-3 rounded-3xl grid-cols-4 md:grid-cols-2" defaultValue={filteredImages[0].url}
                                 onValueChange={(value: string) => setActiveImage(value)}>
                                 {filteredImages.map(({ name, url }) => (
-                                    <RadioGroupItem key={name} value={url} className="rounded-2xl bg-accent relative flex aspect-square data-[state=unchecked]:opacity-50 transition-opacity duration-300">
+                                    <RadioGroupItem key={name} value={url} className="rounded-2xl bg-muted/40 relative flex aspect-square data-[state=unchecked]:opacity-50 transition-opacity duration-300">
                                         <Image src={url}
                                             priority quality={100}
                                             layout="fill"

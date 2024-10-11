@@ -33,7 +33,7 @@ export function CardsSection() {
 
     return (
         <section ref={scope} className="grid gap-5 grid-cols-2 justify-items-center max-[900px]:grid-cols-1">
-            <motion.li initial={{ opacity: 0, x: -20 }} className="bg-accent flex flex-col justify-between shadow-md rounded-[30px] relative p-8 min-h-[250px] w-full min-[900px]:row overflow-hidden">
+            <motion.li initial={{ opacity: 0, x: -20 }} className="bg-muted/40 flex flex-col justify-between shadow-lg border rounded-[30px] relative p-8 min-h-[250px] w-full min-[900px]:row overflow-hidden">
                 <img alt="iphone banner" src='/assets/products/iphoneCard.png' className="h-full min-[900px]:h-[85%] drop-shadow-xl absolute right-0 min-[900px]:-right-5 self-center pt-3 bottom-0 max-[400px]:h-[82%] " />
                 <header className="text-3xl">
                     <h1>iPhone</h1>
@@ -48,7 +48,7 @@ export function CardsSection() {
                 </footer>
             </motion.li>
 
-            <motion.li initial={{ opacity: 0, x: -40 }} className="bg-accent flex flex-col justify-between shadow-md rounded-[30px] relative p-8 h-[250px]  w-full overflow-hidden">
+            <motion.li initial={{ opacity: 0, x: -40 }} className="bg-muted/40 flex flex-col justify-between shadow-lg border rounded-[30px] relative p-8 h-[250px]  w-full overflow-hidden">
                 <img alt="airpod banner" src='/assets/products/headphone.png' className="h-[85%] top-[-0%] absolute -right-6" />
                 <header className="text-3xl">
                     <h1>Cuffie</h1>
@@ -63,7 +63,7 @@ export function CardsSection() {
                 </footer>
             </motion.li>
 
-            <motion.li initial={{ opacity: 0, x: -40 }} className="bg-accent flex flex-col justify-between shadow-md rounded-[30px] relative p-8 h-[250px]  w-full overflow-hidden">
+            <motion.li initial={{ opacity: 0, x: -40 }} className="bg-muted/40 flex flex-col justify-between shadow-lg border rounded-[30px] relative p-8 h-[250px]  w-full overflow-hidden">
                 <img alt="notebook banner" src='assets/products/notebook.png' className="h-[65%] object-contain absolute -right-20 self-center" />
                 <header className="text-3xl">
                     <h1>Notebook</h1>
@@ -79,7 +79,7 @@ export function CardsSection() {
                     </Link>
                 </footer>
             </motion.li>
-            <motion.li initial={{ opacity: 0, x: -40 }} className="bg-accent flex flex-col justify-between shadow-md rounded-[30px] relative p-8 h-[250px]  w-full overflow-hidden">
+            <motion.li initial={{ opacity: 0, x: -40 }} className="bg-muted/40 flex flex-col justify-between shadow-lg border rounded-[30px] relative p-8 h-[250px]  w-full overflow-hidden">
                 <img alt="notebook banner" src='assets/products/gadget.png' className="h-[65%] object-contain absolute -right-14 mt-8 self-center" />
                 <header className="text-3xl">
                     <h1>Software & acessori</h1>

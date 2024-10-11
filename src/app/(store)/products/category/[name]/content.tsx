@@ -1,6 +1,7 @@
 'use client'
 
 
+import { NotResultsFound } from "@/components/NotResults"
 import { ProductCard } from "@/components/ProductCard"
 import { ProductCardSkeleton } from "@/components/ProductCard-Skeleton"
 import { useParams } from "next/navigation"
@@ -18,7 +19,7 @@ const categories = {
 } as { [key: string]: string }
 
 export function Products() {
-    const [products, setProducts] = useState<Stripe.Product[]>([])
+    const [products, setProducts] = useState<Stripe.Product[] | null>(null)
     const [isLoading, setIsLoading] = useState(false)
 
     const { name } = useParams()
@@ -39,7 +40,8 @@ export function Products() {
                 setProducts(filteredProducts)
             } catch (err) {
                 toast.error("Si è verificato un errore imprevisto!")
-                throw err            } finally {
+                throw err
+            } finally {
                 setIsLoading(false)
             }
         }
@@ -53,12 +55,9 @@ export function Products() {
             </div>
 
             <div className="grid gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4">
-                {isLoading
-                    ? Array.from({ length: 4 }).map(() => <ProductCardSkeleton key={Math.random()} />)
-                    : products.map((product) => <ProductCard key={product.id} product={product} />)
-
-                }
-
+                {!products && isLoading && Array.from({ length: 4 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
+                {products && !isLoading && products.length > 0 && products.map((product) => <ProductCard key={product.id} product={product} />)}
+                {products && !isLoading && products.length === 0 && <NotResultsFound />}
             </div>
         </main>
     )

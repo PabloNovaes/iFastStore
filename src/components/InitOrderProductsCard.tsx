@@ -5,7 +5,7 @@ export function OrderProductsCard({ image, name, color, priceId, price, productI
     const { nickname } = price
     return (
         <div key={productId} className="w-full overflow-hidden flex gap-4 h-fit items-center relative">
-            <div className="bg-accent rounded-[20px] aspect-square size-32 relative">
+            <div className="bg-muted/40 rounded-[20px] aspect-square size-32 relative">
                 <Image src={image}
                     priority quality={100}
                     layout="fill"

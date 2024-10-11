@@ -14,7 +14,7 @@ import Stripe from "stripe"
 
 export function Search() {
     const [products, setProducts] = useState<Stripe.Product[]>([])
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     const router = useRouter()
     const searchParams = useSearchParams()
@@ -25,7 +25,6 @@ export function Search() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                setIsLoading(true)
                 const response = await fetch("/api/products", {
                     method: 'GET',
                     next: {
@@ -87,11 +86,11 @@ export function Search() {
                     queryParams.set('sort-by', value)
                     router.push(`/products?${queryParams.toString()}`)
                 }}>
-                    <RadioGroupItem value={'lowest_price'} className="border px-4 py-1 rounded-2xl data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground flex items-center gap-2 transition-colors duration-300">
+                    <RadioGroupItem value={'lowest_price'} className="border px-4 py-1 rounded-2xl data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground bg-muted/40 flex items-center gap-2 transition-colors duration-300">
                         Prezo
                         <ArrowDown size={14} />
                     </RadioGroupItem>
-                    <RadioGroupItem value={'biggest_price'} className="border px-4 py-1 rounded-2xl data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground flex items-center gap-2 transition-colors duration-300">
+                    <RadioGroupItem value={'biggest_price'} className="border px-4 py-1 rounded-2xl data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground bg-muted/40 flex items-center gap-2 transition-colors duration-300">
                         Prezo
                         <ArrowUp size={14} />
                     </RadioGroupItem>

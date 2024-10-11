@@ -75,9 +75,9 @@ export function Products() {
         <main className="p-4 sm:px-6 flex flex-col">
             <div className="flex justify-between items-center w-full mb-4">
                 <RadioGroup defaultValue="Ativo" className="flex items-center gap-2 flex-wrap">
-                    <RadioGroupItem onClick={() => setFilter("all")} value="all" key="all" className="border px-4 text-xs bg-background shadow-sm py-1 rounded-lg transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white">Todos</RadioGroupItem>
+                    <RadioGroupItem onClick={() => setFilter("all")} value="all" key="all" className="border px-4 text-xs bg-muted/40 shadow-sm py-1 rounded-lg transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-secondary">Todos</RadioGroupItem>
                     {tabs.map(({ active, title }) => (
-                        <RadioGroupItem key={title} onClick={() => setFilter(active)} value={title} className="border px-4 text-xs bg-background shadow-sm py-1 rounded-lg transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white">{title}</RadioGroupItem>
+                        <RadioGroupItem key={title} onClick={() => setFilter(active)} value={title} className="border px-4 text-xs bg-muted/40 shadow-sm py-1 rounded-lg transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-secondary">{title}</RadioGroupItem>
                     ))}
                 </RadioGroup>
             </div>

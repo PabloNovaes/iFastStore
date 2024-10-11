@@ -21,6 +21,8 @@ export async function POST(req: NextRequest) {
 
         return NextResponse.json(adress)
     } catch (err) {
+        console.log(err);
+        
         return NextResponse.json({ message: err, code: 500 })
     }
 }

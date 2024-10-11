@@ -27,7 +27,7 @@ export function DesktopActiveLink() {
                         <Link
                             href={path}
                             className={`flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8
-                            ${currentPath === path && 'bg-accent text-primary'}
+                            ${currentPath === path && 'bg-muted/40 text-primary'}
                             `}>
                             {icon}
                             <span className="sr-only">{title}</span>

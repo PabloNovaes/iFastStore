@@ -35,13 +35,13 @@ export default function Loading() {
                         <Skeleton className="h-14 w-full rounded-xl" />
                         <Skeleton className="h-14 w-24 rounded-xl" />
                     </div>
-                    {/* <span className=" animate-pulse rounded-lg bg-accent h-[30px]"></span>
-                    <span className=" animate-pulse rounded-lg bg-accent h-[24px]"></span>
-                    <span className=" animate-pulse rounded-lg bg-accent h-[24px]"></span>
+                    {/* <span className=" animate-pulse rounded-lg bg-muted/40 h-[30px]"></span>
+                    <span className=" animate-pulse rounded-lg bg-muted/40 h-[24px]"></span>
+                    <span className=" animate-pulse rounded-lg bg-muted/40 h-[24px]"></span>
                     <div className="h-full flex flex-col gap-4 h">
-                        <span className=" animate-pulse rounded-lg bg-accent h-[24px]"></span>
-                        <span className=" animate-pulse rounded-lg bg-accent h-[58px]"></span>
-                        <span className=" animate-pulse rounded-lg bg-accent h-[58px]"></span>
+                        <span className=" animate-pulse rounded-lg bg-muted/40 h-[24px]"></span>
+                        <span className=" animate-pulse rounded-lg bg-muted/40 h-[58px]"></span>
+                        <span className=" animate-pulse rounded-lg bg-muted/40 h-[58px]"></span>
                     </div> */}
                 </div>
             </div>

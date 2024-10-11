@@ -2,7 +2,7 @@
 
 import { Product } from "@/app/(admin)/dashboard/products/content"
 import { useAuth } from "@clerk/nextjs"
-import { useRef, useState } from "react"
+import { useCallback, useMemo, useState } from "react"
 import { toast } from "sonner"
 import Stripe from "stripe"
 import { CartProduct } from "../app/(store)/cart/content"
@@ -17,75 +17,90 @@ interface Props extends Omit<Product, "sales"> {
 export function ProductData({ default_price, prices, name, id, images, onSetFilterImagesToColor, metadata, description, category }: Props) {
     const { userId } = useAuth()
     const [model, setModel] = useState<string>(prices[0].id)
-
-    const SKU = JSON.parse(model !== null ? prices.filter(price => price.id === model)[0].metadata['SKU'] : prices[0].metadata['SKU'])
-    const colors = SKU.available_colors as { name: string, code: string, available: boolean }[]
-
     const [activeColor, setActiveColor] = useState<string | null>(null)
+
+    const SKU = useMemo(() => {
+        const selectedPrice = prices.find(price => price.id === model) || prices[0]
+        return JSON.parse(selectedPrice.metadata['SKU'])
+    }, [model, prices])
+
+    const colors = useMemo(() => SKU.available_colors as { name: string, code: string, available: boolean }[], [SKU])
+
     const price = default_price as Stripe.Price
 
-    const formRef = useRef(null)
+    const inStock = useMemo(() => prices.some(price => {
+        const sku = JSON.parse(price.metadata["SKU"]) as { stock: number }
+        return sku.stock > 0
+    }), [prices])
 
-    function handleProductData(): CartProduct | null | any {
-        if (formRef.current === null) return null
-
-        const form = formRef.current as HTMLFormElement
-        const { color, price_id } = Object.fromEntries(new FormData(form).entries()) as { color: string, price_id: string }
-
-        if (!color && category !== "software") return toast.error("Seleziona un colore")
-
-        const priceId = price_id ? price_id : price.id
-
-        return {
+    const handleProductData = useCallback((): CartProduct | null => {
+        if (category !== "software" && !activeColor) {
+            toast.error("Seleziona un colore")
+            return null
+        }
+    
+        const selectedPrice = prices.find(p => p.id === model) || price
+    
+        const baseProduct = {
             category,
-            ...(category !== "software" && { color }),
             productId: id,
-            userId,
+            userId: userId as string,
             shipping_tax: Number(metadata["shipping_tax"]),
             name: name,
             image: images[0].url,
-            priceId,
-            price: prices.find(price => price.id === priceId)
+            priceId: selectedPrice.id,
+            price: selectedPrice,
+            ...(category !== "software" && activeColor && {
+                color: activeColor
+            })
+        }
+    
+        return baseProduct
+    }, [activeColor, category, model, prices, price, id, userId, metadata, name, images])
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        try {
+            const data = handleProductData()
+            if (data) {
+                const response = await fetch('/api/cart/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                })
+                if (!response.ok) throw new Error('Failed to add to cart')
+                toast.success("Prodotto aggiunto al carrello")
+            }
+        } catch (err) {
+            console.error(err)
+            toast.error("Errore nell'aggiunta al carrello")
         }
     }
 
-
-    const inStock = (prices.reduce((acc, count) => {
-        const sku = JSON.parse(count.metadata["SKU"]) as { stock: number }
-        return acc + Number(sku.stock)
-    }, 0)) > 0
-
-    const handleSetActiveColor = (name: string) => {
+    const handleSetActiveColor = useCallback((name: string) => {
         setActiveColor(name)
         onSetFilterImagesToColor(name)
-    }
+    }, [onSetFilterImagesToColor])
 
-    const handleSetModel = (id: string) => setModel(id)
-
-    const priceNickname = prices.filter(price => price.id === model)[0].nickname
+    const priceNickname = useMemo(() => {
+        const selectedPrice = prices.find(price => price.id === model)
+        return selectedPrice ? selectedPrice.nickname : ''
+    }, [model, prices])
 
     return (
-        <form ref={formRef} className="flex flex-col gap-4" action={async () => {
-            try {
-                const data = handleProductData() as CartProduct
-
-                await fetch('/api/cart/add', {
-                    method: 'POST',
-                    body: JSON.stringify(data)
-                })
-                toast.success("Prodotto aggiunto al carrello")
-            } catch (err) {
-                return err
-            }
-        }} >
+        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <header className="flex flex-col justify-between items-start gap-4">
-                <h1 className="text-4xl font-medium">{name}{priceNickname !== "Padrão" && `- ${priceNickname}`}</h1>
-                {description !== "" && <p>{description}</p>}
+                <h1 className="text-4xl font-medium">
+                    {name}{priceNickname !== "Padrão" && ` - ${priceNickname}`}
+                </h1>
+                {description && <p>{description}</p>}
             </header>
 
             {category !== "software" && (
                 <div className="grid gap-2 items-start">
-                <p>
+                    <p>
                         <span className="font-semibold mr-1">Colore:</span>{activeColor}
                     </p>
                     <ProductColorSelector
@@ -93,7 +108,8 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
                         handleSetActiveColor={handleSetActiveColor}
                         inStock={inStock}
                         colors={colors}
-                        hasModelSelected={model} />
+                        hasModelSelected={!!model}
+                    />
                 </div>
             )}
             <ProductModelSelector
@@ -102,8 +118,8 @@ export function ProductData({ default_price, prices, name, id, images, onSetFilt
                 prices={prices}
                 defaultPrice={Number(price.unit_amount)}
                 getProductData={handleProductData}
-                onSetModel={handleSetModel} />
+                onSetModel={setModel}
+            />
         </form>
-
     )
 }

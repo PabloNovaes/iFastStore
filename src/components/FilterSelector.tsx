@@ -29,7 +29,7 @@ export function FilterSelector({ handleFilter, currentFilter }: { handleFilter: 
                         value={name}
                         checked={currentFilter === name}
                         className="snap-start shrink-0 border flex justify-center gap-1 items-center px-4 py-1 rounded-full transition-colors 
-                        duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white"
+                        duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-secondary"
                     >
                         {/* {icon} */}
                         {title}

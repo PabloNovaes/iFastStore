@@ -88,9 +88,9 @@ export function Orders() {
                     </CardHeader>
                     <CardContent>
                         <RadioGroup defaultValue="all" className="flex items-center gap-2 pb-3 flex-wrap">
-                            <RadioGroupItem onClick={() => setFilter("all")} value="all" key="all" className="border px-4 text-sm py-1 rounded-lg transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white">Todos</RadioGroupItem>
+                            <RadioGroupItem onClick={() => setFilter("all")} value="all" key="all" className="border px-4 text-sm py-1 rounded-lg transition-colors duration-300 bg-muted/40 data-[state=checked]:bg-primary data-[state=checked]:text-secondary">Todos</RadioGroupItem>
                             {tabs.map(({ status }) => (
-                                <RadioGroupItem key={status} onClick={() => setFilter(status)} value={status} className="border px-4 text-sm py-1 rounded-lg transition-colors duration-300 data-[state=checked]:bg-primary data-[state=checked]:text-white">{orderStatus[status.toUpperCase()]}</RadioGroupItem>
+                                <RadioGroupItem key={status} onClick={() => setFilter(status)} value={status} className="border px-4 text-sm py-1 rounded-lg transition-colors duration-300 bg-muted/40 data-[state=checked]:bg-primary data-[state=checked]:text-secondary">{orderStatus[status.toUpperCase()]}</RadioGroupItem>
                             ))}
                         </RadioGroup>
                         {(statusFilter === "all"

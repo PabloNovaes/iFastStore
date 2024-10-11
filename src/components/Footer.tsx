@@ -9,9 +9,9 @@ export function Footer() {
     const currentYear = new Date().getFullYear()
 
     return (
-        <footer className="border-t bg-primary-foreground">
+        <footer className="border-t bg-muted/40">
             <div className="container mx-auto px-4 py-8">
-                <div className="grid grid-cols-1 gap-8 text-center sm:text-left sm:grid-cols-2 lg:grid-cols-4">
+                <div className="grid grid-cols-1 gap-8 text-center sm:text-left sm:grid-cols-3 lg:grid-cols-4">
                     <div className="space-y-3">
                         <div className="text-lg font-regular flex flex-col items-center sm:items-start gap-2">
                             <Image
@@ -27,7 +27,7 @@ export function Footer() {
                             Vendita di iPhone, Notebook e accessori <br /> in tutta Italia.
                         </p>
                     </div>
-                    <div className="space-y-3 flex flex-col">
+                    <div className="space-y-3 justi flex flex-col">
                         <h2 className="text-lg font-semibold">Contatti</h2>
                         <ul className="flex justify-center sm:justify-start space-x-2 text-sm">
                             <li>
@@ -35,7 +35,7 @@ export function Footer() {
                                     variant="outline"
                                     size="icon"
                                     asChild
-                                    className="w-10 h-10 rounded-full bg-accent hover:bg-[#46c254] hover:text-white transition-all duration-300"
+                                    className="w-10 h-10 rounded-full bg-muted/40 hover:bg-[#46c254] hover:text-white transition-all duration-300"
                                 >
                                     <Link
                                         href="https://wa.me/393338343528"
@@ -52,7 +52,7 @@ export function Footer() {
                                     variant="outline"
                                     size="icon"
                                     asChild
-                                    className="w-10 h-10 rounded-full bg-accent hover:bg-gradient-to-b from-[#833ab4] via-[#fd1d1d]/90 to-[#fcb045] hover:text-white transition-all duration-300"
+                                    className="w-10 h-10 rounded-full bg-muted/40 hover:bg-gradient-to-b from-[#833ab4] via-[#fd1d1d]/90 to-[#fcb045] hover:text-white transition-all duration-300"
                                 >
                                     <Link
                                         href="https://www.instagram.com/ifaststore_fastriparazione/"
@@ -69,7 +69,7 @@ export function Footer() {
                                     variant="outline"
                                     size="icon"
                                     asChild
-                                    className="w-10 h-10 rounded-full bg-accent hover:bg-[#e34134] hover:text-white transition-all duration-300"
+                                    className="w-10 h-10 rounded-full bg-muted/40 hover:bg-[#e34134] hover:text-white transition-all duration-300"
                                 >
                                     <Link
                                         href="mailto:info@ifaststore.com"
@@ -83,7 +83,7 @@ export function Footer() {
                             </li>
                         </ul>
                     </div>
-                    <div className="space-y-3 flex flex-col">
+                    <div className="space-y-3 justi flex flex-col">
                         <h2 className="text-lg font-semibold">Informazioni Legali</h2>
                         <ul className="space-y-2 text-sm">
                             <li>

@@ -44,7 +44,7 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
                 </div>
             </AccordionTrigger>
             <AccordionContent className="pb-0">
-                <header className="bg-accent rounded-lg  flex items-center justify-between p-2 px-3">
+                <header className="bg-muted/40 rounded-lg  flex items-center justify-between p-2 px-3">
                     <span className="flex flex-col items-start">
                         <p className="font-semibold text-[14px]">Stato</p>
                         <p className="text-xs">{orderStatus[status]}</p>
@@ -61,7 +61,7 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
                 <ScrollArea id="scroll-area" className="h-36 py-2" >
                     {products.map(({ id, imageUrl, name, color, price }) => (
                         <div key={id} className="h-fit w-full rounded-[20px] items-center flex gap-3">
-                            <div className="bg-accent p-2 size-32 rounded-xl relative">
+                            <div className="bg-muted/40 p-2 size-32 rounded-xl relative">
                                 <Image src={imageUrl}
                                     priority quality={100}
                                     layout="fill"
