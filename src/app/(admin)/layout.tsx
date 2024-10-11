@@ -4,12 +4,16 @@ import { GeistSans } from "geist/font/sans";
 import { redirect } from "next/navigation";
 
 import { Header } from '@/components/dashboard/Header';
-import { Sidebar } from '@/components/dashboard/Sidebar';
 import { Toaster } from "@/components/ui/sonner";
 
+import { ThemeProvider } from '@/components/theme-provider';
+
+import { DashboardDock } from '@/components/dashboard/Dock';
 import { Metadata } from 'next';
 import React from 'react';
 import "../globals.css";
+
+
 
 export const metadata: Metadata = {
     title: {
@@ -36,16 +40,23 @@ export default function RootLayout({
                     <head>
                         <link rel="icon" href="/assets/icons/fast-store-icon.svg" sizes="any" />
                     </head>
-                    <body>
-                        <div className="flex w-full flex-col">
-                            <Sidebar />
-                            <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14 min-h-screen">
-                                <Header />
-                                {children}
+                    <ThemeProvider
+                        attribute="class"
+                        defaultTheme="system"
+                        enableSystem
+                        disableTransitionOnChange
+                    >
+                        <body>
+                            <div className="flex w-full flex-col">
+                                <div className="flex flex-col sm:gap-4 sm:py-4  min-h-screen">
+                                    <Header />
+                                    {children}
+                                    <DashboardDock/>
+                                </div>
+                                <Toaster />
                             </div>
-                            <Toaster />
-                        </div>
-                    </body>
+                        </body>
+                    </ThemeProvider>
                 </html>
             </ClerkProvider>
         </>

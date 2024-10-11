@@ -1,8 +1,8 @@
 'use client'
 
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { GearSix, Lightning } from "@phosphor-icons/react";
+import { Lightning } from "@phosphor-icons/react";
 import Link from "next/link";
+import { ToggleTheme } from "../toogle-theme";
 import { DesktopActiveLink } from "./ActiveLink";
 
 export function Sidebar() {
@@ -19,20 +19,7 @@ export function Sidebar() {
                 <DesktopActiveLink />
             </nav>
             <nav className="mt-auto flex flex-col items-center gap-4 px-2 sm:py-4">
-                <TooltipProvider>
-                    <Tooltip>
-                        <TooltipTrigger asChild>
-                            <Link
-                                href="#"
-                                className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
-                            >
-                                <GearSix className="h-5 w-5" />
-                                <span className="sr-only">Settings</span>
-                            </Link>
-                        </TooltipTrigger>
-                        <TooltipContent side="right">Settings</TooltipContent>
-                    </Tooltip>
-                </TooltipProvider>
+            <ToggleTheme />
             </nav>
         </aside >
     )
