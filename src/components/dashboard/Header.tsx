@@ -1,14 +1,8 @@
 'use client'
 
 import { UserButton } from "@clerk/nextjs";
-import { Lightning } from "@phosphor-icons/react";
-import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "../ui/breadcrumb";
-import { Button } from "../ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
-import { MobileActiveLink } from "./ActiveLink";
 
 const pathsLink: { [key: string]: string } = {
     dashboard: "/dashboard",
@@ -25,7 +19,7 @@ export function Header() {
 
     return (
         <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6 justify-between">
-            <Sheet>
+            {/* <Sheet>
                 <SheetTrigger asChild>
                     <Button size="icon" variant="outline" className="sm:hidden">
                         <Image src="/assets/icons/menu.svg" alt="menu icon" height={18} width={18} />
@@ -43,7 +37,7 @@ export function Header() {
                         <MobileActiveLink />
                     </nav>
                 </SheetContent>
-            </Sheet>
+            </Sheet> */}
             <Breadcrumb className="hidden md:flex">
                 <BreadcrumbList>
                     {paths.map((pathname, indx) => (

@@ -48,7 +48,7 @@ export default function RootLayout({
                     >
                         <body>
                             <div className="flex w-full flex-col">
-                                <div className="flex flex-col sm:gap-4 sm:py-4  min-h-screen">
+                                <div className="flex flex-col sm:gap-4 sm:py-4 custom-height sm:mb-[70px] mb-[80px]">
                                     <Header />
                                     {children}
                                     <DashboardDock/>

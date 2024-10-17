@@ -436,7 +436,7 @@ export function ProductDetails({ params }: Params) {
                         </CardContent>
                         <CardFooter className="justify-center border-t p-4">
                             <CreateSkuModal onUpdateCreateNewSku={handleCreateNewSku} productData={{ id: product.id, colors }}>
-                                <Button size="sm" variant="ghost" className="gap-1">
+                                <Button size="sm" variant="ghost" className="gap-1 h-10 w-full">
                                     <PlusCircle className="h-3.5 w-3.5" />
                                     Adicionar
                                 </Button>

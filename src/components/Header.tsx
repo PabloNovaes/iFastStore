@@ -130,14 +130,14 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         <button onClick={() => push('/cart')} className="rounded-lg p-2 hover:bg-muted/40 transition-all duration-300">
                             <ShoppingCartIcon size={18} />
                         </button>
-                        <ToggleTheme />
+                        <ToggleTheme className="rounded-xl p-2 border hover:bg-muted bg-muted/40 " />
                         <div className="max-[500px]:hidden">
                             {
                                 pathname !== "/account" && (
                                     <SignedOut>
                                         <span onClick={() => setIsMenuOpen(false)}>
                                             <SignInButton mode='modal'>
-                                                <Button className='py-1 rounded-xl bg-muted/40 hover:bg-muted/20 hover:brightness-75 text-primary border w-full'>Login</Button>
+                                                <Button className='py-1 rounded-xl bg-muted/40 hover:bg-muted text-primary border w-full'>Login</Button>
                                             </SignInButton>
                                         </span>
                                     </SignedOut>

@@ -1,10 +1,31 @@
 "use client";
 
-import React, { PropsWithChildren, useRef } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useAnimate, useMotionValue, useSpring, useTransform } from "framer-motion";
+import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+
+const useTooltipAnimations = (hover: boolean) => {
+  const [scope, animate] = useAnimate();
+
+  useEffect(() => {
+    animate(
+      "span",
+      hover
+        ? { top: -50, opacity: 1, scale: 1 }
+        : { top: -20, opacity: 0, scale: 0 },
+      {
+        type: "spring",
+        bounce: 0,
+        duration: .35
+      }
+    );
+
+  }, [animate, hover])
+  return scope
+}
 
 export interface DockProps extends VariantProps<typeof dockVariants> {
   className?: string;
@@ -18,7 +39,7 @@ const DEFAULT_MAGNIFICATION = 60;
 const DEFAULT_DISTANCE = 140;
 
 const dockVariants = cva(
-  "supports-backdrop-blur:bg-white/10 supports-backdrop-blur:dark:bg-black/10 mx-auto mt-8 flex h-[58px] w-max gap-2 rounded-2xl border p-2 backdrop-blur-md",
+  " mx-auto mt-8 flex h-[58px] w-max gap-2 rounded-2xl border p-2 bg-background",
 );
 
 const Dock = React.forwardRef<HTMLDivElement, DockProps>(
@@ -77,6 +98,8 @@ export interface DockIconProps {
   className?: string;
   children?: React.ReactNode;
   props?: PropsWithChildren;
+  tooltip: string;
+  link?: string;
 }
 
 const DockIcon = ({
@@ -85,9 +108,14 @@ const DockIcon = ({
   distance = DEFAULT_DISTANCE,
   mouseX,
   className,
+  link,
   children,
+  tooltip,
   ...props
 }: DockIconProps) => {
+  const [isHover, setIsHover] = useState(false)
+
+  const scope = useTooltipAnimations(isHover)
   const ref = useRef<HTMLDivElement>(null);
 
   const distanceCalc = useTransform(mouseX, (val: number) => {
@@ -112,13 +140,21 @@ const DockIcon = ({
     <motion.div
       ref={ref}
       style={{ width }}
+      onMouseOver={() => setIsHover(true)} onMouseOut={() => setIsHover(false)}
       className={cn(
         "flex aspect-square cursor-pointer items-center justify-center rounded-full",
         className,
       )}
       {...props}
     >
-      {children}
+      <div className="flex relative justify-center" ref={scope}>
+        <Link href={link || ""}>
+          {children}
+        </Link>
+        <motion.span initial={{ top: 0, opacity: 0, scale: 0 }} className={cn("text-nowrap absolute z-[1000] bg-[#fbfbfb] dark:bg-[#151517] text-xs -top-10 p-1 px-2 border rounded-lg")}>
+          {tooltip}
+        </motion.span>
+      </div>
     </motion.div>
   );
 };
