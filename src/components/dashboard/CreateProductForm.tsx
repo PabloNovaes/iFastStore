@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-import { CircleNotch } from "@phosphor-icons/react";
+import { Spinner } from "@phosphor-icons/react";
 import { FormEvent, ReactNode, useRef, useState } from "react";
 import { Button } from "../ui/button";
 
@@ -205,7 +205,7 @@ export function CreateProductForm({ children, onCreateNewProduct }: { children: 
 
                     <DialogFooter>
                         <Button type="submit">
-                            {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Cadastrar"}
+                            {isLoading ? <Spinner size={22} className="animate-spin" /> : "Cadastrar"}
                         </Button>
                     </DialogFooter>
                 </form>

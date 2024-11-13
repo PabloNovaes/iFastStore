@@ -4,7 +4,7 @@ import { OrdersProps } from "@/app/(admin)/dashboard/content";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
-import { CircleNotch, CreditCard, PaypalLogo } from "@phosphor-icons/react";
+import { CreditCard, PaypalLogo, Spinner } from "@phosphor-icons/react";
 import { ReactNode, useRef, useState } from "react";
 import { CopyCode } from "../CopyCode";
 import {
@@ -118,7 +118,7 @@ export function OrderOverview({ id, created_at, products, total, adress, shippin
                                                     <Input ref={inputRef} required type="text" placeholder="Digite ou cole o código" className="my-4" />
                                                     <DialogFooter>
                                                         <Button type="submit" className="w-fit self-end" disabled={isLoading}>
-                                                            {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Enviar"}
+                                                            {isLoading ? <Spinner size={22} className="animate-spin" /> : "Enviar"}
                                                         </Button>
                                                     </DialogFooter>
                                                 </form>
@@ -275,7 +275,7 @@ export function MobileOrderOverview({ id, created_at, products, total, adress, s
                                                             <Input ref={inputRef} required type="text" placeholder="Digite ou cole o código" className="my-4" />
                                                             <DialogFooter>
                                                                 <Button type="submit" className="w-fit self-end" disabled={isLoading}>
-                                                                    {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Enviar"}
+                                                                    {isLoading ? <Spinner size={22} className="animate-spin" /> : "Enviar"}
                                                                 </Button>
                                                             </DialogFooter>
                                                         </form>

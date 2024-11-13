@@ -34,7 +34,7 @@ import {
 } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Textarea } from "@/components/ui/textarea";
-import { CaretLeft, CircleNotch, PlusCircle, Trash, Upload } from "@phosphor-icons/react";
+import { CaretLeft, PlusCircle, Spinner, Trash, Upload } from "@phosphor-icons/react";
 import { motion, useAnimate } from "framer-motion";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -213,7 +213,7 @@ export function ProductDetails({ params }: Params) {
     const category = product.metadata["category"] as string
 
     return (
-        <main className="p-4 sm:px-6 flex flex-col max-w-[64rem] w-full m-auto gap-4">
+        <main className="p-4 sm:px-6 flex flex-col max-w-[64rem] w-full m-auto gap-4 bg-primary-foreground/30">
             <header className="flex items-center gap-4">
                 <Button variant={"outline"} className="p-1 h-fit" onClick={() => router.replace('/dashboard/products')}>
                     <CaretLeft weight="bold" size={14} />
@@ -249,7 +249,7 @@ export function ProductDetails({ params }: Params) {
                                 </label>
                                 <motion.div id="save-name" ref={changeNameScope} className="h-0 overflow-hidden">
                                     <Button className="w-fit" type="submit">
-                                        {pending ? <CircleNotch size={22} className=" animate-spin" /> : "Salvar"}
+                                        {pending ? <Spinner size={22} className=" animate-spin" /> : "Salvar"}
                                     </Button>
                                 </motion.div>
                             </form>
@@ -268,7 +268,7 @@ export function ProductDetails({ params }: Params) {
                                             className="mt-1" placeholder="Descrição" />
                                         <motion.div id="save-description" ref={changeDescriptionScope} className="h-0 overflow-hidden">
                                             <Button className="w-fit" type="submit">
-                                                {pending ? <CircleNotch size={22} className=" animate-spin" /> : "Salvar"}
+                                                {pending ? <Spinner size={22} className=" animate-spin" /> : "Salvar"}
                                             </Button>
                                         </motion.div>
                                     </form>

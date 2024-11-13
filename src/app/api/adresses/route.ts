@@ -1,19 +1,11 @@
+import { Adresses } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../../../prisma/client";
 
 export const dynamic = 'force-dynamic'
 
-export interface AdressProps {
-    id?: string
-    complement?: string
-    city: string
-    cap: number
-    street: string
-    userId: string
-    name: string
-    cellphone: string
-    email: string
-}
+export interface AdressProps extends Adresses { }
+
 export async function POST(req: NextRequest) {
     try {
         const data = await req.json() as AdressProps
@@ -22,7 +14,6 @@ export async function POST(req: NextRequest) {
         return NextResponse.json(adress)
     } catch (err) {
         console.log(err);
-        
         return NextResponse.json({ message: err, code: 500 })
     }
 }

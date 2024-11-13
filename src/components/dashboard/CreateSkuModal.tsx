@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 
-import { CircleNotch } from "@phosphor-icons/react";
+import { Spinner } from "@phosphor-icons/react";
 import { FormEvent, ReactNode, useRef, useState } from "react";
 import { Button } from "../ui/button";
 
@@ -101,7 +101,7 @@ export function CreateSkuModal({ children, onUpdateCreateNewSku, productData }: 
                     </div>
                     <DialogFooter>
                         <Button type="submit">
-                            {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Salvar"}
+                            {isLoading ? <Spinner size={22} className="animate-spin" /> : "Salvar"}
                         </Button>
                     </DialogFooter>
                 </form>

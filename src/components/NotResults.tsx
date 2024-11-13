@@ -19,7 +19,7 @@ export const NotResultsFound = forwardRef<HTMLDivElement, Props>(function NotRes
     const path = usePathname()
 
     return (
-        <div ref={ref} className={cn("flex flex-col items-center justify-center  m-auto text-center px-4 col-span-full", className)}>
+        <div ref={ref} className={cn("flex flex-col items-center justify-center m-auto text-center px-4 col-span-full", className)}>
             <Package className="h-12 w-12 text-muted-foreground mb-4" />
             <h2 className="text-2xl font-bold mb-2">{title ? title : "Nessun prodotto trovato"}</h2>
             <p className="text-muted-foreground max-w-md">

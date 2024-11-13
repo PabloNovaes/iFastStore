@@ -63,7 +63,7 @@ export function CardsSection() {
                 </footer>
             </motion.li>
 
-            <motion.li initial={{ opacity: 0, x: -40 }} className="bg-muted/40 flex flex-col justify-between shadow-lg border rounded-[30px] relative p-8 h-[250px]  w-full overflow-hidden">
+            <motion.li initial={{ opacity: 0, x: -40 }} className="bg-muted/40 flex flex-col justify-between shadow border rounded-[30px] relative p-8 h-[250px]  w-full overflow-hidden">
                 <img alt="notebook banner" src='assets/products/notebook.png' className="h-[65%] object-contain absolute -right-20 self-center" />
                 <header className="text-3xl">
                     <h1>Notebook</h1>

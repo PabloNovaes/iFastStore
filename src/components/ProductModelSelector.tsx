@@ -2,7 +2,7 @@
 
 import { CartProduct } from "@/app/(store)/cart/content";
 import { useAuth } from "@clerk/nextjs";
-import { CircleNotch, ShoppingCart } from "@phosphor-icons/react";
+import { ShoppingCart, Spinner } from "@phosphor-icons/react";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -112,9 +112,7 @@ export function ProductModelSelector({ prices, getProductData, onSetModel, activ
                                 {isLoading ? (
                                     <div className='flex space-x-2 justify-center items-center h-screen'>
                                         <span className='sr-only'>Loading...</span>
-                                        <div className='h-2 w-2 bg-background rounded-full duration-500 animate-bounce [animation-delay:-0.3s]'></div>
-                                        <div className='h-2 w-2 bg-background rounded-full duration-500 animate-bounce [animation-delay:-0.15s]'></div>
-                                        <div className='h-2 w-2 bg-background rounded-full duration-500 animate-bounce'></div>
+                                        <Spinner className="animate-spin duration-500" />
                                     </div>
                                 ) : (
                                     currentPrice === 0 ? "Acquistare gratuitamente" : `Compra per ${formattedPrice}`
@@ -125,7 +123,7 @@ export function ProductModelSelector({ prices, getProductData, onSetModel, activ
                                 variant={'outline'}
                                 className="w-[50px] h-max border grid place-content-center rounded-xl disabled:opacity-90 transition-opacity duration-500"
                             >
-                                {pending ? <CircleNotch size={22} className="animate-spin" /> : <ShoppingCart size={22} />}
+                                {pending ? <Spinner size={22} className="animate-spin" /> : <ShoppingCart size={22} />}
                             </Button>
                         </>
                     ) : (

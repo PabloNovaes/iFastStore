@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import Stripe from "stripe";
-import { Badge } from "./ui/badge";
 
 export interface ColorProps {
     name: string
@@ -46,7 +45,7 @@ export function ProductCard({ product }: { product: Stripe.Product }) {
     }, [isInVIew, useProductCardAnimation])
 
     return (
-        <motion.div className="relative" ref={ref} variants={variants} initial={'hidden'} animate={useProductCardAnimation}>
+        <motion.div className="relative h-fit" ref={ref} variants={variants} initial={'hidden'} animate={useProductCardAnimation}>
             <Link href={`/products/${id}`} className="w-full overflow-hidden" prefetch={true}>
                 <div className="bg-muted/40 rounded-[30px] min-h-[160px] relative">
                     <Image src={images.length === 0 ? '/assets/icons/placeholder.png' : images[0]}
@@ -57,12 +56,10 @@ export function ProductCard({ product }: { product: Stripe.Product }) {
                         {colorOptions.length > 1 &&
                             <ul className="flex gap-1 justify-start rounded-full p-1 bg-neutral-800/80 backdrop-blur-sm w-fit">
                                 {colorOptions.map(({ name, code }) => (
-                                    <li key={name} style={{ background: code }} className={`rounded-full border h-3 w-3 shadow-inner shadow-black/50`}></li>
+                                    <li key={name} style={{ background: code }} className={`rounded-full border border-zinc-500 h-3 w-3 shadow-inner shadow-black/50`}></li>
                                 ))}
-                            </ul>}
-                        {shippingTax === 0 && (
-                            <Badge variant={"green"} className="text-[9px]">spedizione gratuita</Badge>
-                        )}
+                            </ul>
+                        }
                     </div>
 
                 </div>

@@ -46,11 +46,11 @@ export function Home() {
             <main className="px-5 flex flex-col gap-6 max-w-5xl m-auto pt-5" style={{ minHeight: "calc(100svh - 50px)" }} >
                 <CardsSection />
                 <FilterSelector handleFilter={onSelectFilter} currentFilter={filter} />
-                <div className="grid gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4">
+                <section className="grid min-h-[60svh] gap-5 grid-cols-2 pb-5 md:grid-cols-3 lg:grid-cols-4" style={{gridTemplateRows: "auto"}}>
                     {isLoading && Array.from({ length: 8 }).map(() => <ProductCardSkeleton key={Math.random()} />)}
                     {filteredProducts.length !== 0 && !isLoading && filteredProducts.map((product) => <ProductCard key={product.id} product={product} />)}
                     {filteredProducts.length === 0 && !isLoading && <NotResultsFound resetFilter={onSelectFilter} />}
-                </div>
+                </section>
             </main>
         </>
     );

@@ -1,9 +1,9 @@
-import { Orders } from "./content"
+import { Customers } from "./content"
 
 export const metadata = {
   title: "Cliente"
 }
 
 export default function Page() {
-  return <Orders />
+  return <Customers />
 }

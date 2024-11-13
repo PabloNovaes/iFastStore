@@ -21,7 +21,7 @@ import z from "zod";
 
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { cn } from "@/lib/utils";
-import { CircleNotch } from "@phosphor-icons/react";
+import { Spinner } from "@phosphor-icons/react";
 import { ReactNode, useState } from "react";
 
 interface CreateAdressFormProps {
@@ -96,7 +96,7 @@ export function CreateAdressForm({ onSubmit, children }: CreateAdressFormProps) 
             </div>
 
             <Button type="submit" className="w-full mt-4">
-                {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Inviare"}
+                {isLoading ? <Spinner size={22} className="animate-spin" /> : "Inviare"}
             </Button>
         </form>
     );

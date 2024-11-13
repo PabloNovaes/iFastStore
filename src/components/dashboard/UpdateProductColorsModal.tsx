@@ -18,7 +18,7 @@ import {
     MultiSelectorList,
     MultiSelectorTrigger,
 } from "@/components/ui/multi-select";
-import { CircleNotch } from "@phosphor-icons/react";
+import { Spinner } from "@phosphor-icons/react";
 import { ReactNode, useRef, useState } from "react";
 import { toast } from "sonner";
 import Stripe from "stripe";
@@ -88,7 +88,7 @@ export function UpdateProductColorsModal({ children, colors, id, onUpdateColors 
                     </div>
                     <DialogFooter>
                         <Button type="submit">
-                            {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Salvar"}
+                            {isLoading ? <Spinner size={22} className="animate-spin" /> : "Salvar"}
                         </Button>
                     </DialogFooter>
                 </form>

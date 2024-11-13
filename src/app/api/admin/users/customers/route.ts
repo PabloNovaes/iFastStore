@@ -28,6 +28,7 @@ export async function GET() {
                 created_at: created
             }))
         ]
+console.log(users);
 
         return NextResponse.json(data)
     } catch (err) {

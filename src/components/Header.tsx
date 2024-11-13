@@ -9,7 +9,7 @@ import { ArrowLeft, Lightning, MagnifyingGlass, ShoppingCart as ShoppingCartIcon
 
 import Link from "next/link";
 
-import { ActiveLink } from "./ActiveLink";
+import { NavbarLinks } from "./NavbarLinks";
 import { ToggleTheme } from "./toogle-theme";
 import { Button } from './ui/button';
 
@@ -116,8 +116,8 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                                 : <Lightning weight="fill" size={22} />
                         }
                     </h1>
-                    <nav className="flex items-center gap-2 font-light text-sm max-[500px]:hidden">
-                        <ActiveLink currentPath={pathname} isAdmin={isAdmin} />
+                    <nav className="flex items-center gap-2 font-light text-sm max-md:hidden">
+                        <NavbarLinks currentPath={pathname} isAdmin={isAdmin} />
                     </nav>
                     <div className="flex items-center gap-2 p-3 px-5 w-full justify-end">
                         <motion.form className="w-0" onSubmit={handleSubmit}>
@@ -130,7 +130,6 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                         <button onClick={() => push('/cart')} className="rounded-lg p-2 hover:bg-muted/40 transition-all duration-300">
                             <ShoppingCartIcon size={18} />
                         </button>
-                        <ToggleTheme className="rounded-xl p-2 border hover:bg-muted bg-muted/40 " />
                         <div className="max-[500px]:hidden">
                             {
                                 pathname !== "/account" && (
@@ -145,7 +144,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                             }
                         </div>
                         <button
-                            className="relative w-8 h-8 z-20 focus:outline-none max-[500px]:flex hidden justify-center items-center"
+                            className="relative w-8 h-8 z-20 focus:outline-none md:hidden justify-center items-center"
                             onClick={() => setIsMenuOpen((prev) => !prev)}
                             aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
                         >
@@ -168,6 +167,7 @@ export function Header({ isAdmin }: { isAdmin: boolean }) {
                                 transition={{ duration: 0.3, ease: "backInOut" }}
                             />
                         </button>
+                        <ToggleTheme className="rounded-xl p-2 border hover:bg-muted bg-muted/40 " />
                     </div>
                 </div>
 

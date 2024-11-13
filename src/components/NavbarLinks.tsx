@@ -27,8 +27,7 @@ const tabs: { path: string, title: string }[] = [
     { title: "Dashboard", path: "/dashboard" },
 ]
 
-export function ActiveLink({
-    containerClassName,
+export function NavbarLinks({
     activeTabClassName,
     tabClassName,
     isAdmin,
@@ -37,7 +36,6 @@ export function ActiveLink({
     const [activeIdx, setActiveIdx] = useState<number>(-1);
 
     useEffect(() => {
-        // Atualiza o índice ativo baseado no currentPath
         const index = tabs.findIndex(tab => currentPath === tab.path);
         setActiveIdx(index);
     }, [currentPath]);

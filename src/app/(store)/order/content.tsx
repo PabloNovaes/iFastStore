@@ -5,7 +5,7 @@ import { OrderProductsCard } from "@/components/InitOrderProductsCard";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useUser } from "@clerk/nextjs";
-import { CheckCircle, CircleNotch, CreditCard, PaypalLogo, Plus } from "@phosphor-icons/react";
+import { CheckCircle, CreditCard, PaypalLogo, Plus, Spinner } from "@phosphor-icons/react";
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useEffect, useRef, useState } from "react";
@@ -223,7 +223,7 @@ export function Order() {
                         </RadioGroup>
 
                         <Button className="w-full p-5 mt-4 transition-all duration-500">
-                            {pending ? <CircleNotch size={22} className={`${finished && 'hidden'} animate-spin`} /> : <p className={`${finished && 'hidden'} `}>{"Confermare l'ordine"}</p>}
+                            {pending ? <Spinner size={22} className={`${finished && 'hidden'} animate-spin`} /> : <p className={`${finished && 'hidden'} `}>{"Confermare l'ordine"}</p>}
                             {finished && <CheckCircle size={22} />}
                         </Button>
                     </form>

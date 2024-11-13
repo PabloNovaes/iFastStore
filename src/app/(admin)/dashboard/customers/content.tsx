@@ -1,7 +1,6 @@
 'use client'
 
-import { CustomerProps, CustomersDetails, MobileCustomersDetails } from "@/components/dashboard/CustomerDetails"
-import { CustomersCharts } from "@/components/dashboard/CustomersChart"
+import { CustomerProps, MobileCustomersDetails } from "@/components/dashboard/CustomerDetails"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { RadioGroup, RadioGroupItem } from "@radix-ui/react-radio-group"
@@ -18,7 +17,7 @@ const tabs: { isBuyer: string }[] = [
 ]
 
 
-export function Orders() {
+export function Customers() {
     const [customers, setCustomers] = useState<CustomerProps[]>([])
     const [selectedCustomer, setSelectedCustomer] = useState(customers[0])
     const [statusFilter, setFilter] = useState("all")
@@ -98,7 +97,7 @@ export function Orders() {
                 </Card>
 
                 <div className="grid gap-6 col-span-2 lg:col-span-1">
-                    {customers && customers.length !== 0
+                    {/* {customers && customers.length !== 0
                         ? <CustomersDetails {...(selectedCustomer)} />
                         : <Card className="h-fit col-span-2 lg:col-span-1">
                             <CardHeader className="text-start">
@@ -114,7 +113,7 @@ export function Orders() {
                         {
                             tag: "Clientes", count: customers.filter(customer => String(customer.isBuyer) === "true").length, fill: "var(--color-customers)"
                         }
-                    ]} />}
+                    ]} />} */}
                 </div>
             </div>
         </main>

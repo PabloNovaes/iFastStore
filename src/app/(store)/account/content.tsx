@@ -1,13 +1,13 @@
 'use client'
 
 import { SignInButton, UserButton, useUser } from "@clerk/nextjs"
-import { Cardholder, ListChecks, Package, PencilSimple, PlusCircle, Truck, UserCircle } from "@phosphor-icons/react"
-import { Order, Products_per_order } from "@prisma/client"
+import { Cardholder, ListChecks, Package, PencilSimple, Truck, UserCircle } from "@phosphor-icons/react"
+import { Adresses, Order, Products_per_order } from "@prisma/client"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
 import Stripe from "stripe"
 
-import { CreateAdressForm, CreateAdressSchema } from "@/components/CreateAdressForm"
+import { CreateAdressSchema } from "@/components/CreateAdressForm"
 import { NotResultsFound } from "@/components/NotResults"
 import { OrderProductCard } from "@/components/OrderProducts"
 import { UpdateAddressForm } from "@/components/UpdateAddressForm"
@@ -20,7 +20,6 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import Image from "next/image"
 import { Loading } from "../../../components/accountLoading"
-import { AdressProps } from "../../api/adresses/route"
 
 export interface ProductsPerOrderProps extends Products_per_order {
   price: Stripe.Price
@@ -61,8 +60,8 @@ const tabs: TabProps[] = [
 
 export function Account() {
   const [isLoading, setIsLoading] = useState(false)
-  const [address, setAddress] = useState<AdressProps[]>([])
-  const [orders, setOrders] = useState<OrdersProps[]>([])
+  const [address, setAddress] = useState<Adresses[]>([])
+  const [orders, setOrders] = useState<OrdersProps[] | null>(null)
 
   const { user, isLoaded } = useUser()
 
@@ -72,8 +71,16 @@ export function Account() {
       setIsLoading(true)
       try {
         const [addressResponse, ordersResponse] = await Promise.all([
-          fetch(`/api/adresses?userId=${user.id}`),
-          fetch(`/api/order?userId=${user.id}`)
+          fetch(`/api/adresses?userId=${user.id}`, {
+            cache: "no-store", next: {
+              tags: ["load-adress"]
+            }
+          }),
+          fetch(`/api/order?userId=${user.id}`, {
+            cache: "no-store", next: {
+              tags: ["load-orders"]
+            }
+          })
         ])
         const addressData = await addressResponse.json()
         const ordersData = await ordersResponse.json()
@@ -136,7 +143,7 @@ export function Account() {
 
   const handleConfirmDelivery = (orderId: string) => {
     setOrders((prevOrders) =>
-      prevOrders.map(order =>
+      (prevOrders as OrdersProps[]).map(order =>
         order.id === orderId ? { ...order, status: "ORDER_DELIVERED" } : order
       )
     )
@@ -178,7 +185,7 @@ export function Account() {
       </div>
       <div className="flex flex-col sm:flex-row gap-4">
         <div className="flex gap-4 h-full flex-wrap flex-3 w-full">
-          <Tabs defaultValue="awaiting_payment" className="flex-[2] md:min-w-[416px] h-fit">
+          {orders ? <Tabs defaultValue="awaiting_payment" className="flex-[2] md:min-w-[416px] h-fit">
             <TabsList className="grid w-full grid-cols-4 h-fit rounded-xl border">
               {tabs.map(({ icon, name, status }) => {
                 const filteredOrders = orders.filter(order => order.status.toLowerCase() === status)
@@ -209,9 +216,9 @@ export function Account() {
                     </div>
                   ) : (
                     filteredOrders.reverse().map((order) => (
-                      <Accordion type="single" collapsible key={order.id} className="border h-fit px-2 rounded-xl w-full bg-white">
+                      <Accordion type="single" collapsible key={order.id} className="border h-fit px-2 rounded-xl w-full dark:bg-muted/40">
                         <AccordionItem value={order.id}>
-                          <OrderProductCard onConfirmDelivery={handleConfirmDelivery} {...order} />
+                          <OrderProductCard address={address[0]} onConfirmDelivery={handleConfirmDelivery} {...order} />
                         </AccordionItem>
                       </Accordion>
                     ))
@@ -219,77 +226,122 @@ export function Account() {
                 </TabsContent>
               )
             })}
-          </Tabs>
-        </div>
-        <Card className="rounded-xl md:max-w-72 w-full h-fit text-sm overflow-auto">
-          {address.length === 0 ? (
-            <CardHeader className="bg-muted/40 flex items-center justify-between">
-              {isLoading ? (
-                <div className="flex gap-3 w-full">
-                  <Skeleton className="w-full h-9" />
-                  <Skeleton className="w-full size-9" />
-                </div>
-              ) : (
-                <>
-                  <CardTitle className="text-md font-semibold mb-2">Registra i dettagli della consegna</CardTitle>
-                  <CreateAdressForm onSubmit={handleSubmit}>
-                    <Button className="w-full" aria-label="Add delivery details">
-                      <span className="mr-2">Aggiungere</span><PlusCircle className="h-4 w-4" />
-                    </Button>
-                  </CreateAdressForm>
-                </>
-              )}
-            </CardHeader>
-          ) : (
-            <>
-              <CardHeader className="bg-muted dark:bg-muted/30 flex flex-row items-center justify-between ">
-                <CardTitle className="font-semibold text-lg">Dati di consegna</CardTitle>
-                <UpdateAddressForm currentData={address[0]} onSubmit={updateAddress}>
-                  <Button className="rounded-lg" variant="outline" size="icon" aria-label="Edit delivery details">
-                    <PencilSimple className="h-4 w-4" />
-                  </Button>
-                </UpdateAddressForm>
-              </CardHeader>
-              <CardContent className="space-y-6 mt-4">
-                <div>
-                  <h3 className="font-semibold mb-2">{"Informazioni sull'indirizzo"}</h3>
-                  <address className="not-italic text-muted-foreground space-y-1">
-                    <p>{address[0].name}</p>
-                    <p>{address[0].street}</p>
-                    <p>{`${address[0].cap}, ${address[0].city}`}</p>
-                    <p>{address[0].complement}</p>
-                  </address>
-                </div>
-                <Separator />
-                <div>
-                  <h3 className="font-semibold mb-2">Mie dati</h3>
-                  <dl className="grid gap-2">
-                    <div className="flex justify-between">
-                      <dt className="text-muted-foreground">Cliente</dt>
-                      <dd>{address[0].name}</dd>
-                    </div>
-                    <div className="flex justify-between">
-                      <dt className="text-muted-foreground">Email</dt>
-                      <dd>
-                        <a href={`mailto:${address[0].email}`} className="hover:underline">
-                          {address[0].email}
-                        </a>
-                      </dd>
-                    </div>
-                    <div className="flex justify-between">
-                      <dt className="text-muted-foreground">Cellulare</dt>
-                      <dd>
-                        <a href={`tel:${address[0].cellphone}`} className="hover:underline">
-                          {address[0].cellphone}
-                        </a>
-                      </dd>
-                    </div>
-                  </dl>
-                </div>
-              </CardContent>
-            </>
+          </Tabs> : (
+            <div className="flex gap-4 h-full flex-wrap flex-3 w-full">
+              <Tabs defaultValue="tab1" className="flex-[2] md:min-w-[416px] h-fit">
+                <TabsList className="grid w-full grid-cols-4 h-fit rounded-xl border">
+                  {[1, 2, 3, 4].map((tab) => (
+                    <TabsTrigger key={tab} value={`tab${tab}`} className="tab-trigger flex-col rounded-lg relative">
+                      <Skeleton className="rounded-md h-6 w-6 mb-1" />
+                      <Skeleton className="rounded-md h-4 w-16" />
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+                {[1, 2, 3, 4].map((tab) => (
+                  <TabsContent key={tab} value={`tab${tab}`} className="data-[state=inactive]:mt-0 grid gap-2 h-fit mt-4">
+                    {[1, 2].map((item) => (
+                      <Accordion key={item} type="single" collapsible className="border h-fit px-2 rounded-xl w-full bg-muted/40">
+                        <AccordionItem value={`item${item}`}>
+                          <div className="flex items-center justify-between p-4">
+                            <div className="flex items-center gap-4">
+                              <Skeleton className="rounded-md h-12 w-12 " />
+                              <div>
+                                <Skeleton className="rounded-md h-4 w-32 mb-2" />
+                                <Skeleton className="rounded-md h-3 w-24" />
+                              </div>
+                            </div>
+                            <Skeleton className="rounded-md h-8 w-24" />
+                          </div>
+                        </AccordionItem>
+                      </Accordion>
+                    ))}
+                  </TabsContent>
+                ))}
+              </Tabs>
+            </div>
           )}
-        </Card>
+        </div>
+
+        {address.length === 0 ? (
+          <Card className="rounded-xl md:max-w-72 w-full h-fit text-sm overflow-auto">
+            <CardHeader className="dark:bg-input bg-muted/40 flex flex-row items-center justify-between">
+              <CardTitle className="font-semibold text-lg">
+                <Skeleton className="rounded-md h-6 w-32" />
+              </CardTitle>
+              <Skeleton className="rounded-md h-8 w-8" />
+            </CardHeader>
+            <CardContent className="space-y-6 mt-4">
+              <div>
+                <Skeleton className="rounded-md h-5 w-40 mb-2" />
+                <div className="space-y-1">
+                  <Skeleton className="rounded-md h-4 w-full" />
+                  <Skeleton className="rounded-md h-4 w-full" />
+                  <Skeleton className="rounded-md h-4 w-3/4" />
+                </div>
+              </div>
+              <Separator />
+              <div>
+                <Skeleton className="rounded-md h-5 w-24 mb-2" />
+                <dl className="grid gap-2">
+                  {[1, 2, 3].map((item) => (
+                    <div key={item} className="flex justify-between">
+                      <Skeleton className="rounded-md h-4 w-20" />
+                      <Skeleton className="rounded-md h-4 w-32" />
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            </CardContent>
+          </Card>
+        ) : (
+          <Card className="rounded-xl md:max-w-72 w-full h-fit text-sm overflow-auto">
+            <CardHeader className="bg-muted dark:bg-input/20 flex flex-row items-center justify-between ">
+              <CardTitle className="font-semibold text-lg">Dati di consegna</CardTitle>
+              <UpdateAddressForm currentData={address[0]} onSubmit={updateAddress}>
+                <Button className="rounded-lg" variant="outline" size="icon" aria-label="Edit delivery details">
+                  <PencilSimple className="h-4 w-4" />
+                </Button>
+              </UpdateAddressForm>
+            </CardHeader>
+            <CardContent className="space-y-6 mt-4">
+              <div>
+                <h3 className="font-semibold mb-2">{"Informazioni sull'indirizzo"}</h3>
+                <address className="not-italic text-muted-foreground space-y-1">
+                  <p>{address[0].name}</p>
+                  <p>{address[0].street}</p>
+                  <p>{`${address[0].cap}, ${address[0].city}`}</p>
+                  <p>{address[0].complement}</p>
+                </address>
+              </div>
+              <Separator />
+              <div>
+                <h3 className="font-semibold mb-2">Mie dati</h3>
+                <dl className="grid gap-2">
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">Cliente</dt>
+                    <dd>{address[0].name}</dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">Email</dt>
+                    <dd>
+                      <a href={`mailto:${address[0].email}`} className="hover:underline">
+                        {address[0].email}
+                      </a>
+                    </dd>
+                  </div>
+                  <div className="flex justify-between">
+                    <dt className="text-muted-foreground">Cellulare</dt>
+                    <dd>
+                      <a href={`tel:${address[0].cellphone}`} className="hover:underline">
+                        {address[0].cellphone}
+                      </a>
+                    </dd>
+                  </div>
+                </dl>
+              </div>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </main>
   )

@@ -11,7 +11,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 import { SKUProps } from "@/app/(admin)/dashboard/products/edit/[id]/content";
-import { CircleNotch } from "@phosphor-icons/react";
+import { Spinner } from "@phosphor-icons/react";
 import { Checkbox } from "@radix-ui/react-checkbox";
 import { FormEvent, useState } from "react";
 import { toast } from "sonner";
@@ -99,7 +99,7 @@ export function UpdateSkuForm({ available_colors, priceId, stock, onUpdateSku, p
                     )}
                     <DialogFooter>
                         <Button type="submit">
-                            {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Salvar"}
+                            {isLoading ? <Spinner size={22} className="animate-spin" /> : "Salvar"}
                         </Button>
                     </DialogFooter>
                 </form>

@@ -3,7 +3,8 @@ import { confirmDelivery } from "@/app/actions";
 import { AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTrigger } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { CircleNotch } from "@phosphor-icons/react";
+import { Spinner } from "@phosphor-icons/react";
+import { Adresses } from "@prisma/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,10 +26,11 @@ const paymentMethods = {
 } as any
 
 interface Props extends OrdersProps {
+    address: Adresses
     onConfirmDelivery: (orderid: string) => void
 }
 
-export function OrderProductCard({ id, payment_method, products, status, shipping_code, created_at, shipping_tax, onConfirmDelivery }: Props) {
+export function OrderProductCard({ id, payment_method, address, products, status, shipping_code, created_at, shipping_tax, onConfirmDelivery }: Props) {
     const [isLoading, setIsLoading] = useState(false)
     const { push } = useRouter()
 
@@ -44,7 +46,7 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
                 </div>
             </AccordionTrigger>
             <AccordionContent className="pb-0">
-                <header className="bg-muted/40 rounded-lg  flex items-center justify-between p-2 px-3">
+                <header className="bg-muted/60 rounded-lg  flex items-center justify-between p-2 px-3">
                     <span className="flex flex-col items-start">
                         <p className="font-semibold text-[14px]">Stato</p>
                         <p className="text-xs">{orderStatus[status]}</p>
@@ -61,7 +63,7 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
                 <ScrollArea id="scroll-area" className="h-36 py-2" >
                     {products.map(({ id, imageUrl, name, color, price }) => (
                         <div key={id} className="h-fit w-full rounded-[20px] items-center flex gap-3">
-                            <div className="bg-muted/40 p-2 size-32 rounded-xl relative">
+                            <div className="bg-muted/60 p-2 size-32 rounded-xl relative">
                                 <Image src={imageUrl}
                                     priority quality={100}
                                     layout="fill"
@@ -89,19 +91,37 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
                     status === "AWAITING_PAYMENT" &&
                     <footer className="pb-2">
                         <Button className="w-full" onClick={(async () => {
-                            const checkoutProducts = products.map(({ price, ...rest }) => {
-                                return { ...rest, price, model: price.nickname }
-                            })
+                            setIsLoading(true)
+                            try {
+                                const checkoutProducts = products.map(({ price, ...rest }) => {
+                                    return { ...rest, price, model: price.nickname }
+                                })
 
-                            const response = await fetch("/api/checkout/init", {
-                                method: "POST",
-                                body: JSON.stringify({ products: checkoutProducts, payment_method, id, shipping_tax })
-                            })
+                                const response = await fetch("/api/checkout/init", {
+                                    method: "POST",
+                                    body: JSON.stringify({
+                                        products: checkoutProducts,
+                                        address,
+                                        payment_method,
+                                        id,
+                                        shipping_tax
+                                    })
+                                })
 
-                            const data = await response.json()
+                                const data = await response.json()
 
-                            push(data.url)
-                        })}>Paga ora</Button>
+                                push(data.url)
+                            } catch (err) {
+                                if (err instanceof Error) {
+                                    console.error(err)
+                                    toast.error("Si è verificato un errore imprevisto", { description: err.message })
+                                }
+                            } finally {
+                                setIsLoading(false)
+                            }
+                        })}>
+                            {isLoading ? <Spinner size={22} className="animate-spin duration-500" /> : "Paga ora"}
+                        </Button>
                     </footer>
                 }
                 {
@@ -134,7 +154,7 @@ export function OrderProductCard({ id, payment_method, products, status, shippin
                                             throw err
                                         }
                                     }}>
-                                        {isLoading ? <CircleNotch size={22} className=" animate-spin" /> : "Confermare"}
+                                        {isLoading ? <Spinner size={22} className="animate-spin duration-500" /> : "Confermare"}
 
                                     </Button>
                                 </DialogFooter>

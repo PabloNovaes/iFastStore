@@ -20,7 +20,7 @@ import {
 
 import { UpadteProductThumb } from "@/app/actions";
 import { storage } from "@/services/firebase/firebase.config";
-import { CircleNotch, Upload } from "@phosphor-icons/react";
+import { Spinner, Upload } from "@phosphor-icons/react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { FormEvent, ReactNode, useState } from "react";
 import { toast } from "sonner";
@@ -174,7 +174,7 @@ export function UploadImage({ children, colors, id, handleUploadImages, imagesCo
                     <DialogFooter>
                         <Button variant={'outline'} onClick={() => setOpen(false)}>Cancelar</Button>
                         <Button type="submit">
-                            {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Salvar"}
+                            {isLoading ? <Spinner size={22} className="animate-spin" /> : "Salvar"}
                         </Button>
                     </DialogFooter>
                 </form>

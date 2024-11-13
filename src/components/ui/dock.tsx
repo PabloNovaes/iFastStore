@@ -1,7 +1,7 @@
 "use client";
 
 import { cva, type VariantProps } from "class-variance-authority";
-import { motion, useAnimate, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { HTMLMotionProps, motion, useAnimate, useMotionValue, useSpring, useTransform } from "framer-motion";
 import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
@@ -90,7 +90,7 @@ const Dock = React.forwardRef<HTMLDivElement, DockProps>(
 
 Dock.displayName = "Dock";
 
-export interface DockIconProps {
+export interface DockIconProps extends HTMLMotionProps<"div"> {
   size?: number;
   magnification?: number;
   distance?: number;
@@ -137,25 +137,26 @@ const DockIcon = ({
   });
 
   return (
-    <motion.div
-      ref={ref}
-      style={{ width }}
-      onMouseOver={() => setIsHover(true)} onMouseOut={() => setIsHover(false)}
-      className={cn(
-        "flex aspect-square cursor-pointer items-center justify-center rounded-full",
-        className,
-      )}
+    <Link href={link || ""}>
+      <motion.div
       {...props}
-    >
-      <div className="flex relative justify-center" ref={scope}>
-        <Link href={link || ""}>
+        ref={ref}
+        style={{ width }}
+        onMouseOver={() => setIsHover(true)} onMouseOut={() => setIsHover(false)}
+        className={cn(
+          "flex aspect-square cursor-pointer items-center justify-center rounded-xl",
+          className,
+        )}
+        {...props}
+      >
+        <div className="flex relative justify-center" ref={scope}>
           {children}
-        </Link>
-        <motion.span initial={{ top: 0, opacity: 0, scale: 0 }} className={cn("text-nowrap absolute z-[1000] bg-[#fbfbfb] dark:bg-[#151517] text-xs -top-10 p-1 px-2 border rounded-lg")}>
-          {tooltip}
-        </motion.span>
-      </div>
-    </motion.div>
+          <motion.span initial={{ top: 0, opacity: 0, scale: 0 }} className={cn("text-nowrap absolute z-[1000] bg-[#fbfbfb] dark:bg-[#151517] text-xs -top-10 p-1 px-2 border rounded-lg")}>
+            {tooltip}
+          </motion.span>
+        </div>
+      </motion.div>
+    </Link>
   );
 };
 

@@ -19,7 +19,7 @@ import { AdressProps } from "@/app/api/adresses/route";
 import { useMediaQuery } from '@/hooks/useMediaQuery';
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CircleNotch } from "@phosphor-icons/react";
+import { Spinner } from "@phosphor-icons/react";
 import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
 import { CreateAdressSchema, createAdressSchema } from "./CreateAdressForm";
@@ -85,13 +85,13 @@ export function UpdateAddressForm({ onSubmit, children, currentData }: CreateAdr
                 </div>
                 <label className="text-sm grid gap-2 flex-1" htmlFor="complement">
                     Complemento
-                    <Input {...register("complement")} defaultValue={complement} className={cn("h-10 bg-muted/40", errors.complement && 'border-red-500')}
+                    <Input {...register("complement")} defaultValue={complement ?? ""} className={cn("h-10 bg-muted/40", errors.complement && 'border-red-500')}
                         name="complement" placeholder={errors.complement ? errors.complement.message : "Complemento"} />
                 </label>
             </div>
 
             <Button type="submit" className="w-full mt-2">
-                {isLoading ? <CircleNotch size={22} className="animate-spin" /> : "Inviare"}
+                {isLoading ? <Spinner size={22} className="animate-spin" /> : "Inviare"}
             </Button>
         </form>
     );
