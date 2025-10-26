@@ -1,9 +1,9 @@
-// {
-//   "redirects": [
-//     {
-//       "source": "/(.*)",
-//       "destination": "/not-found",
-//       "permanent": false
-//     }
-//   ]
-// }
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "destination": "/not-found",
+      "permanent": false
+    }
+  ]
+}
