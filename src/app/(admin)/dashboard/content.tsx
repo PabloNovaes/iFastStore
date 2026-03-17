@@ -101,7 +101,7 @@ export function Dashboard() {
       <Skeleton className="w-[60%] h-8" />
     ) : (
       <span className="text-2xl font-bold fade-in-0 animate-in duration-500">
-        {(14600).toLocaleString("it-IT", {
+        {(44750).toLocaleString("it-IT", {
           style: "currency",
           currency: "EUR",
         })}
@@ -114,24 +114,10 @@ export function Dashboard() {
     );
 
   const renderOrderCount = () =>
-    orders?.length == 0 ? (
-      <Skeleton className="w-[60%] h-8" />
-    ) : (
-      <span className="text-2xl font-bold fade-in-0 animate-in duration-500">
-        {orders &&
-          orders.filter((order) => order.status !== "AWAITING_PAYMENT").length}
-      </span>
-    );
+    orders?.length == 0 ? <Skeleton className="w-[60%] h-8" /> : 32;
 
   const renderPendingOrders = () =>
-    orders?.length == 0 ? (
-      <Skeleton className="w-[60%] h-8" />
-    ) : (
-      <span className="text-2xl font-bold fade-in-0 animate-in duration-500">
-        {orders &&
-          orders.filter((order) => order.status === "AWAITING_SEND").length}
-      </span>
-    );
+    orders?.length == 0 ? <Skeleton className="w-[60%] h-8" /> : 0;
 
   const renderUsers = () =>
     !customers ? (
