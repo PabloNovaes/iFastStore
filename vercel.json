@@ -1,9 +1,1 @@
-{
-  "redirects": [
-    {
-      "source": "/((?!not-found|_next|static|favicon.ico|sitemap.xml|robots.txt|assets).*)",
-      "destination": "/not-found",
-      "permanent": false
-    }
-  ]
-}
+{}
