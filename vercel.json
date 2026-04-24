@@ -1,7 +1,7 @@
 {
   "redirects": [
     {
-      "source": "/((?!not-found).*)",
+      "source": "/((?!not-found|_next|static|favicon.ico).*)",
       "destination": "/not-found",
       "permanent": false
     }
