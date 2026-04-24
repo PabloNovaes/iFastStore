@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "dashboard"],
+      disallow: ["/api", "/dashboard"],
     },
     sitemap: "https://ifaststore.it/sitemap.xml",
   };
