@@ -1,12 +1,12 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-    return {
-        rules: {
-            userAgent: "*",
-            allow: "/",
-            disallow: ["/private/", "/api/", "dashboard"],
-        },
-        sitemap: "https://pablonovaes-me.vercel.app/sitemap.xml",
-    };
+  return {
+    rules: {
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/api/", "dashboard"],
+    },
+    sitemap: "https://ifaststore.it/sitemap.xml",
+  };
 }
