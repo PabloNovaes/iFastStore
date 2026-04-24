@@ -59,7 +59,7 @@
     --color-5: 90 100% 63%;
   }
 
-  .dark{
+  .dark {
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
 
@@ -128,8 +128,7 @@
     min-height: calc(100svh - 50px);
   }
 
-  .custom-height{
-    
+  .custom-height {
   }
 
   input:-webkit-autofill,
@@ -140,5 +139,14 @@
     -webkit-text-fill-color: white;
     transition: background-color 5000s ease-in-out 0s;
     box-shadow: inset 0 0 20px 20px hsl(var(--primary-foreground));
+  }
+
+  .bg-grid-pattern {
+    background-image: radial-gradient(
+      circle,
+      hsl(var(--primary) / 0.1) 1px,
+      transparent 1px
+    );
+    background-size: 30px 30px;
   }
 }
