@@ -40,9 +40,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       active: true,
     });
 
-    const products = response.data.filter(
-      (product) => product.metadata?.category === "iphone",
-    );
+    const products = response.data;
 
     const productEntries: MetadataRoute.Sitemap = products.map((product) => ({
       url: `${baseURL}products/${product.id}`,
